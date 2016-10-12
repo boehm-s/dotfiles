@@ -30,6 +30,35 @@
     (switch-to-buffer (find-file-noselect filename)))
   )
 
+;; minor mode for overriding some major-mode keymap
+(defvar my-keys-minor-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c C-c") 'mc/edit-lines)
+    (define-key map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
+    (define-key map (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
+
+;    (define-key map (kbd "C-M-z") 'hs-hide-all)
+;    (define-key map (kbd "C-M-z") 'hs-show-all)
+    (define-key map (kbd "C-c <left>") 'hs-hide-block)
+    (define-key map (kbd "C-c <right>") 'hs-show-block)
+
+    map)
+  "my-keys-minor-mode keymap.")
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  :init-value t
+  :lighter " my-keys")
+
+(my-keys-minor-mode 1)
+
+;; in case you need to turn this minor-mode off
+(defun my-minibuffer-setup-hook ()
+  (my-keys-minor-mode 0))
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+
+;; shortcuts
+
 (global-set-key (kbd "C-x C-<right>") 'split-and-find-file-H)
 (global-set-key (kbd "C-x C-<left>")  'split-and-find-file-H)
 (global-set-key (kbd "C-x C-<up>")    'split-and-find-file-V)
@@ -41,13 +70,6 @@
 (global-set-key (kbd "C-x <down>")  'windmove-down)
 
 (global-set-key (kbd "C-x C-x")  'delete-window)
-       
-
-
-(global-set-key (kbd "C-c C-c") 'mc/edit-lines)
-
-(global-set-key (kbd "C-c C-s") 'mc/mark-next-like-this-word)
-(global-set-key (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
 
 
 (add-to-list 'load-path "~/.emacs.d/elpa")
@@ -67,12 +89,47 @@
 			      (sql-highlight-postgres-keywords))))
 
 
+
+
+;; hide and show part of code
+(add-hook 'js-mode-hook
+	  (lambda ()
+	    ;; Scan the file for nested code blocks
+	    (imenu-add-menubar-index)
+	    ;; Activate the folding mode
+	    (hs-minor-mode t)))
+
+
+;; node as REPL
+(setq inferior-js-program-command "node")
+(setq inferior-js-mode-hook
+      (lambda ()
+	;; We like nice colors
+	(ansi-color-for-comint-mode-on)
+	;; Deal with some prompt nonsense
+	(add-to-list 'comint-preoutput-filter-functions
+		     (lambda (output)
+		       (replace-regexp-in-string ".*1G\.\.\..*5G" "..."
+						 (replace-regexp-in-string ".*1G.*3G" "&gt;" output))))))
+
 (require 'auto-complete)
 					; do default config for auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
+(global-auto-complete-mode t)
+(ac-set-trigger-key "TAB")
+(ac-set-trigger-key "<tab>")
+
 ;; start yasnippet with emacs
 (require 'yasnippet)
+
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+;; Set Yasnippet's key binding to shift+tab
+(define-key yas-minor-mode-map (kbd "<backtab>") 'yas-expand)
+;; Alternatively use Control-c + tab
+(define-key yas-minor-mode-map (kbd "\C-c TAB") 'yas-expand)
+
 (yas-global-mode 1)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
