@@ -2,6 +2,34 @@
 ;;; Code:
 ;;; Commentary:
 
+
+
+
+
+(require 'org)
+
+(add-to-list 'org-tag-faces '("@.*" . (:foreground "purple")))
+(add-to-list 'org-tag-faces '("_.*" . (:foreground "cyan")))
+
+;; Reset the global variable to nil, just in case org-mode has already beeen used.
+(when org-tags-special-faces-re
+  (setq org-tags-special-faces-re nil))
+
+(defun org-get-tag-face (kwd)
+  "Get the right face for a TODO keyword KWD.
+If KWD is a number, get the corresponding match group."
+  (if (numberp kwd) (setq kwd (match-string kwd)))
+  (let ((special-tag-face (or (cdr (assoc kwd org-tag-faces))
+			      (cdr (assoc "@.*" org-tag-faces)))))
+    (or (org-face-from-face-or-color 'tag 'org-tag special-tag-face)
+	'org-tag)))
+
+
+
+
+
+
+
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list
@@ -162,6 +190,22 @@
 			      (sql-mode)
 			      (sql-highlight-postgres-keywords))))
 
+(add-to-list 'auto-mode-alist
+	     '("\\.org$" . (lambda() (org-mode)
+			     ;; (global-auto-revert-mode 1)
+			     ;; (defface org-tag-face
+			     ;;   '((nil :foreground "#FFFFFF" :background "#0145b2"))
+			     ;;   "org tag face")
+			     ;; (font-lock-add-keywords
+			     ;;  'org-mode
+			     ;;  '((":\\(@[^\:]+\\):" (1 'org-tag-face))))
+
+			     (setq org-todo-keyword-faces
+				   '(("TODO" . org-warning)
+				     ("_WIP" . (:foreground "yellow1" :weight bold))
+				     ("WAIT" . (:foreground "purple" :weight bold))
+				     ("DONE" . (:foreground "green" :weight bold))))
+			     )))
 
 
 ;; node as REPL
