@@ -2,7 +2,8 @@
 ;;; Code:
 ;;; Commentary:
 
-
+;; spaces for indent
+(setq-default indent-tabs-mode nil)
 
 
 
@@ -268,7 +269,6 @@ If KWD is a number, get the corresponding match group."
   (set-face-attribute 'web-mode-function-name-face nil :foreground "#33d6ff")
   (setq web-mode-enable-css-colorization t)
   (set-face-attribute 'web-mode-css-at-rule-face nil :foreground "Pink3")
-
 
   (setq web-mode-enable-heredoc-fontification t)
 
