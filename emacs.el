@@ -31,6 +31,42 @@ If KWD is a number, get the corresponding match group."
 
 
 
+
+
+
+
+
+
+
+(defvar popup-menu-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map "\r"        'popup-select)
+    (define-key map (kbd "TAB") 'popup-select)
+    (define-key map [right]     'popup-open)
+    (define-key map [left]      'popup-close)
+
+    (define-key map [down]      'popup-next)
+    (define-key map [up]        'popup-previous)
+
+    (define-key map [next]      'popup-page-next)
+    (define-key map [prior]     'popup-page-previous)
+
+    (define-key map "\C-s"      'popup-isearch)
+    map))
+
+
+(defun test-completion()
+  "test completion"
+  (interactive)
+  (setq text (popup-menu* '("Foo" "Bar" "Baz")))
+  (insert text)
+  )
+(global-set-key (kbd "M-a") 'test-completion)
+
+
+
+
+
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list
