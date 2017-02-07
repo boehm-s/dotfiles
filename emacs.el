@@ -3,7 +3,8 @@
 ;;; Commentary:
 
 ;; spaces for indent
-(setq-default indent-tabs-mode nil)
+
+;; (setq-default indent-tabs-mode nil)
 
 
 
@@ -29,39 +30,49 @@ If KWD is a number, get the corresponding match group."
 
 
 
-
-
-
-
-
-
-
-
-
-(defvar popup-menu-keymap
-  (let ((map (make-sparse-keymap)))
-    (define-key map "\r"        'popup-select)
-    (define-key map (kbd "TAB") 'popup-select)
-    (define-key map [right]     'popup-open)
-    (define-key map [left]      'popup-close)
-
-    (define-key map [down]      'popup-next)
-    (define-key map [up]        'popup-previous)
-
-    (define-key map [next]      'popup-page-next)
-    (define-key map [prior]     'popup-page-previous)
-
-    (define-key map "\C-s"      'popup-isearch)
-    map))
-
-
-(defun test-completion()
-  "test completion"
+(defun node-js-eval-region-or-buffer ()
+  "evaluate the region and 'node' it !"
   (interactive)
-  (setq text (popup-menu* '("Foo" "Bar" "Baz")))
-  (insert text)
-  )
-(global-set-key (kbd "M-a") 'test-completion)
+    (insert
+     (shell-command-to-string
+      (concat "node -e '"
+	      (buffer-substring (mark) (point))
+	      "';")))
+    (setq deactivate-mark t))
+
+(define-key global-map (kbd "C-c v") 'node-js-eval-region-or-buffer)
+
+
+
+
+
+
+
+
+;; (defvar popup-menu-keymap
+;;   (let ((map (make-sparse-keymap)))
+;;     (define-key map "\r"        'popup-select)
+;;     (define-key map (kbd "TAB") 'popup-select)
+;;     (define-key map [right]     'popup-open)
+;;     (define-key map [left]      'popup-close)
+
+;;     (define-key map [down]      'popup-next)
+;;     (define-key map [up]        'popup-previous)
+
+;;     (define-key map [next]      'popup-page-next)
+;;     (define-key map [prior]     'popup-page-previous)
+
+;;     (define-key map "\C-s"      'popup-isearch)
+;;     map))
+
+
+;; (defun test-completion()
+;;   "test completion"
+;;   (interactive)
+;;   (setq text (popup-menu* '("Foo" "Bar" "Baz")))
+;;   (insert text)
+;;   )
+;; (global-set-key (kbd "M-a") 'test-completion)
 
 
 
@@ -99,9 +110,11 @@ If KWD is a number, get the corresponding match group."
 (electric-indent-mode)
 
 (custom-set-faces
- '(whitespace-space
-   ((((class color) (background dark)) (:background "red" :foreground "white"))
-    (t (:inverse-video t)))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(whitespace-space ((((class color) (background dark)) (:background "red" :foreground "white")) (t (:inverse-video t)))))
 
 ;; linum mode conf
 (setq column-number-mode t)
@@ -331,10 +344,17 @@ If KWD is a number, get the corresponding match group."
 (setq web-mode-enable-current-column-highlight t)
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(inhibit-startup-screen t)
  '(js-indent-level 2))
 (provide '.emacs)
 ;;; .emacs ends here
-(custom-set-faces)
+
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
