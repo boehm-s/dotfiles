@@ -70,6 +70,7 @@
 
 
 
+(load "~/.emacs.d/init.el")
 (load "~/.emacs.d/custom.el")
 (load "~/.emacs.d/linum.el")
 (load "~/.emacs.d/js-config.el")

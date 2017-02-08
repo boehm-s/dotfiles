@@ -22,3 +22,4 @@
   (let ((my-linum-current-line-number (line-number-at-pos)))
     ad-do-it))
 (ad-activate 'linum-update)
+(add-hook 'linum-before-numbering-hook 'my-linum-get-format-string)
