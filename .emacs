@@ -70,8 +70,8 @@
 
 
 
-(load "~/.emacs.d/init.el")
 (load "~/.emacs.d/custom.el")
+(load "~/.emacs.d/experiment.el")
 (load "~/.emacs.d/linum.el")
 (load "~/.emacs.d/js-config.el")
 (load "~/.emacs.d/web-config.el")
@@ -137,3 +137,5 @@
 
 ;; spaces for indent
 ;; (setq-default indent-tabs-mode nil)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
