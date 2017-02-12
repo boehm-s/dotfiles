@@ -12,6 +12,8 @@
   )
 
 
+;; emacsclient
+(add-hook 'after-init-hook 'server-start)
 
 ;; packages
 (setq package-list
@@ -41,8 +43,8 @@
        'json-reformat         ; format JSON
        'sr-speedbar           ; menu bar
        'yasnippet             ; snippets for emacs
-       'auto-complete         ; autocompletion
-       'autocomplete-config   ; autocompletion conf
+       ;; 'auto-complete         ; autocompletion
+       ;; 'autocomplete-config   ; autocompletion conf
 
        'google-translate      ; translate in emacs
 
