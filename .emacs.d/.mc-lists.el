@@ -26,6 +26,7 @@
 	org-self-insert-command
 	org-shiftright
 	org-yank
+	package-menu-mark-install
 	tab-to-tab-stop
 	tern-ac-dot-complete
 	tern-rename-variable

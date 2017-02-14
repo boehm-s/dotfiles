@@ -1,11 +1,11 @@
-;; ;; package --- Summary
-;;; Code:
-;;; Commentary:
+;; ;; package --- summary
+;;; code:
+;;; commentary:
 
 
 (when (>= emacs-major-version 24)
   (require 'package)
-  (setq package-archives '(("ELPA" . "http://tromey.com/elpa/")
+  (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
 			   ("gnu" . "http://elpa.gnu.org/packages/")
 			   ("melpa" . "http://melpa.org/packages/")
 			   ("marmalade" . "http://marmalade-repo.org/packages/")))
@@ -40,6 +40,7 @@
        'yasnippet             ; snippets for emacs
        'helm                  ; Helm
        'smex                  ; M-x
+       'ido                   ; manage buffers
        ;; 'auto-complete         ; autocompletion
        ;; 'autocomplete-config   ; autocompletion conf
 

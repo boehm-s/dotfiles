@@ -21,7 +21,6 @@
        'rainbow-delimiters    ; rainbowy parens/braces/...
        'zlc                   ; zsh for emacs
 
-
        'rust-mode             ; Rust mode
        'toml-mode             ; TOML mode
        'go-mode               ; golang mode
@@ -41,6 +40,7 @@
        'yasnippet             ; snippets for emacs
        'helm                  ; Helm
        'smex                  ; M-x
+       'ido                   ; manage buffers
        ;; 'auto-complete         ; autocompletion
        ;; 'autocomplete-config   ; autocompletion conf
 
