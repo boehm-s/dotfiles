@@ -1,7 +1,0 @@
-exports.up = function(knex, Promise) {
-    knex.raw("ALTER TABLE creditcards DROP CONSTRAINT uniq_user_id");
-};
-
-exports.down = function(knex, Promise) {
-    knex.raw('ALTER TABLE creditcards ADD CONSTRAINT uniq_user_id UNIQUE (user_id)');
-};

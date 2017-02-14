@@ -1,3 +1,0 @@
-import ws		from	 'ws';
-
-const wsServer	= ws.Server;

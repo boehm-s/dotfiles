@@ -1,1 +1,0 @@
-Array(10).fill().map((_, i) => console.log(i));
