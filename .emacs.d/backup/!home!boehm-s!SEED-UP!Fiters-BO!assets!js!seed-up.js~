@@ -1,0 +1,90 @@
+var apiUrl = "http://api.fiters.co";
+var CoachList = null;
+
+$.ajax({
+    method: "GET",
+    url: apiUrl + "/api/v1/coachs",
+    success: function(res) {
+	CoachList = res.data;
+	displayCoachList(res.data);
+	addSortCoachEvents();
+    },
+    error: function(err) {
+	$.notify({
+	    icon: 'pe-7s-gleam',
+	    message: err
+	},{
+	    type: 'info',
+	    timer: 4000
+	});
+    }
+});
+
+var addSortCoachEvents = function() {
+    var idSort = document.getElementById('sort-coach-id');
+    var nameSort = document.getElementById('sort-coach-name');
+    var emailSort = document.getElementById('sort-coach-email');
+
+    idSort.onclick = function(e) {
+	e.target.className = (e.target.className == "pe-7s-angle-down")
+	    ? "pe-7s-angle-up"
+	    : "pe-7s-angle-down";
+	e.target.className = (e.target.className == "pe-7s-angle-down")
+	    ? sortCoach('id', 1)
+	    : sortCoach('id', -1);
+    };
+    nameSort.onclick = function(e) {
+	e.target.className = (e.target.className == "pe-7s-angle-down")
+	    ? "pe-7s-angle-up"
+	    : "pe-7s-angle-down";
+	e.target.className = (e.target.className == "pe-7s-angle-down")
+	    ? sortCoach('lastname', 1)
+	    : sortCoach('lastname', -1);
+    };
+    emailSort.onclick = function(e) {
+	e.target.className = (e.target.className == "pe-7s-angle-down")
+	    ? "pe-7s-angle-up"
+	    : "pe-7s-angle-down";
+	e.target.className = (e.target.className == "pe-7s-angle-down")
+	    ? sortCoach('email', 1)
+	    : sortCoach('email', -1);
+    };
+};
+
+var displayCoachList = function(coachArray) {
+    var listCoach = document.getElementById('list-coachs');
+    listCoach.innerHTML = coachArray.map(function(coach, i) {
+
+	return ` <tr>
+                    <td>
+                      <label class="checkbox">
+                        <span class="icons">
+                          <span class="first-icon fa fa-square-o"></span>
+                          <span class="second-icon fa fa-check-square-o"></span>
+                        </span>
+                        <input type="checkbox" value="${coach.id}" data-toggle="checkbox">
+                      </label>
+                    </td>
+                    <td>
+                      <div class="coach-id"> ${coach.id} </div>
+                      <div class="coach-name"> ${coach.firstname} ${coach.lastname} </div>
+                      <div class="coach-email"> ${coach.email} </div>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button type="button" rel="tooltip" title="Edit Coach" class="btn btn-info btn-simple btn-xs">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                        <i class="fa fa-times"></i>
+                      </button>
+                    </td>
+                  </tr>
+`;
+    }).join('');
+};
+
+
+var sortCoach = function(key, order) {
+    var table = CoachList;
+    displayCoachList(table.sort(function(a, b) {return (a[key] > b[key]) ? order : ((b[key] > a[key]) ? -1*order : 0);}));
+};

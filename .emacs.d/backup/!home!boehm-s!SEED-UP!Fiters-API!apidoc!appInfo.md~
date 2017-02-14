@@ -1,0 +1,37 @@
+# Appli fiters - ordre des call api
+
+## Appli COACH
+
+### Home
+
+#### Sequence of views :
+
+| [Map view](#map-view) |&#8680;| [Planning](#planning) |&#8680;| [Recapitulatif](#recapitulatif) |&#8680;| [Coordonnees](#coordonnees) |&#8680;| [Methode de Payement](#methode-de-payement) |
+|:----------------------:|-------|:-------------------------:|-------|:--------------------------:|-------|:-----------------------------------------:|-------|:---------------------:|
+| <ul><li>*Selectionner une place* &#10145; `place button`</li></ul> |&#8680;| <ul><li>*Selectionner un horaire* &#10145; `reserver un cours`</li></ul> |&#8680;| <ul><li>*Partager la seance* &#10145; `Partager la seance`</li><li>  *confirmation reservation* &#10145; `confirmer ma reservation`</li></ul> |&#8680;| <ul><li> *modifier lieu de la seance* &#10145; `Lieu de la seance`</li><li> *modifier numero telephone* &#10145; `+33606060606`</li><li> *Ajouter les instructions pour le coach* &#10145; `Ajouter les instructions pour le coach` </li><li> *Confirmation reservation* &#10145; `Confirmer ma reservation` </li></ul> |&#8680;| <ul> <li> *Methode de payement* &#10145; `****4242 (CB)`</li><li>   *Validation* &#10145; `Valider le payement` </li> </ul>|
+
+
+<h5 id="map-view">Map view </h5>
+
+`place button` : </br>
+
+<h5 id="planning"> Planning </h5>
+
+`reserver un cours` : </br>
+
+<h5 id="recapitulatif"> Recapitulatif </h5>
+
+`partager la seance` : </br>
+`confirmer ma reservation` : </br>
+
+<h5 id="coordonnees"> Coordonnees </h5>
+
+`Lieu de la seance` : </br>
+`+33612345678` : </br>
+`Ajouter les instructions pour le coach` : </br>
+`Confirmer ma reservation` : </br>
+
+<h5 id="methode-de-payement"> Methode de Payement </h5>
+
+`****4242 (CB)` : </br>
+`Valider le payement` : </br>

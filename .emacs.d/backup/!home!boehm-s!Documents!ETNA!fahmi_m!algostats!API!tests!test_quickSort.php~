@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+
+<?php
+
+require_once('../controllers/includes/sort.php');
+require_once('../controllers/includes/generate_array.php');
+
+$array_generator = new Gen_arr();
+$sorter = new Sort();
+
+$array = $array_generator->random(100);
+echo json_encode($array);
+
+$res = $sorter->quick($array);
+echo json_encode($res);

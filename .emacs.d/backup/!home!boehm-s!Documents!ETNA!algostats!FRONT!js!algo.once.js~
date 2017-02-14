@@ -1,0 +1,104 @@
+function Sort() {};
+
+Sort.prototype.insertion = function(array) {
+    if (!check_array(array))
+	return "bad array ! Only array of integers are accepted";
+
+    var t0 = performance.now();
+    var j;
+    var i;
+    var x;
+
+    for (i = 0; i < array.length; i++) {
+	x = array[i];
+	for (j = i; j > 0 && array[j - 1] > x; j--)
+            array[j] = array[j - 1];
+	array[j] = x;
+    }
+
+    return {array: array, time: performance.now() - t0};
+};
+
+Sort.prototype.selection = function(array) {
+    if (!check_array(array))
+	return "bad array ! Only array of integers are accepted";
+
+    var t0 = performance.now();
+    var min;
+    var i;
+    var j;
+    var tmp;
+
+    for (i = 0; i < array.length; i++) {
+	min = i;
+	for (j = i + 1; j < array.length; j++)
+            if (array[j] < array[min])
+		min = j;
+	if (min != i) {
+	    tmp = array[min];
+	    array[min] = array[i];
+	    array[i] = tmp;
+	}
+    }
+
+    return {array: array, time: performance.now() - t0};
+};
+
+Sort.prototype.bubble = function(array) {
+    if (!check_array(array))
+	return "bad array ! Only array of integers are accepted";
+
+    var t0 = performance.now();
+    var i;
+    var j;
+    var tmp;
+
+
+    for (i = array.length - 1; i > 0; i--) {
+	for (j = 0; j < i; j++) {
+            if (array[j + 1] < array[j]) {
+		tmp = array[j + 1];
+		array[j + 1] = array[j];
+		array[j] = tmp;
+	    }
+	}
+    }
+
+    return {array: array, time: performance.now() - t0};
+};
+
+Sort.prototype.bubbleOpti = function(array) {
+    if (!check_array(array))
+	return "bad array ! Only array of integers are accepted";
+
+    var t0 = performance.now();
+    var i;
+    var j;
+    var sorted;
+    var tmp;
+
+    for (i = array.length - 1; i > 0; i--) {
+	sorted = true;
+	for (j = 0; j < i; j++) {
+            if (array[j + 1] < array[j]) {
+		tmp = array[j + 1];
+		array[j + 1] = array[j];
+		array[j] = tmp;
+		sorted = false;
+            }
+	}
+	if (sorted)
+	    return {array: array, time: performance.now() - t0};
+    }
+
+    return {array: array, time: performance.now() - t0};
+};
+
+
+var check_array = function(array) {
+    var ret = true;
+    array.forEach(function(el) {
+	if (!Number.isInteger(el))
+	    ret = false;
+    });
+};

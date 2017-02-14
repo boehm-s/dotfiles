@@ -1,0 +1,23 @@
+#ifndef _PARSE_H_
+#define _PARSE_H_
+
+typedef struct	    s_option
+{
+  unsigned int	    is_arg;
+  unsigned int	    is_opt;
+  unsigned int	    required;
+  char		    *value;
+  char		    *value_opt;
+  void		    (*option_func)(void *);
+} t_option;
+
+t_list		    *parse(int argc, char **argv);
+char		    **tab_opt_params(int argc, char **argv);
+unsigned int	    opt_has_value(char *arg);
+char		    *regroup_opt_value(char **argv, int index);
+void		    remove_tiret_opt(char *str_opt);
+void		    insert_opt_in_struct(t_option *option, char *str_opt);
+t_option	    *str_to_struct_opt(char *str_opt);
+
+
+#endif /* !_PARSE_H_ */

@@ -1,0 +1,23 @@
+const CreditCard = require('../models/CreditCard');
+const compose = require('connect-compose');
+const wrapPromise = require('../utils/wrapPromise');
+const bodyParser = require('body-parser');
+
+module.exports = compose([bodyParser.urlencoded({extended: true}), wrapPromise(async function(req, res, next) {
+    try {
+        var creditCard = await CreditCard.create(req.body, req.params.id);
+    } catch (e) { // 23505 : Duplicate key violates unique constraint
+	console.log(e);
+        if (e.code == 23505 && e.constraint == 'uniq_user_id')
+            return res.status(400).json({ status: 0, message: "This user already has a credit card", data: null });
+	// else if (e.code == 23505 && e.constraint == 'uniq_user_id')
+    }
+
+    return res.json({
+        status: 1,
+        message: "",
+        data: {
+            ...creditCard.toJSON()
+        }
+    });
+})]);

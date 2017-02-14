@@ -1,0 +1,9 @@
+(defun node-js-eval-region-or-buffer ()
+  "evaluate the region and 'node' it !"
+  (interactive)
+    (insert
+     (shell-command-to-string
+      (concat "node -e '"
+	      (buffer-substring (mark) (point))
+	      "';")))
+    (setq deactivate-mark t))

@@ -1,0 +1,27 @@
+exports.up = function(knex, Promise) {
+    return Promise.all([
+        knex.schema.alterTable('coaches', function(table) {
+            table.string('address');
+            table.string('additionalAddress');
+            table.string('city');
+            table.string('country');
+            table.string('postalCode');
+//            table.string('language');
+            table.string('tvaNumber');
+        })
+    ]);
+};
+
+exports.down = function(knex, Promise) {
+    return Promise.all([
+        knex.schema.alterTable('coaches', function(table) {
+	    table.dropColumn('address');
+            table.dropColumn('additionalAddress');
+            table.dropColumn('city');
+            table.dropColumn('country');
+            table.dropColumn('postalCode');
+//            table.dropColumn('language');
+            table.dropColumn('tvaNumber');
+        })
+    ]);
+};

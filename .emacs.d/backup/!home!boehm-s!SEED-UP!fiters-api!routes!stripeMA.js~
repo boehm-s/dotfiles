@@ -1,0 +1,49 @@
+const CreditCard = require('../models/CreditCard');
+const compose = require('connect-compose');
+const wrapPromise = require('../utils/wrapPromise');
+const bodyParser = require('body-parser');
+const isLoggedIn = require('../middlewares/isLoggedIn');
+const Coach = require('../models/Coach');
+const User = require('../models/User');
+const stripeUtil = require('../utils/stripe');
+
+module.exports = compose([bodyParser.urlencoded({extended: true}), isLoggedIn, wrapPromise(async function(req, res, next) {
+    console.log("BODY  : ", req.body);
+    console.log("PARAMS: ", req.params);
+    var creditCard;
+    var allCreditCards;
+
+    if (req.body.userId && req.body.userId != req.user.get('id'))
+	return res.status(400).json({status: 0, message: "The userId you've provided isn't yours", data: null});
+
+    try {
+        if (req.user instanceof User) {
+            creditCard = await CreditCard.create(req.body, req.body.userId, false);
+            allCreditCards = await CreditCard.getByUserId(req.user.get('id'));
+        }
+        else if (req.user instanceof Coach) {
+            creditCard = await CreditCard.create(req.body, req.body.coachId, true);
+            allCreditCards = await CreditCard.getByCoachId(req.user.get('id'));
+        }
+    } catch (e) {
+        // 23505 : Duplicate key violates unique constraint
+        // 23503 : violation of foreign key constraint
+        if (e.code == 23503 && e.constraint.toLowerCase() == 'creditcards_user_id_foreign')
+            return res.status(400).json({ status: 0, message: `This user (id : ${req.body.userId}) doesn't exists`, data: e });
+        else if (e.code == 23505 && e.constraint.toLowerCase() == 'uniq_user_id')
+            return res.status(400).json({ status: 0, message: "This user already has a credit card", data: e });
+        else if (e.code == 23505 && e.constraint.toLowerCase() == 'uniq_tokenstripe')
+            return res.status(400).json({ status: 0, message: "This credit card is already used", data: e });
+        else
+            throw(e);
+    }
+
+    // LINK STRIPETOKEN WITH CUSTOMERTOKEN
+    await stripeUtil.addCardToUser(req.user.get("stripeId"), req.body.tokenStripe);
+
+    return res.json({
+        status: 1,
+        message: "",
+        data: allCreditCards
+    });
+})]);

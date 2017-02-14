@@ -1,0 +1,145 @@
+#+TODO: TODO _WIP WAIT DONE
+#+TAGS: @robin @erwan @steven @sami @charles @amine
+#+TAGS: _10min _20min _30min _1h00 _1h30 _2h00 _3h00 _4h00 _6h00 _8h00 _1j__ _2j__
+
+; ==============================================================================
+; EMAIL DIEUDO
+; ==============================================================================
+* Pour 18 Novembre 2016
+DEADLINE: <2016-11-18 Fri>
+** Intégration mail
+** DONE Intégration pages subscribe-2
+** DONE MDP oublié
+** DONE Documents deja upload
+** DONE Debug mailgun ?
+* Pour 25 Novembre 2016
+DEADLINE: <2016-11-25 Fri>
+** DONE Finir Place (merge FromLatLng avec le reste, rajouter les params)
+** DONE Bookings (endTime bien a 1h)
+** DONE Rating session
+** DONE Verif user coach
+** DONE Messages d’erreur
+** DONE iOS UUID
+** DONE Creation compte champ parain
+** DONE Envoi de mail generique templates.
+* Pour 2 Decembre 2016
+DEADLINE: <2016-12-02 Fri>
+** TODO Filtres coach, places, users, seances
+*** TODO Filtres bookings
+*** TODO Filtres users
+*** TODO Filtres places
+*** TODO Filtres coach
+** TODO Payment
+** _WIP  CRUD credit cards
+*** TODO Stripe
+*** TODO Remboursements
+*** TODO Paiements
+*** TODO partage
+*** TODO Calcul
+*** _WIP WIP Promotion
+*** _WIP WIP Retards
+* Pour 9 Decembre 2016
+DEADLINE: <2016-12-09 Fri>
+** TODO Team User
+** TODO Team Coach
+** TODO Manager
+* Microtaches
+** WAIT likePlace
+** _WIP requestPlace
+** WAIT followCoach
+** TODO PUSH
+** TODO Fiscal
+** TODO updatePos
+** TODO challenge
+** TODO Sponsorship
+* Long-shot
+** WAIT Hexagones
+*** On renvoie 20 hexas + un span (Faut penser que le mec a 2h).
+*** Nombre de mec dans zone chaude, faut pas prendre en comtpe le nbr de Coach.
+
+
+
+; ==============================================================================
+; ROUTES
+; ==============================================================================
+* Group Fiters
+** Login as Fiter [/auth]
+*** DONE [POST] Login as Fiter
+** Actions for Fiters [/users]
+*** DONE [GET] List Fiters
+*** DONE [POST] Subscription
+*** DONE [POST /forgotpassword ] Fiter forgot password
+** Actions for (a single) Fiter [/users/{id}]
+*** DONE [GET] Get Fiter by ID
+*** DONE [PUT] Update Fiter by ID
+*** _WIP [POST /addUserToTeam/{otherUserId}]			:@sami:_1h00:
+    Add or Remove user to Team
+*** TODO [GET  /code] Promotion Code
+*** WAIT [POST /followCoach] Follow Coach		    :@charles:_30min:
+*** TODO [GET  /fiscal] Fiscal
+*** WAIT [GET  /bookings] Get All Bookings		       :@amine:_1h00:
+*** WAIT [GET  /bookings/{idbooking}]			      :@amine:_30min:
+    Get Bookings by ID (booking_id)
+*** WAIT [GET  /bookingsinvites]			       :@amine:_2h00:
+    Get Bookings Invitation
+*** DONE [POST /bookingsinvites/{bookingid}]		       :@amine:_2h00:
+    Accept/Decline Bookings Invitation
+*** TODO [GET  /promotions] List Promotions		     :@charles:_1h30:
+*** TODO [POST /promotions] Use Promotions		     :@charles:_1h30:
+* Group Coach
+** Actions for Coaches [/coachs]
+*** DONE [GET] List Coaches				       :@amine:_2h00:
+*** DONE [POST] Create a Coach
+*** DONE [POST /auth] Login as Coach
+*** DONE [POST /forgotpassword] Coach forgot password	    :@charles:_30min:
+*** DONE [GET /validation/{token}] Validate Coach email
+*** TODO [POST /activate] Activation Code		       :@erwan:_1h00:
+** Actions for (a single) Coach [/coachs/{id}]
+*** DONE [GET] Get Coach by ID
+*** DONE [PUT] Update Coach by ID				:@sami:_1h30:
+*** TODO [POST /phone] Phone (validate)				:@sami:_1h30:
+*** TODO [POST /confirmphone] Confirm Phone			:@sami:_1h30:
+*** WAIT [GET /planning] Get Planning
+*** WAIT [PUT /planning] Update Planning
+*** TODO [GET /sessions] Get Sessions                          :@erwan:_1h00:
+*** TODO [GET /sessions/{session_id}] Get Sessions by ID       :@erwan:_1h00:
+*** TODO [GET /incomes] Incomes				      :@steven:_3h00:
+*** _WIP [GET /team] My team					:@sami:_1h30:
+*** WAIT [GET /availability] Coach Availability		       :@erwan:_3h00:
+*** TODO [POST /backup] Call Backup Coach		      :@steven:_3h00:
+*** _WIP [GET /challenge] Challenge			     :@charles:_1h30:
+*** _WIP [GET /sponsorship] Sponsorship			     :@charles:_1h00:
+*** TODO [POST /location] Update Location			:@sami:_2h00:
+* Group Places
+** Actions for Places [/places]
+*** WAIT [GET] Get Places				       :@amine:_3h00:
+*** WAIT [POST] Create Place				       :@amine:_1h00:
+** Actions for (a single) Place [/places/{id}]
+*** [GET] Get Place by ID				     :@steven:_20min:
+*** WAIT [POST /like] Like Place by ID			      :@steven:_1h00:
+* Group Bookings
+** Actions for Bookings [/bookings]
+*** _WIP [POST] Book Place				     :@steven::_6h00:
+** Actions for (a single) Booking [/bookings/{id}]
+*** TODO [PUT] Update Booking by ID			       :@erwan:_1h00:
+*** WAIT [GET /chooseCoach] Get Available Coaches		:@sami:_1h00:
+*** _WIP [POST /validate] Validate Booking by ID	       :@amine:_2h00:
+*** WAIT [POST /late] Late				      :@erwan:_20min:
+*** DONE [POST /cancel] Cancel Booking by ID
+*** WAIT [POST /rate] Rate Booking			       :@erwan:_1h30:
+*** TODO [POST /usersinbooking] Users in Booking		:@sami:_1h00:
+* Group Credit Cards
+** Actions for CreditCards [/creditcards{?userId,coachId}]
+*** DONE [POST] Add Credit Card				     :@steven:_30min:
+*** DONE [DELETE /{creditcard_id}] Remove Credit Card	     :@steven:_30min:
+* Group HeatMap
+** Actions for HeatMap [/heatmap]
+*** WAIT [GET] Get Heatmap				     :@charles:_3h00:
+* Group Misc
+** Request Place [/requestplace]
+*** TODO [POST] Request Place				     :@charles:_1h00:
+* Group External Tasks
+** Stripe
+*** _WIP implement Strip				       :@robin:_4h00:
+** Notif service
+*** _WIP implement notification service			       :@robin:_2h00:

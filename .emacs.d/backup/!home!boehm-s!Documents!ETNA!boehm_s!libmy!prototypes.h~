@@ -1,0 +1,87 @@
+/*
+** prototypes.h for libmy in /home/boehm-s/Documents/ETNA/boehm_s/libmy
+** 
+** Made by BOEHM Steven
+** Login   <boehm_s@etna-alternance.net>
+** 
+** Started on  Sat Nov 12 03:55:48 2016 BOEHM Steven
+** Last update Sat Nov 12 03:56:04 2016 BOEHM Steven
+*/
+
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+
+int	my_strlen(char *str);
+void	my_putchar(char c);
+int	my_putstr(char *str);
+void	my_putstr_error(char *str);
+int	my_putnbr(int nb);
+int	my_putnbr_unsigned(unsigned int nb);
+int	my_putnbr_base(int nbr, char *base);
+int	aff_char(va_list *ap);
+int	aff_str(va_list *ap);
+int	aff_int(va_list *ap);
+int	aff_int_unsigned(va_list *ap);
+int	aff_octal(va_list *ap);
+int	aff_hexadecimal(va_list *ap);
+int	aff_hexadecimal_maj(va_list *ap);
+int	my_printf(char *str, ...);
+
+typedef struct	s_fnc
+{
+  char	opt;
+  int	(*p)(va_list *ap);
+} t_fnc;
+//
+// list.h for liblist in /home/boehm-s/Documents/ETNA/boehm_s/libmy/liblist
+//
+// Made by BOEHM Steven
+// Login   <boehm_s@etna-alternance.net>
+//
+// Started on  Mon Jan 23 23:40:26 2017 BOEHM Steven
+// Last update Wed Feb  1 21:34:22 2017 BOEHM Steven
+//
+
+#ifndef _LIST_H_
+#define _LIST_H_
+
+typedef struct		s_node
+{
+  int			id;
+  void			*data;
+  struct s_node		*prev;
+  struct s_node		*next;
+} t_node;
+
+
+typedef struct		s_list {
+  unsigned int		length;
+  t_node		*head;
+  t_node		*tail;
+  void			(*free_fn)(void *d);
+  int			(*compare)(void *data1, void *data2);
+  void			(*display)(void *data);
+} t_list;
+
+
+t_list			*list_new();
+void			list_destroy(t_list *list);
+
+t_node			*list_create_node();
+
+t_node			*list_append(t_list *list, t_node *node);
+t_node			*list_prepend(t_list *list, t_node *node);
+int			list_size(t_list *list);
+
+t_node			*list_find_node_by_id(t_list *list, unsigned int id);
+t_node			*list_find_node_by_data(t_list *list, void *data);
+
+void			list_delete_node(t_list *list, t_node *node);
+int			list_delete_node_by_id(t_list *list, unsigned int id);
+int			list_delete_node_by_data(t_list *list, void *data);
+
+void			list_display_list(t_list *list);
+
+#endif /* !_LIST_H_ */

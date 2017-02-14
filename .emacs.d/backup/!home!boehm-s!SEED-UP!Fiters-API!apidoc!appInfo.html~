@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>appInfo.html</title>
+
+</head>
+
+<body>
+
+<h1>Appli fiters - ordre des call api</h1>
+
+<h2>Appli COACH</h2>
+
+<h3>Home</h3>
+
+<p>Selectionner une Place -> Selectionner l'heure et le journee du Booking -> [Reserver un cours] -> Possibilite de [partager la seance] -> [confirmer ma reservation] -> possibilite de modifier mes coordonnees ([lieu de la seance], [numero de telephone]) -> [confirmer ma reservation] -> choix de la methode de payement [bouton carte bleue] -> [valider le payement]</p>
+
+<p>|        Map view        |&#8680;|          Planning         |&#8680;|       Recapitulatif        |&#8680;|                 Coordonnees               |&#8680;|  Methode de Payement  |
+|:----------------------:|-|:-------------------------:|-|:--------------------------:|-|:-----------------------------------------:|-|:---------------------:|
+|<em>Selectionner une place</em>|&#8680;| <em>Selectionner un horaire</em> |&#8680;|    <em>Partager la seance</em>    |&#8680;|        <em>modifier lieu de la seance</em>       |&#8680;| <em>Methode de payement</em> |
+|     <code>place button</code>     |&#8680;|    <code>reserver un cours</code>    |&#8680;|    <code>Partager la seance</code>    |&#8680;|             <code>Lieu de la seance</code>           |&#8680;|    <code>****4242 (CB)</code>    |
+|                        |&#8680;|                           |&#8680;| <em>confirmation reservation</em> |&#8680;|        <em>modifier numero telephone</em>        |&#8680;|      <em>Validation</em>     |
+|                        |&#8680;|                           |&#8680;| <code>confirmer ma reservation</code> |&#8680;|                <code>+33606060606</code>             |&#8680;| <code>Valider le payement</code> |
+|                        |&#8680;|                           |&#8680;|                            |&#8680;|  <em>Ajouter les instructions pour le coach</em> |&#8680;|                       |
+|                        |&#8680;|                           |&#8680;|                            |&#8680;|  <code>Ajouter les instructions pour le coach</code> |&#8680;|                       |
+|                        |&#8680;|                           |&#8680;|                            |&#8680;|         <em>Confirmation reservation</em>        |&#8680;|                       |
+|                        |&#8680;|                           |&#8680;|                            |&#8680;|         <code>Confirmer ma reservation</code>        |&#8680;|                       |</p>
+
+</body>
+</html>

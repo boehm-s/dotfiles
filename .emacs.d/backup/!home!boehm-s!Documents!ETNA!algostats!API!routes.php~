@@ -1,0 +1,27 @@
+<?php
+$controllers = array(
+  'sort' => ['insertion', 'selection', 'bubble', 'bubble_opti'],
+);
+
+if (array_key_exists($controller, $controllers)) {
+  if (in_array($action, $controllers[$controller])) {
+    call($controller, $action);
+  } else {
+    call('pages', 'error');
+  }
+} else {
+  call('pages', 'error');
+}
+
+function call($controller, $action) {
+  require_once('./controllers/' . $controller . '_controller.php');
+  switch($controller) {
+    case "sort":
+      require_once('models/db_model.php');
+      $controller = new DbController();
+      break;
+  }
+  $controller->{ $action }();
+}
+
+?>

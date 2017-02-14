@@ -1,0 +1,21 @@
+const Coach = require('../models/Coach');
+const AuthToken = require('../models/AuthToken');
+const mail = require('../utils/mail');
+const compose = require('connect-compose');
+const wrapPromise = require('../utils/wrapPromise');
+const bodyParser = require('body-parser');
+const randomstring = require('randomstring');
+
+module.exports = compose([bodyParser.urlencoded({extended: true}), wrapPromise(async function(req, res, next) {
+    let token = req.params.token;
+    try {
+        var coach = await Coach.mailActivation(token);
+    } catch (e) {
+        if (e instanceof Error) {
+            return res.status(403).json({status: 0, message: "", data: null});
+        }
+    }
+    const redirect = require('../config.json').fitersLogin;
+    mail.sendTemplate(coach.get("email"), "depot_candidature", { coach: coach.toJSON() });
+    return res.redirect(redirect);
+})]);

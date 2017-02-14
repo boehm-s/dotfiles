@@ -1,0 +1,16 @@
+const AuthToken = require('../models/AuthToken');
+const User = require('../models/User');
+const compose = require('connect-compose');
+const wrapPromise = require('../utils/wrapPromise');
+const accessControl = require('../middlewares/canModifyOtherId');
+const bodyParser = require('body-parser');
+const _ = require('lodash');
+
+module.exports = compose([bodyParser.urlencoded(), accessControl(User, ["anonymous"]), wrapPromise(async (req, res, next) => {
+    if (req.target) {
+        return res.json({status: 1, message: "", data: req.target.toJSON().parentCode });
+    } else {
+        return res.json({status: 0, message: "ce fiter n'existe pas", data: null});
+    }
+
+})]);

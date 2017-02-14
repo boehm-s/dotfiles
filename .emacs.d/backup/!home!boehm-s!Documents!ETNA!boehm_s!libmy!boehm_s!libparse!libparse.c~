@@ -1,0 +1,120 @@
+#include "liblist/list.h"
+#include "libparse.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+#define my_strcat strcat
+#define my_strcmp strcmp
+#define my_printf printf
+
+unsigned int	opt_has_value(char **argv, int index) {
+  return (argv[index][0] == '-' && argv[index + 1] != '\0' && argv[index + 1][0] != '-');
+}
+
+char		*regroup_opt_value(char **argv, int index) {
+  char		*ret;
+
+  ret = argv[index];
+  my_strcat(ret, argv[index + 1]);
+  return (ret);
+}
+
+char		**tab_opt_params(int argc, char **argv) {
+  int		i;
+  int		j;
+  char		**collected;
+
+  collected = malloc(sizeof(char *) * argc);  /*absolument pas opti*/
+  i = 0;
+  j = 1;
+  while (i <= argc) {
+    if (opt_has_value(argv, j)) {
+      collected[i] = regroup_opt_value(argv, j);
+      j++;
+    } else {
+      collected[i] = argv[j];
+    }
+    i++;
+    j++;
+  }
+  collected[i] = "\0";
+  return (collected);
+}
+
+
+void		    remove_tiret_opt(char *str_opt) {
+  while (str_opt[0] == '-')
+    str_opt++;
+}
+
+void		    insert_opt_in_struct(t_option *option, char *str_opt) {
+  int		    i;
+  int		    j;
+  int		    count;
+  char		    *value;
+  char		    *value_opt;
+  unsigned int	    space;
+
+  value_opt = NULL;
+  for (count = 0; str_opt[count] != '\0'; count++);
+  value = malloc(sizeof(char) * count); /* pas opti */
+  value_opt = malloc(sizeof(char) * count); /* pas opti */
+  remove_tiret_opt(str_opt);
+  for (i = 0, j = 0, space = 0; str_opt[i] != '\0'; i++, j++) {
+    if (space == 0)
+      value[j] = str_opt[i];
+    else
+      value_opt[j] = str_opt[i];
+    if (str_opt[i] == ' ') {
+      space++;
+      j = 0;
+    }
+  }
+  option->value = value;
+  option->value_opt = value_opt;
+}
+
+t_option	    *str_to_struct_opt(char *str_opt) {
+  t_option	    *option;
+
+  option = malloc(sizeof(t_option));
+  option->option_func = NULL;
+  option->required = 0;
+  if (str_opt[0] == '-') {
+    option->is_arg = 0;
+    option->is_opt = 1;
+    insert_opt_in_struct(option, str_opt);
+  } else {
+    option->is_arg = 0;
+    option->is_opt = 1;
+    option->value = str_opt;
+    option->value_opt = NULL;
+  }
+
+  return (option);
+}
+
+
+t_list		*parse(int argc, char **argv) {
+  int		i;
+  int		j;
+  char		**tab_options;
+  t_option	*data;
+  t_list	*list;
+  t_node	*node;
+
+  tab_options = tab_opt_params(argc, argv);
+  for (j = 0; my_strcmp(tab_options[j], "\0") != 0; j++);
+  list = list_new();
+  printf("HAHA\n");
+  for (i = 0; i <= j; i++) {
+    printf("%i\n", i);
+    data = str_to_struct_opt(tab_options[i]);
+    node = list_create_node();
+    node->data = data;
+    list_append(list, node);
+  }
+
+  return (list);
+}

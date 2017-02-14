@@ -1,0 +1,35 @@
+const Bookshelf = require('../bookshelf');
+const _ = require('lodash');
+
+module.exports = Bookshelf.Model.extend({
+    tableName: 'bookings_charges'
+}, {
+    create: async function(body) {
+	const realbody = _.pick(body, ['bookingId', 'userId', 'cautionAmount', 'chargeId', 'refundAmount']);
+	var charge = await (await new this(realbody).save()).fetch();
+	return charge;
+    },
+    get: async function(id) {
+        var bookingCharge = await this.where({id}).fetch();
+        return bookingCharge;
+    },
+    getByBookingId: async function(bookingId) {
+        var charges = await this.query('where', 'bookingId', '=', bookingId).fetchAll();
+        if (charges)
+            return charges;
+        return false;
+    },
+    getByUserId: async function(userId) {
+        var charges = await this.query('where', 'userId', '=', userId).fetchAll();
+        if (charges)
+            return charges;
+        return false;
+    },
+    setRefundAmount: async function(id, refundAmount) {
+	var charge = await this.where({id}).fetch();
+	charge.set({refundAmount});
+	var update = await charge.save().fetch();
+
+	return update;
+    }
+});

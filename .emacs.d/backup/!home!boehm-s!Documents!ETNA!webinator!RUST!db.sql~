@@ -1,0 +1,42 @@
+CREATE TABLE users (
+       id		    SERIAL PRIMARY KEY,
+       email		    varchar(255),
+       username		    varchar(255),
+       password		    varchar(255)
+);
+
+CREATE TABLE galaxy (
+       id		    SERIAL PRIMARY KEY,
+       name		    varchar(255),
+       sun_number	    integer
+);
+
+CREATE TABLE solar_system (
+       id		    SERIAL PRIMARY KEY,
+       galaxy		    integer REFERENCES galaxy (id),
+       name		    varchar(255),
+       planet_number	    integer
+);
+
+CREATE TABLE planetes (
+       id		    SERIAL PRIMARY KEY,
+       solar_system	    integer REFERENCES solar_system (id),
+       case_number	    integer,
+       distance_to_sun	    integer,
+);
+
+CREATE TABLE type_buildings (
+       id		    SERIAL PRIMARY KEY,
+       name		    varchar(255),
+       image_url	    varchar(255),
+       product		    varchar(255),
+       level_multiplier	    decimal
+);
+
+CREATE TABLE buildings (
+       id		    SERIAL PRIMARY KEY,
+       level		    integer,
+       type		    integer REFERENCES type_buildings (id),
+       user_id		    integer REFERENCES users (id),
+       planet_id	    integer REFERENCES planetes (id)
+);

@@ -1,0 +1,32 @@
+<?php
+
+require_once('../sort_controller.php');
+require_once('../includes/generate_array.php');
+
+
+$array_generator = new Gen_arr();
+$sorter = new sortController();
+
+$all_sorts =  get_class_methods("Sort");
+$all_arrGen =  get_class_methods("Gen_arr");
+$all_length = [10, 100/* , 1000, 10000*/];
+
+$all_res = [];
+
+for ($i = 0; $i < count($all_length); $i++) {
+  $length = $all_length[$i];
+  for ($j = 0; $j < count($all_arrGen); $j++) {
+    $arrGen = $all_arrGen[$j];
+    $arr = $array_generator->$arrGen($length);
+    for ($k = 0; $k < count($all_sorts); $k++) {
+      $sort = $all_sorts[$k];
+
+      $res = $sorter->$sort($arr);
+      array_push($all_res, array("sort" => $sort, "generator" => $arrGen, "length" => $length, "count" => $res["count"], "res" => $res["array"]));
+    }
+  }
+  echo $length . "\n";
+}
+
+$json_res = json_encode($all_res);
+echo $json_res;

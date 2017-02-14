@@ -1,0 +1,42 @@
+exports.up = function(knex, Promise) {
+    return Promise.all([
+        knex.schema.alterTable('bookings', function(table) {
+	    table.string('basePrice');
+	    table.string('coachPrice');
+	    table.string('roomPrice');
+	    table.string('expressPrice');
+	    table.boolean('cancel');
+	    table.boolean('cancelPenalty');
+	    table.boolean('coachActive');
+	    table.boolean('roomActive');
+	    table.boolean('expressActive');
+	    table.integer('late');
+	    table.integer('latePenalty');
+        }),
+	knex.schema.alterTable('bookings_invite', function(table) {
+	    table.boolean('confirmedByCoach');
+	})
+    ]);
+};
+
+exports.down = function(knex, Promise) {
+    return Promise.all([
+        knex.schema.alterTable('bookings', function(table) {
+	    table.dropColumn('basePrice');
+	    table.dropColumn('coachPrice');
+	    table.dropColumn('roomPrice');
+	    table.dropColumn('expressPrice');
+	    table.dropColumn('cancel');
+	    table.dropColumn('cancelPenalty');
+	    table.dropColumn('coachActive');
+	    table.dropColumn('roomActive');
+	    table.dropColumn('expressActive');
+	    table.dropColumn('late');
+	    table.dropColumn('latePenalty');
+        }),
+	knex.schema.alterTable('bookings_invite', function(table) {
+	    table.dropColumn('confirmedByCoach');
+	})
+
+    ]);
+};

@@ -1,0 +1,16 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is ahead of 'origin/master' by 4 commits.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   app.js
+#	new file:   migrations/20161129123349_cancelCreditCardsConstraints.js
+#	modified:   models/CreditCard.js
+#	modified:   routes/createCreditCard.js
+#	new file:   routes/getCreditCard.js
+#	new file:   routes/getCreditCardById.js
+#	modified:   test/CreditCard.js
+#

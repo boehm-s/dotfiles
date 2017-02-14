@@ -1,0 +1,9 @@
+var myObj = {
+
+    test : function() {
+	this.x = 1;
+	this.y = 2;
+    },
+
+    foo: 4
+};

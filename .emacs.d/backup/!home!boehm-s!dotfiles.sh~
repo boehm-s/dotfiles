@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cp .emacs custom-emacs/
+cp -r .emacs.d custom-emacs/

@@ -1,0 +1,32 @@
+const _ = require('lodash');
+const Bookshelf = require('../bookshelf');
+const isLoggedIn = require('../middlewares/isLoggedIn');
+const Booking = require('../models/Booking');
+
+const compose = require('connect-compose');
+const wrapPromise = require('../utils/wrapPromise');
+const coachHelpers = require('../utils/coachHelpers');
+const bodyParser = require('body-parser');
+
+module.exports = compose([bodyParser.urlencoded(), isLoggedIn, wrapPromise(async function(req, res, next) {
+    let booking = await Booking.getBookingById(req.params.id);
+    booking = booking.toJSON();
+
+    if (!booking)
+	res.status(400).json({status: 0, message: `Booking with id ${req.params.id} doesn't exists !`, data: null});
+
+    let coaches = await Bookshelf.knex.raw("SELECT * FROM coaches WHERE is_coach_available(coaches.id, ?::timestamp) = 'yes'", [booking.sessionStart]);
+    coaches = coaches.rows.map((el, i) => {
+	let tmp = _.pick(el, ['id', 'photoUrl', 'firstname',  'lastname', 'rating', 'recommendations', 'followers']);
+	tmp.name = `${tmp.firstname} ${tmp.lastname}`;
+	tmp.coachName = tmp.name;
+	tmp.coachPhotoUrl = tmp.photoUrl;
+	return tmp;
+    });
+
+    return res.json({
+        status: 1,
+        message: "",
+        data: coaches
+    });
+})]);

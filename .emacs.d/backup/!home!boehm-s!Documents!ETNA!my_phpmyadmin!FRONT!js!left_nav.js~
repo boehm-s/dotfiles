@@ -1,0 +1,87 @@
+var buildSqlDbNav = function() {
+    xhrRequest.GET({url: apiURL + '/databases'}, function(data) {
+	var databases = JSON.parse(data.responseText);
+	buildSqlDbContainer(databases);
+	attachEventToSqlDbContainer();
+	attachNavSearchDbEvent();
+    });
+};
+
+var buildSqlDbContainer = function(databases) {
+    var html = databases.map(function(db) {
+	var tables = db.tables.map(function(table) {
+	    return ['<div class="sql_table">', table, '</div>'].join('');
+	}).join('');
+	return ['<div class="sql_db">', '<span class="sql_db_name">', db.name, '</span>', '<div class="sql_table_container hidden">', tables, '</div>', '</div>'].join('');
+    }).join('');
+
+    SQL_DB_NAV_CONTAINER.innerHTML = html;
+};
+
+var attachEventToSqlDbContainer = function() {
+    var dbElements = Array.from(SQL_DB_NAV_CONTAINER.getElementsByClassName('sql_db'));
+    var tableElements = Array.from(SQL_DB_NAV_CONTAINER.getElementsByClassName('sql_table'));
+
+    dbElements.forEach(function(dbEl) {
+	dbEl.getElementsByClassName('sql_db_name')[0].onclick = function(e) {
+	    e.preventDefault();
+
+	    navDbElClickEvent(dbEl.getElementsByClassName('sql_db_name')[0]);
+	};
+    });
+
+    tableElements.forEach(function(tableEl) {
+	tableEl.onclick = function(e) {
+	    e.preventDefault();
+
+	    navTableElClickEvent(this);
+	};
+    });
+};
+
+var navTableElClickEvent = function(self) {
+    var table = self.innerHTML.trim();
+    var database = self.parenNode.parenNode.getElementsByClassName('sql_db_name')[0].innerHTML.trim();
+
+    console.log(["Display table ", database, '.', table].join(''));
+    displayTable(database, table);
+};
+
+var navDbElClickEvent = function(self) {
+    var database = self.innerHTML.trim();
+    var tableContainer = self.parentNode.getElementsByClassName('sql_table_container')[0];
+
+    if (tableContainer.hasClass('hidden')) {
+	tableContainer.removeClass('hidden');
+    } else if (!tableContainer.hasClass('hidden')) {
+	tableContainer.addClass('hidden');
+    } else {
+	console.log("No table in this database !");
+    }
+
+    console.log(['Display database : ', database].join(''));
+    displayDB(database);
+};
+
+var attachNavSearchDbEvent = function() {
+    var dbNamesNodes = Array.from(SQL_DB_NAV_CONTAINER.getElementsByClassName('sql_db_name'));
+    SQL_DB_NAV_SEARCH.oninput = function(e) {
+	e.preventDefault();
+
+	dbNamesNodes.forEach(function(dbNameNode) {
+	    if (dbNameNode.innerHTML.trim().indexOf(e.target.value) != -1) {
+	    	if (dbNameNode.parentNode.hasClass('hidden'))
+	    	    dbNameNode.parentNode.removeClass('hidden');
+	    } else {
+	    	if (!dbNameNode.parentNode.hasClass('hidden'))
+	    	    dbNameNode.parentNode.addClass('hidden');
+	    }
+	});
+
+	if (e.target.value == '')
+	    dbNamesNodes.forEach(function(dbNameNode) {
+		if (dbNameNode.parentNode.hasClass('hidden'))
+		    dbNameNode.parentNode.removeClass('hidden');
+	    });
+    };
+};

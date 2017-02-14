@@ -1,0 +1,17 @@
+<?php
+
+class Error_handler {
+    public function arr($array) {
+        $ret = array("value" => true, "message" => "");
+        if (!is_array($array))
+            $ret = array("value" => false, "message" => "The provided value isn't an array !");
+        if (empty($array))
+            $ret  = array("value" => false, "message" => "The array provided is empty !");
+        $array_length = count($array);
+        $first_type = gettype($array[0]);
+        for ($i = 0; $i < $array_length; $i++) {
+            if (gettype($array[$i]) != $first_type)
+                $ret = array("value" => false, "message" => "The values in yout array are not of the same type");
+        }
+    }
+}

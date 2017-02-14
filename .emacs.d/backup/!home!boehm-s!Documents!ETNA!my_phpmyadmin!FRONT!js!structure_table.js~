@@ -1,0 +1,11 @@
+var displayTableContent = function(dbName, tableName) {
+    xhrRequest.POST({
+	url: apiURL + '?controller=table&action=getAll',
+	jsonParams: {
+	    name: tableName,
+	    dbName: dbName
+	}
+    }, function(res) {
+
+    });
+};

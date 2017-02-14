@@ -1,0 +1,2 @@
+var SQL_DB_NAV = document.getElementById('sql_db_nav');
+var SQL_DB_NAV_CONTAINER = document.getElementById('sql_db_nav_container');

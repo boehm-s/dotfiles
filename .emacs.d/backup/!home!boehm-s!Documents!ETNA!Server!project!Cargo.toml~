@@ -1,0 +1,9 @@
+[package]
+name = "project"
+version = "0.1.0"
+authors = ["Steven BOEHM <boehm_s@etna-alternance.net>"]
+
+[dependencies]
+iron = "*"
+websocket = "*"
+staticfile = "*"

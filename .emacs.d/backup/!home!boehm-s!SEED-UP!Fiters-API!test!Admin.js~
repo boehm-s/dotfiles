@@ -1,0 +1,46 @@
+const randomstring = require('randomstring');
+const request = require('supertest');
+const should = require('should');
+const app = require('../app');
+
+
+var firstname = 'test-1',
+lastname = 'TEST-1',
+username = 'test_1',
+email = Math.random()+'test-1@mail.net',
+password = 'passwd1';
+
+var ADMIN_TOKEN = null;
+
+describe('Admin', () => {
+
+    it('Should connect to the default admin account', done => {
+        request(app)
+            .post('/api/v1/admin/auth')
+            .type('form')
+            .send({'login' : 'admin@mail.net'})
+            .send({'password' : 'root'})
+            .expect(200).expect(res => {
+		ADMIN_TOKEN = res.body.data.token;
+		res.body.status.should.equal(1);
+            }).end(done);
+    });
+
+    it('Should create and connect (token) one admin ... ', done => {
+        request(app)
+	    .post('/api/v1/admin/subscribe')
+            .set({'Authorization': ADMIN_TOKEN})
+	    .type('form')
+	    .send({'firstname' : firstname})
+	    .send({'lastname' : lastname})
+	    .send({'email' : email})
+	    .send({'password' : password})
+	    .expect(200).expect(res => {
+		ADMIN_TOKEN = res.body.data.token;
+		res.body.data.firstname.should.equal(firstname);
+		res.body.data.lastname.should.equal(lastname);
+		res.body.data.username.should.equal(username);
+		res.body.data.email.should.equal(email);
+	    }).end(done);
+    });
+});

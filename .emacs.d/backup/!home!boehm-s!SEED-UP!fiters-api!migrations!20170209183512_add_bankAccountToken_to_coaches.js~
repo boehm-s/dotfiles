@@ -1,0 +1,17 @@
+exports.up = function(knex, Promise) {
+    return Promise.all([
+	knex.schema.alterTable('coaches', function(table) {
+	    table.string('managedAccount');
+	}),
+	knex.raw(`ALTER TABLE promotions ADD CONSTRAINT uniq_promo UNIQUE(code)`)
+    ]);
+};
+
+exports.down = function(knex, Promise) {
+    return Promise.all([
+	knex.schema.alterTable('coaches', function(table) {
+	    table.dropColumn('managedAccount');
+	}),
+	knex.raw(`DROP CONSTRAINT uniq_promo`)
+    ]);
+};

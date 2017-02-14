@@ -1,0 +1,60 @@
+#+TODO: TODO WIP PREPROD DONE
+#+TEAM: @robin @erwan @steven @sami @charles
+
+* Pour 18 Novembre 2016
+DEADLINE: <2016-11-18 Fri>
+** Intégration mail
+** DONE Intégration pages subscribe-2
+** DONE MDP oublié
+** DONE Documents deja upload
+** DONE Debug mailgun ?
+
+* Pour 25 Novembre 2016
+DEADLINE: <2016-11-25 Fri>
+** DONE Finir Place (merge FromLatLng avec le reste, rajouter les params)
+** DONE Bookings (endTime bien a 1h)
+** DONE Rating session
+** DONE Verif user coach
+** DONE Messages d’erreur
+** DONE iOS UUID
+** DONE Creation compte champ parain
+** DONE Envoi de mail generique templates.
+
+* Pour 2 Decembre 2016
+DEADLINE: <2016-12-02 Fri>
+** TODO Filtres coach, places, users, seances
+*** TODO Filtres bookings
+*** TODO Filtres users
+*** TODO Filtres places
+*** TODO Filtres coach
+
+** TODO Payment
+** WIP WIP CRUD credit cards
+*** TODO Stripe
+*** TODO Remboursements
+*** TODO Paiements
+*** TODO partage
+*** TODO Calcul
+*** WIP Promotion
+*** WIP Retards
+
+* Pour 9 Decembre 2016
+DEADLINE: <2016-12-09 Fri>
+** TODO Team User
+** TODO Team Coach
+** TODO Manager
+
+* Microtaches
+** PREPROD likePlace
+** WIP requestPlace
+** PREPROD followCoach
+** TODO PUSH
+** TODO Fiscal
+** TODO updatePos
+** TODO challenge
+** TODO Sponsorship
+
+* Long-shot
+** WIP Hexagones
+*** On renvoie 20 hexas + un span (Faut penser que le mec a 2h).
+*** Nombre de mec dans zone chaude, faut pas prendre en comtpe le nbr de Coach.

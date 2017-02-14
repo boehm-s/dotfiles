@@ -1,0 +1,52 @@
+const assignUser = require('../middlewares/isLoggedIn');
+const AuthToken = require('../models/AuthToken');
+const Booking = require('../models/Booking');
+const Admin = require('../models/Admin');
+const Coach = require('../models/Coach');
+const compose = require('connect-compose');
+const wrapPromise = require('../utils/wrapPromise');
+const accessControl = require('../middlewares/canModifyOtherId');
+const bodyParser = require('body-parser');
+const _ = require('lodash');
+const moment = require('moment');
+moment.locale('fr');
+
+module.exports = compose([bodyParser.urlencoded(), assignUser, accessControl(Coach, [Admin]), wrapPromise(async (req, res, next) => {
+    if (!req.user instanceof Coach)
+	res.status(401).json({status: 0, message: "You're not authorized to see this content", data: null});
+
+    let coachId = req.user.get('id');
+
+    let allBookings = (await Booking.getCoachesBookings(coachId)).toJSON();
+    let weekBookings = allBookings.filter(booking => booking.sessionStart > moment().startOf('isoWeek') && booking.sessionStart < moment().endOf('isoWeek') /* && booking.isValidated*/  );
+
+    let monthBookings = allBookings.filter(booking => booking.sessionStart > moment().startOf('month') && booking.sessionStart < moment().endOf('month') /* && booking.isValidated*/  );
+
+    let yearBookings = allBookings.filter(booking => booking.sessionStart > moment().startOf('year') && booking.sessionStart < moment().endOf('year') /* && booking.isValidated*/  );
+
+
+    let periodBookings = [{prefix: "week", obj: weekBookings}, {prefix: "month", obj: monthBookings}, {prefix: "year", obj: yearBookings}].map(booking => {
+	let Sessions = booking.obj.length;
+	let Number = getWeek(new Date());
+	let CA = booking.obj.map(booking => JSON.parse(booking.jsonInfo).pricingInfo.baseBookingPrice.coach).reduce((pv, cv) => pv + cv);
+	let Bonus = booking.obj.map(booking => JSON.parse(booking.jsonInfo).pricingInfo.followOptionPrice.coach).reduce((pv, cv) => pv + cv);
+	let PrimeChallenge = 0;
+	let Penalties = booking.obj.map(booking => booking.late ? booking.latePenalty : 0).reduce((pv, cv) => pv + cv); // must be negative
+	let Total = CA + Bonus + PrimeChallenge + Penalties;
+
+	return { [`${booking.prefix}Number`]: Number,
+		 [`${booking.prefix}CA`]: CA,
+		 [`${booking.prefix}Bonus`]: Bonus,
+		 [`${booking.prefix}PrimeChallenge`]: PrimeChallenge,
+		 [`${booking.prefix}Penalties`]: Penalties,
+		 [`${booking.prefix}Total`]: Total,
+		 [`${booking.prefix}Sessions`]: Sessions
+	       };
+    });
+})]);
+
+
+const getWeek = d => {
+    let onejan = new Date(d.getFullYear(), 0, 1);
+    return Math.ceil((((d - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+};

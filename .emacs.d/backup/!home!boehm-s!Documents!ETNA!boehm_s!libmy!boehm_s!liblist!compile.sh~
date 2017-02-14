@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+rm -rf a.out *.gch;
+gcc *;
+pwd | xargs /a.out;

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Algo Stats</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="includes/css/style.css">
+  </head>
+
+  <body>
+    <h1>Bienvenue !</h1>
+
+    <form>
+      <input type="text" placeholder="Série à trier : 3,5,8,9"><br>
+      <select >
+	<option value="serie-triee">Série triée</option>
+	<option value="serie-inverse">Série triée en sens inverse</option>
+	<option value="serie-random">Série non triée</option>
+	<option value="serie-quasitriee">Série quasiment triée</option>
+	<option value="serie-doublons">Série avec doublons</option>
+      </select>
+    </form>
+  </body>
+</html>

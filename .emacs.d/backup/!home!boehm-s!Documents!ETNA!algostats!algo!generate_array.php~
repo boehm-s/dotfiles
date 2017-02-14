@@ -1,0 +1,8 @@
+<?php
+
+class Gen_arr {
+  public function sorted($number) {
+    $arr = [];
+    for ($i = 0; $i < $number; $i++)
+  }
+}

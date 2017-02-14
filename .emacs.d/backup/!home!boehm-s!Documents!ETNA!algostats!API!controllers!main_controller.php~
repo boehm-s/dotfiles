@@ -1,0 +1,42 @@
+<?php
+class DbController {
+  public function liste() {
+    $dbs = DataBase::liste();
+    echo $dbs;
+  }
+  public function create() {
+    $name = $_POST['name'];
+    $dbs = DataBase::create($name);
+    echo($dbs);
+  }
+  public function rename() {
+    $previousName = $_POST['previousName'];
+    $newName = $_POST['newName'];
+    $res = DataBase::rename($previousName, $newName);
+    echo $res;
+  }
+  public function drop() {
+    $name = $_POST['name'];
+    $res = DataBase::drop($name);
+    echo $res;
+  }
+  public function info() {
+    $name = $_POST['name'];
+    $res = DataBase::info($name);
+    echo $res;
+  }
+  public function connect() {
+    $password = $_POST['password'];
+    $user = $_POST['user'];
+    $res = Db::connect($user, $password);
+    if ($res) {
+      header('HTTP/1.1 200 Ok');
+      echo "=================\n";
+      print_r($_SESSION);
+    } else {
+      header('HTTP/1.1 403 Forbidden');
+    }
+    // echo $res;
+  }
+}
+?>

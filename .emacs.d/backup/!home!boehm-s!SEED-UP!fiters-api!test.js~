@@ -1,0 +1,3 @@
+var test = {hah: "coucou", test: "test", foo: "car"};
+var truc = Object.keys(test).filter(key => key !== "test").map(key => { return {[key]: test[key]};});
+console.log(...truc);

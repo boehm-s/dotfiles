@@ -1,0 +1,76 @@
+const _ = require('lodash');
+const Bookshelf = require('../bookshelf');
+const User = require('../models/User');
+const accessControl = require('../middlewares/canModifyOtherId');
+const compose = require('connect-compose');
+const wrapPromise = require('../utils/wrapPromise');
+const bodyParser = require('body-parser');
+
+module.exports = compose([bodyParser.urlencoded(), accessControl(User, ["anonymous"]), wrapPromise(async function(req, res, next) {
+
+    let bookings = await Bookshelf.knex.raw('SELECT * FROM bookings WHERE "userId" = ?;', [req.params.id]);
+    let bookingsId = bookings.rows.map((el, i) => el.id).join(',');
+    let bookingsUserId = bookings.rows.map((el, i) => el.userId).join(',');
+    let bookingsCoachId = bookings.rows.map((el, i) => el.coachId).join(',');
+    let bookingsPlaceId = bookings.rows.map((el, i) => el.placeId).join(',');
+    let users = await Bookshelf.knex.raw('SELECT * FROM users WHERE id IN (?);', [bookingsUserId]);
+    let creditcards = await Bookshelf.knex.raw('SELECT * FROM creditcards WHERE user_id IN (?);', [bookingsUserId]);
+    let coachs = await Bookshelf.knex.raw('SELECT * FROM coaches WHERE id IN (?);', [bookingsCoachId]);
+    let places = await Bookshelf.knex.raw('SELECT * FROM places WHERE id IN (?);', [bookingsPlaceId]);
+    let invites = await Bookshelf.knex.raw('SELECT * FROM bookings_invites WHERE "bookingId" IN (?);', [bookingsId]);
+    let invitesUserId = invites.rows.map((el, i) => el.userId).join(',');
+    let invitedUsers;
+    if (invitesUserId != "")
+	invitedUsers = await Bookshelf.knex.raw('SELECT * FROM users WHERE id IN (?);', [invitesUserId]);
+    else
+	invitedUsers = null;
+
+    if (!bookings) {
+        return res.status(403).json({
+            status: 0,
+            message: "",
+            data: null
+        });
+    }
+
+
+    let jsonRes = bookings.map((booking, i) => {
+	let bookingObj = null;
+	return  {
+	    ownerSession: ownerObj,
+	    coach: coachObj,
+	    place: placeObj,
+	    creditCard: creditCardObj,
+	    invites: inviteObj,
+	    userInSession: invitedUsersObj,
+
+	    id: booking.id,
+	    sessionId: booking.id,
+	    ownername: ownerObj.name,
+	    ownerPhotoUrl: ownerObj.photoUrl,
+	    contactPhoneNumber: coachObj.phoneNumber,
+	    date: (Date.parse(booking.sessionStart) / 1000),
+	    startTime: `${new Date(booking.sessionStart).getHours()}:${new Date(booking.sessionStart).getMinutes()}`,
+	    endTime: `${new Date(booking.sessionStart).getHours() + 1}:${new Date(booking.sessionStart).getMinutes()}`,
+	    // -------------------------------
+	    basePrice: booking.basePrice,
+	    coachActive: booking.coachActive,
+	    coachPrice: booking.coachPrice,
+	    roomActive: booking.roomActive,
+	    roomPrice: booking.roomPrice,
+	    expressActive: booking.expressActive,
+	    expressPrice: booking.expressPrice,
+	    late: booking.late,
+	    latePenalty: booking.latePenalty,
+	    cancel: booking.cancel,
+	    cancelPenalty: booking.cancelPenalty,
+	    devise: booking.devise
+	};
+    });
+
+    return res.json({
+        status: 1,
+        message: "",
+        data: jsonRes
+    });
+})]);

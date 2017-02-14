@@ -1,0 +1,77 @@
+var apiUrl = 'http://localhost/algo/API';
+var xhrRequest = {
+    GET: function(obj, callback) {
+	var req = new XMLHttpRequest();
+	req.open('GET', obj.url, true);
+	req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	req.onreadystatechange = function(e) {
+	    if (req.readyState == 4) {
+		callback({event: e, responseText: req.responseText, status: req.status, xhr: req});
+	    }
+	};
+	req.send();
+    },
+
+    POST: function(obj, callback) {
+	var fd = new FormData();
+	if (obj.jsonParams)
+	    Object.keys(obj.jsonParams).forEach(function(key) {
+		fd.append(key, obj.jsonParams[key]);
+	    });
+	var req = new XMLHttpRequest();
+	req.open('POST', obj.url, true);
+	req.onreadystatechange = function(e) {
+	    if (req.readyState == 4)
+		callback({event: e, responseText: req.responseText, status: req.status, xhr: req});
+	};
+	req.send(fd);
+    }
+};
+
+var asyncLoop = function(iterations, func, callback) {
+    var index = 0;
+    var done = false;
+    var loop = {
+        next: function() {
+            if (done)
+                return;
+            if (index < iterations) {
+                index++;
+                func(loop);
+            } else {
+                done = true;
+                callback();
+            }
+        },
+        iteration: function() { return index - 1; },
+        break: function() {
+            done = true;
+            callback();
+        }
+    };
+    loop.next();
+    return loop;
+};
+
+['insertion', 'selection', 'bubble', 'bubble_opti'].forEach(function(el) {
+    var sizes = [10, 100, 1000 /*,10000*/];
+
+    asyncLoop(sizes.length, function(loop) {
+        var num = sizes[loop.iteration()];
+        xhrRequest.GET({ url: apiUrl + '?controller=main&action=' + el + num }, function(res) {
+            res = JSON.parse(res.responseText);
+	    console.log(res);
+            var td = ['<td class="n"> ', num, ' </td>',
+                      '<td title="count : ',res[0].sorted.count ,'" class="sorted">', res[0].sorted.time ,' </td>',
+                      '<td title="count : ',res[1].reversed.count ,'" class="reversed">', res[1].reversed.time ,' </td>',
+                      '<td title="count : ',res[2].random.count ,'" class="random">', res[2].random.time ,' </td>',
+                      '<td title="count : ',res[3].partial_sorted.count ,'" class="partial_sorted">', res[3].partial_sorted.time ,' </td>',
+                      '<td title="count : ',res[4].with_duplicates.count ,'" class="with_duplicates">', res[4].with_duplicates.time ,' </td>'
+                     ].join('');
+
+            var html = ['<tr class="n10">', td, '</tr>'].join('');
+            document.getElementById(el).getElementsByTagName('table')[0].innerHTML += html;
+            loop.next();
+        });
+    }, function() {console.log("done");});
+});

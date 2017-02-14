@@ -1,0 +1,147 @@
+const request = require('supertest');
+const should = require('should');
+const app = require('../app');
+const isLoggedIn = require('../middlewares/isLoggedIn');
+const randomstring = require('randomstring');
+
+const Admin = require('../models/Admin');
+const Coach = require('../models/Coach');
+const User = require('../models/User');
+
+var TOKEN = null;
+var ID = null;
+let new_firstname = randomstring.generate({ length: 7 });
+let new_lastname = randomstring.generate({ length: 7 });
+
+
+
+var limit  = 10,
+    offset = 0,
+    fields = "email,firstname,stripeId",
+    wrongFields = "email, firstnam ,stripe_i";
+
+var version = '1.1.1',
+    firstname = 'test-1',
+    lastname = 'TEST-1',
+    phone_prefix_indicator = '+33',
+    phone_number = '606060601',
+    currency = 'euros',
+    tutorial = true,
+    status = 0,
+    stripe_id = '1sdf3dsf212-56sdf413sdf21',
+    birthdate = '01/01/97',
+    gender = 0,
+    username = 'test_1',
+    salt = 'salt-1',
+    password = 'passwd-1',
+    active = true,
+    email = Math.random()+'test-1@email.net',
+    photo_url = 'https://s-media-cache-ak0.pinimg.com/originals/09/a5/97/09a5971659ce3d91a5770f78862a8094.jpg';
+
+
+
+
+// test middlewares
+app.get('/test/middlware/isLoggedIn', isLoggedIn, function(req, res, next) {
+    if (!req.user)
+	res.status(401).json({n: 0, message: "Pas de token ou alors token expiré !"});
+    else if (req.user instanceof User)
+	res.status(200).json({n: 1, message: req.user});
+    else if (req.user instanceof Coach)
+	res.status(200).json({n: 2, message: req.user});
+    else if (req.user instanceof Admin)
+	res.status(200).json({n: 3, message: req.user});
+});
+
+describe('Middlewares', () => {
+
+    it('should say that there is no token', done => {
+	request(app)
+	    .get('/test/middlware/isLoggedIn')
+	    .expect(401).expect(res => {
+		res.body.n.should.equal(0);
+	    }).end(done);
+    });
+
+    it('Should create and connect on coach for the needs of our precious tests ', done => {
+        request(app)
+            .post('/api/v1/subscribe/coach')
+            .type('form')
+            .send({'version' : version })
+	    .send({'firstname' : firstname })
+	    .send({'lastname' : lastname })
+	    .send({'phonePrefixNumber' : phone_prefix_indicator})
+	    .send({'phoneNumber' : phone_number })
+	    .send({'currency' : currency })
+	    .send({'tutorial' : tutorial })
+	    .send({'status' : status })
+	    .send({'stripeId' : stripe_id })
+	    .send({'birthDate' : birthdate })
+	    .send({'gender' : gender })
+	    .send({'username' : username })
+	    .send({'salt' : salt })
+	    .send({'password' : password })
+	    .send({'active' : active })
+	    .send({'email' : email })
+	    .send({'photoUrl' : photo_url })
+            .expect(200).expect(res => {
+		TOKEN = res.body.data.token;
+            }).end(done);
+    });
+
+    it('should pass because I am a Coach ... ', done => {
+	request(app)
+	    .get('/test/middlware/isLoggedIn')
+            .set({'Authorization': TOKEN})
+	    .expect(200).expect(res => {
+		res.body.n.should.equal(2);
+	    }).end(done);
+    });
+
+    it('can create a new user through the API', done => {
+        request(app)
+            .post('/api/v1/users')
+            .type('form')
+            .send({ 'firstname': firstname})
+	    .send({ 'lastname': lastname})
+	    .send({ 'phoneNumber': phone_number})
+	    .send({ 'phonePrefixNumber': phone_prefix_indicator})
+	    .send({ 'email': email})
+	    .send({ 'birthDate': birthdate})
+	    .send({ 'gender': gender})
+	    .send({ 'password': password})
+            .expect(200).expect(function(res) {
+		TOKEN = res.body.data.token;
+            }).end(done);
+    });
+
+    it('should pass because I am a Fiter ... ', done => {
+	request(app)
+	    .get('/test/middlware/isLoggedIn')
+            .set({'Authorization': TOKEN})
+	    .expect(200).expect(res => {
+		res.body.n.should.equal(1);
+	    }).end(done);
+    });
+
+    it('should connect admin for the needs of our marvellous tests', done => {
+	request(app)
+	    .post('/api/v1/admin/auth')
+	    .type('form')
+	    .send({'login': 'root'})
+	    .send({'password': 'root'})
+	    .expect(200).expect(res => {
+		TOKEN = res.body.data.token;
+	    });
+    });
+
+    it('should pass because I am an Admin ... ', done => {
+	request(app)
+	    .get('/test/middlware/isLoggedIn')
+            .set({'Authorization': TOKEN})
+	    .expect(200).expect(res => {
+		res.body.n.should.equal(3);
+	    }).end(done);
+    });
+
+});

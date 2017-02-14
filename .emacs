@@ -11,10 +11,6 @@
 			   ("marmalade" . "http://marmalade-repo.org/packages/")))
   )
 
-
-;; emacsclient
-(add-hook 'after-init-hook 'server-start)
-
 ;; packages
 (setq package-list
       (list
@@ -24,7 +20,6 @@
        'multiple-cursors      ; ST-like multiple cursors
        'rainbow-delimiters    ; rainbowy parens/braces/...
        'zlc                   ; zsh for emacs
-
 
        'rust-mode             ; Rust mode
        'toml-mode             ; TOML mode
@@ -43,6 +38,8 @@
        'json-reformat         ; format JSON
        'sr-speedbar           ; menu bar
        'yasnippet             ; snippets for emacs
+       'helm                  ; Helm
+       'smex                  ; M-x
        ;; 'auto-complete         ; autocompletion
        ;; 'autocomplete-config   ; autocompletion conf
 
@@ -115,6 +112,9 @@
     (define-key map (kbd "C-c C-<right>") 'hs-show-all)
     (define-key map (kbd "C-c <left>") 'hs-hide-block)
     (define-key map (kbd "C-c <right>") 'hs-show-block)
+
+
+    (define-key map (kbd "C-f") 'helm-swoop)
 
     map)
   "my-keys-minor-mode keymap.")

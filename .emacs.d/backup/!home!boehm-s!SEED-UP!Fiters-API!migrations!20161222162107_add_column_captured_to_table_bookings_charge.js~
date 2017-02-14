@@ -1,0 +1,15 @@
+exports.up = function(knex, Promise) {
+    return Promise.all([
+        knex.schema.alterTable('bookings_charge', function(table) {
+            table.string('refundAmount');
+        })
+    ]);
+};
+
+exports.down = function(knex, Promise) {
+    return Promise.all([
+	knex.schema.alterTable('bookings_charge', function(table) {
+            table.dropColumn('refundAmount');
+	})
+    ]);
+};

@@ -1,0 +1,107 @@
+{
+  "firstWeek" : [
+    {
+      "day":1480287600,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : true
+    },
+    {
+      "day" : 1480374000,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    },
+    {
+      "day" : 1480460400,
+      "availableMorning" : false,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    },
+    {
+      "day" : 1480546800,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    },
+    {
+      "day" : 1480633200,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    },
+    {
+      "day" : 1480719600,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    },
+    {
+      "day" : 1480806000,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false }
+  ],
+
+  "secondWeek" :  [
+    {
+      "day" : 1480892400,
+      "availableMorning" : false,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    },
+    {
+      "day" : 1480978800,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : true
+    },
+    {
+      "day" : 1481065200,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    },
+    {
+      "day" : 1481151600,
+      "availableMorning" : false,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : true
+    },
+    {
+      "day" : 1481238000,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    },
+    {
+      "day" : 1481324400,
+      "availableMorning" : false,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    },
+    {
+      "day" : 1481410800,
+      "availableMorning" : true,
+      "availableNoon" : true,
+      "availableAfternoon" : true,
+      "availableEvening" : false
+    }
+  ],
+
+  "firstWeekNumber" :  48,
+  "secondWeekNumber" :  49
+}

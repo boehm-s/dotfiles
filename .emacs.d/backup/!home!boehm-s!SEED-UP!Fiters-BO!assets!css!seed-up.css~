@@ -1,0 +1,58 @@
+.table > tbody:first-child > tr {
+  border-bottom: 2px solid black;
+}
+
+#list-coachs > tr > td,
+#list-coachs > tr > th {
+  width: 25px;
+}
+
+#list-coachs > tr > td > .checkbox,
+.table tr > th > .checkbox {
+  width: 0;
+}
+
+#list-coachs > tr > td > div,
+.table tr > th > div {
+  display: inline-block;
+  text-align: center;
+}
+
+.table .coach-id-head,
+#list-coachs .coach-id {
+  width: 40px;
+}
+
+.table .coach-name-head,
+#list-coachs .coach-name {
+  width: 200px;
+}
+
+.table .coach-email-head,
+#list-coachs .coach-email {
+  width: 250px;
+}
+
+.table .coach-phone-head,
+#list-coachs .coach-phone {
+  width: 150px;
+}
+
+.table .coach-confirmed-head,
+#list-coachs .coach-confirmed {
+  width: 200px;
+}
+
+
+.table .icon {
+  display: inline-block;
+}
+
+.table .icon > i {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#search-coach {
+  height: 30px;
+}

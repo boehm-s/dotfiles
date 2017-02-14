@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<!--[if IE 7]> <html class="no-js ie7" lang="fr"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8" lang="fr"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="fr"> <!--<![endif]-->
+
+  <head><link rel="icon" type="image/png" href="assets/images/favicon.png" /><script>   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');   ga('create', 'UA-87668135-1', 'auto');   ga('send', 'pageview');</script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimal-ui, initial-scale=1">
+    <meta name="robots" content="index, follow, all">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.png" />
+    <title>Fiters</title>
+    <meta name="description" content="" />
+    <meta name="author" content="vente-privee.com" />
+    <meta property="og:site_name" content="" />
+    <meta property="og:title" content="T" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:description" content="" />
+
+    <!--
+	 | ==========================
+	 | Favicon et compagnie
+	 | ==========================   -->
+
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/favicon/apple-touch-icon.png"> <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-32x32.png" sizes="32x32"> <link rel="icon" type="image/png" href="/assets/images/favicon/favicon-16x16.png" sizes="16x16"> <link rel="manifest" href="/assets/images/favicon/manifest.json"> <link rel="mask-icon" href="/assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5"> <meta name="theme-color" content="#ffffff">
+
+    <!--
+	 | ==========================
+	 | Typographie - Google Fonts
+	 | ==========================   -->
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+    <!--
+	 | ==========================
+	 | Favicon Fiters
+	 | ==========================   -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!--
+	 | =====================
+	 | Included Scripts Files
+	 | =====================   -->
+
+    <script src="assets/scripts/libs/modernizr.js"></script>
+    <script src="assets/scripts/libs/detectizr.js"></script>
+
+    <!--
+	 | =====================
+	 | Included CSS Files
+	 | =====================   -->
+    <link href="assets/scripts/libs/video.js/dist/video-js.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="assets/styles/article.css">
+    <link rel="stylesheet" href="assets/styles/main.css">
+
+  </head>
+
+  <body>
+
+    <div id="app-route">
+      <!-- HEADER START -->
+      <header class="header-top">
+        <div class="container-fluid clearfix">
+          <div class="col-md-1 col-xs-2">
+            <button class="hamburger hamburger--collapse" id="trigger-overlay"  type="button">
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+            </button>
+          </div>
+
+          <div class="col-md-2 col-xs-10">
+            <a href="fiters.html" class="logo-fiters">Fiters</a>
+          </div>
+          <div class="col-md-6 hidden-sm hidden-xs">
+            <ul class="nav navbar-nav">
+              <li><a href="fiters.html">Fiters</a></li>
+              <li><a href="coachs.html" class="">Coachs</a></li>
+              <li><a href="ce.html" class="active">Solutions CE</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 text-md-right hidden-sm hidden-xs">
+            <!-- <a href="subscribe-coach.html"  class="btn btn-primary">Devenez Coach</a> -->
+          </div>
+        </div>
+      </header>
+      <!-- HEADER END -->
+
+
+
+      <div id="article1" class="main row">
+        <section id="banner-title" class="banner-wrapper screen1-mobile ce-banner col-xs-12">
+          <h1> MMA assure Fiters sur toute la ligne </h1>
+          <div class="date"> December 6, 2016 </div>
+        </section>
+        <section id="main-image-container" class="col-xs-12">
+          <div id="main-image">
+          </div>
+        </section>
+        <article id="article" class="col-xs-12">
+          <div class="article-left col-md-6 col-xs-12">
+            <div id="article-hook" class="col-xs-12">
+              Le partenariat entre Fiters et MMA est tout sauf hasardeux. Son objectif est que tout se passe pour le mieux, tant du côté des coaches que des clients Fiters.
+              Fabien Oslizlo, assureur chez MMA depuis 1999, a conçu le programme d'assurance spécifique pour l'ensemble des coaches Fiters. Rencontre.
+              <div id="article-hook-social">
+                <ul class="social-links">
+                  <li><a target="_blank" href="https://www.facebook.com/fiters.co/?fref=ts"><i class="fa fa-facebook"></i></a></li>
+                  <li><a target="_blank" href="https://www.linkedin.com/company/11005345"><i class="fa fa-linkedin"></i></a></li>
+                  <li><a target="_blank" href="http://instagram.com/fiters_france/"><i class="fa fa-instagram"></i></a></li>
+                </ul>
+
+              </div>
+            </div>
+          </div>
+          <div class="article-right col-md-6 col-xs-12">
+            <div id="article-first-part">
+              <h3> Pourquoi les coaches Fiters ont-ils besoin d'une assurance ? </h3>
+              <p>
+                Par essence, un coach a des relations privilégiées avec ses clients.
+                Tant que tout se passe bien, il est content de faire son métier.
+                Mais le jour où arrive une mauvaise surprise, par exemple un client qui se blesse, il peut y avoir des conséquences.
+                Notre rôle est de prévoir ces conséquences et la responsabilité du coach afin de la couvrir.
+                Pour Fiters, nous sommes allés plus loin : nous avons également mis en place une protection juridique.
+                S'il y a un litige, MMA va payer les frais d'avocats pour défendre le coach.
+              </p>
+
+              <h3> Quel est l'avantage de cette assurance MMA pour le client Fiters ? </h3>
+              <p>
+                L'intérêt pour le client est qu'il est certain que le coach est assuré si par malheur il arrivait quelque chose.
+              </p>
+
+              <h3> Êtes-vous allé plus loin pour répondre aux besoins des coaches Fiters ? </h3>
+              <p>
+                Pour accompagner au maximum les coaches et leur permettre d'exercer pleinement leur métier, nous leur offrons également un programme complet d'assurance.
+                En plus des garanties de base du pack Fiters, qui assurent l'activité et la responsabilité, nous leur proposons une complémentaire santé, mais aussi diverses assurance à des tarifs préférentiels.
+                Afin de mieux les connaître et adapter nos offres à chaque coach Fiters, nous mettons aussi à leur disposition des bilans personnalisés.
+              </p>
+            </div>
+          </div>
+
+          <div id="article-mid-img" class="col-xs-12">
+          </div>
+
+          <div class="article-left col-md-6 col-xs-12"></div>
+          <div class="article-right col-md-6 col-xs-12">
+            <div id="article-second-part">
+              <h3> Pourquoi avez-vous accepté de collaborer avec Fiters ? </h3>
+              <p>
+                La collaboration entre MMA et Fiters est une histoire de personnes.
+                Dès notre première rencontre, ça a tout de suit "fité", si jeu peux me permettre ce jeu de mot.
+                Le projet Fiters, et les personnes qui le portent, nous ont tout de suit séduits.
+                C'es très important pour nous car nous recherchons une relation de confiance. Nous avons donc élaboré une solution adaptée aux besoins de Fiters.
+                Notre offre est totalement dédiée à Fiters.
+              </p>
+
+              <h3> Le partenariat avec Fiters représente-t-il un challenge pour MMA ? </h3>
+              <p>
+                Ce projet est innovant et dans l'ère du temps.
+                Ftiers propose une offre digitale très concrète.
+                Le challenge pour nous a donc été de mettre en place une solution tout aussi innovante que le projet Fiters.
+                Enfin, la dimension sportive, de santé et de bien-être du projet Fiters colle parfaitement à nos valeurs.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <section id="next-article" class="col-xs-12">
+          <div id="next-article-img">
+            <p id="next-article-hook"> NEXT ARTICLE </p>
+            <h2 id="next-article-title"> La grande famille des coachs </h2>
+          </div>
+        </section>
+
+
+
+
+      </div>
+      <div class="modal-overlay"></div>
+
+
+      <!-- FOOTER START -->
+      <footer>
+        <div class="footer-fiters-top">
+          <div class="footer-inner">
+            <div class="footer-row xs-text-center clearfix">
+              <div class="col-md-4">
+                <a href="index.html"><img src="assets/images/nav/logo-white.png" /></a>
+              </div>
+              <div class="col-md-8">
+                <ul class="inline-buttons buttons-bottom">
+                  <li><a href="subscribe.html" type="button" class="btn btn-primary">Inscrivez-vous</a></li>
+                  <li><a href="subscribe-coach.html" type="button" class="btn btn-default">Devenez coach</a></li>
+                  <li><a href="#" type="button" class="btn btn-default">Créer votre room</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-row clearfix">
+              <div class="col-md-4">
+                <div class="dropdown">
+                  <input class="dropdown-toggle" type="text">
+                  <div class="dropdown-text">Français</div>
+                  <ul class="dropdown-content">
+                    <li><a href="#">Espagnol</a></li>
+                    <li><a href="#">Italien</a></li>
+                    <li><a href="#">Anglais</a></li>
+                  </ul>
+                </div>
+                <ul class="social-links">
+                  <li><a target="_blank" href="https://www.facebook.com/fiters.co/?fref=ts"><i class="fa fa-facebook"></i></a></li>
+                  <li><a target="_blank" href="https://www.linkedin.com/company/11005345"><i class="fa fa-linkedin"></i></a></li>
+                  <li><a target="_blank" href="http://instagram.com/fiters_france/"><i class="fa fa-instagram"></i></a></li>
+                </ul>
+              </div>
+              <div class="col-md-4 col-xs-6">
+                <ul class="nav-f">
+                  <li><a href="fiters.html">Fiters</a></li>
+                  <li><a href="coachs.html">Coach</a></li>
+                  <li><a href="#">Room</a></li>
+                  <li><a href="#">Solutions professionnelles</a></li>
+                  <li><a href="#">Sécurité</a></li>
+                </ul>
+              </div>
+              <div class="col-md-4 col-xs-6">
+                <ul  class="nav-f">
+                  <li><a href="#">API Fiters</a></li>
+                  <li><a href="#">Solutions CE</a></li>
+                  <li><a href="#">Media / Press</a></li>
+                  <li><a href="#">Notre Histoire</a></li>
+                  <li><a href="#">Aide</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-row clearfix">
+              <ul class="logos">
+                <li class="col-md-2"> Nos partenaires</li>
+                <li class="col-md-2"><a href="http://www.casall.se/" target="_blank"><img src="assets/images/logos/1-casall.png" alt="" /></a></li>
+                <li class="col-md-2"><a href="http://www.lecoqsportif.com/fr-fr/" target="_blank"><img src="assets/images/logos/2-CoqSportif.png" alt="" /></a></li>
+                <li class="col-md-2"><a href="http://www.ey.com/fr/fr" target="_blank"><img src="assets/images/logos/3-ey.png" alt="" /></a></li>
+                <li class="col-md-2"><a href="https://www.mma.fr/" target="_blank"><img src="assets/images/logos/4-mma.png" alt="" /></a></li>
+              </ul>
+            </div>
+            <div class="footer-row clearfix">
+              <ul class="get-app">
+                <li><a href="#"><img src="assets/images/footer/get-apple.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="assets/images/footer/get-gplay.jpg" alt="" /></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-fiters-bottom">
+          <div class="footer-inner clearfix">
+            <div class="col-md-10 col-md-push-2 menu-inline ">
+              <ul class="pull-md-right inline-buttons">
+                <li><a href="#">Confidentialité</a></li>
+                <li><a href="#">Conditions Générales d'Utilisation</a></li>
+              </ul>
+            </div>
+            <div class="col-md-2 col-md-pull-10  xs-text-center">
+              <h5>© 2016 Fiters</h5>
+            </div>
+
+          </div>
+        </div>
+      </footer>
+      <!-- FOOTER END -->
+
+    </div>
+    <!-- Menu Overlay  -->
+    <div class="overlay overlay-scale">
+      <button type="button" class="overlay-close">Close</button>
+      <nav>
+	<ul>
+	  <li><a href="fiters.html">Fiters</a></li>
+	  <li><a href="coachs.html">Coachs</a></li>
+	  <li><a href="ce.html">Solutions CE</a></li>
+	</ul>
+      </nav>
+
+      <div class="overlay-bottom pos-f-b">
+	<ul>
+	  <li><a href="subscribe.html"  class="btn btn-primary">S’inscrire</a></li>
+          <li><a href="subscribe-coach.html"  class="btn btn-default">Devenez coach</a></li>
+          <li><a href="#" class="btn btn-default">Créer votre room</a></li>
+	</ul>
+
+	<ul>
+	  <li><a href="#">Aide</a></li>
+	  <li><a href="#">Solutions professionnelles</a></li>
+	  <li><a href="#">Solutions CE</a></li>
+	</ul>
+      </div>
+    </div>
+
+    <!-- SCRIPTs AT THE END  -->
+    <script src="assets/scripts/libs/jquery.js" type="text/javascript"></script>
+    <script src="assets/scripts/libs/classie.js" type="text/javascript"></script>
+    <script src="assets/scripts/libs/unslider.js"></script>
+    <script src="assets/scripts/fct.js" type="text/javascript"></script>
+    <script src="assets/scripts/init.js" type="text/javascript"></script>
+    <script type="text/javascript">
+     $(document).ready(function(){
+       var s= $(".slick-phone"),
+           p= $(".phone-f-b"),
+           h= p.height(),
+           r= 308/540
+       n= h*r;
+
+       var c = $(".iblock-coach-img").parent().height();
+       if($(window).width()>991) {
+         $(".iblock-coach-text").height(c);
+       }
+       //console.log(c)
+
+       if($(window).width()<991) {
+         console.log(n)
+         // s.height(n);
+       }
+
+       $("#progress0").addClass("on");
+       setTimeout(function(){
+         $("#bar1").addClass("active");
+       }, 400);
+       var slider = $('#fiters-slider').unslider({ autoplay: true, delay: 3000, arrows: false, nav: false });
+
+       //  When the slider has been set up, fire the event off.
+       slider.on('unslider.ready', function() {
+         alert('Slider is set up!');
+       });
+
+       slider.on('unslider.change', function(event, index, slide) {
+         var i = index;
+         $("#progress"+i).addClass("on");
+         changeClassPhone();
+       });
+
+       function changeClassPhone() {
+         if($("#slide-f-1").hasClass("unslider-active")) {
+           $("#iphone-pos").removeClass();
+           $("#iphone-pos").addClass("left1");
+           $(".nbr-progress").removeClass("on");
+           $("#progress0").addClass("on");
+           setTimeout(function(){
+             $("#bar1").addClass("active");
+           }, 400);
+
+         }
+         if($("#slide-f-2").hasClass("unslider-active")) {
+           $("#iphone-pos").removeClass();
+           $("#iphone-pos").addClass("left2");
+           $("#bar2").addClass("active");
+
+         }
+         if($("#slide-f-3").hasClass("unslider-active")) {
+           $("#iphone-pos").removeClass();
+           $("#iphone-pos").addClass("left3");
+           setTimeout(function(){
+             $(".progress-bar").removeClass("active");
+           }, 2800);
+
+         }
+       };
+     });
+    </script>
+
+  </body>
+
+</html>

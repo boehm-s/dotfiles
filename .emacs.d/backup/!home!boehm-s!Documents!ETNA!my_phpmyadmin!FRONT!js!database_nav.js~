@@ -1,0 +1,10 @@
+var buildSqlDbContainer = function(databases) {
+    var html = databases.map(function(db) {
+	var tables = db.tables.map(function(table) {
+	    return ['<div class="sql_table">', table, '</div>'].join('');
+	}).join('');
+	return ['<div class="sql_db">', tables, '</div>'].join('');
+    }).join('');
+
+    SQL_DB_NAV_CONTAINER.innerHTML = html;
+};

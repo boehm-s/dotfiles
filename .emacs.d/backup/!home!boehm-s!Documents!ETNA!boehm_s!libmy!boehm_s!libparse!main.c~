@@ -1,0 +1,34 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include "liblist/list.h"
+#include "libparse.h"
+
+#define my_printf printf
+
+void	    display(void *data);
+
+int	    main(int argc, char **argv) {
+  t_list    *args;
+
+  args = parse(argc, argv);
+  args->display = &display;
+  printf("YEP\n");
+
+  list_display_list(args);
+
+  return (0);
+}
+
+void	    display(void *data) {
+  my_printf("---------------------------------------");
+  if (((t_option *)data)->is_arg == 1)
+    my_printf("OPTION\n");
+  else
+    my_printf("ARGUMENT\n");
+  my_printf("Value : %s\n", ((t_option *)data)->value);
+  my_printf("Value Option : %s\n", ((t_option *)data)->value_opt);
+
+  my_printf("_______________________________________");
+}
