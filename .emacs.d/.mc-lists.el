@@ -15,6 +15,7 @@
 	downcase-region
 	duplicate-line
 	find-file
+	hs-hide-block
 	hs-show-block
 	indent-for-tab-command
 	kill-region
@@ -26,7 +27,7 @@
 	org-self-insert-command
 	org-shiftright
 	org-yank
-	package-menu-mark-install
+	phi-search
 	tab-to-tab-stop
 	tern-ac-dot-complete
 	tern-rename-variable

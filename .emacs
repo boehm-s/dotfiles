@@ -41,6 +41,8 @@
        'helm                  ; Helm
        'smex                  ; M-x
        'ido                   ; manage buffers
+       'phi-search            ; replace isearch
+
        ;; 'auto-complete         ; autocompletion
        ;; 'autocomplete-config   ; autocompletion conf
 
@@ -114,6 +116,8 @@
     (define-key map (kbd "C-c <left>") 'hs-hide-block)
     (define-key map (kbd "C-c <right>") 'hs-show-block)
 
+    (define-key map (kbd "C-s") 'phi-search)
+    (define-key map (kbd "C-r") 'phi-search-backward)
 
     (define-key map (kbd "C-f") 'helm-swoop)
 
