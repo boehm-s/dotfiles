@@ -102,6 +102,10 @@
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
 
+    ;; helm
+    (define-key map (kbd "M-x") 'helm-M-x)
+    (define-key map (kbd "C-x C-f") 'helm-find-files)
+
     (define-key map (kbd "M-z") 'vim-prompt)
 
     (define-key map (kbd "C-c C-SPC") 'comment-dwim)
