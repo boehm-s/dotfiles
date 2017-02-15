@@ -42,7 +42,7 @@
        'smex                  ; M-x
        'ido                   ; manage buffers
        'phi-search            ; replace isearch
-
+       'linum-relative        ; linum relative
        ;; 'auto-complete         ; autocompletion
        ;; 'autocomplete-config   ; autocompletion conf
 

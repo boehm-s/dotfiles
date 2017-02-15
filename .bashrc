@@ -8,7 +8,7 @@ export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
 export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
 
-\emacs --daemon
+# \emacs --daemon
 
 # If not running interactively, don't do anything
 case $- in
@@ -99,7 +99,7 @@ fi
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
-alias emacs='emacsclient'
+alias emacs='emacs -nw'
 alias sudo='sudo '
 alias pp='rm -rf *~'
 alias catt='pygmentize'
