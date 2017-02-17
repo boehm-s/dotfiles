@@ -88,7 +88,7 @@
 (global-set-key (kbd "C-x C-<left>")  'split-and-find-file-H)
 (global-set-key (kbd "C-x C-<up>")    'split-and-find-file-V)
 (global-set-key (kbd "C-x C-<down>")  'split-and-find-file-V)
-
+6
 (global-set-key (kbd "C-x <left>")  'windmove-left)
 (global-set-key (kbd "C-x <right>") 'windmove-right)
 (global-set-key (kbd "C-x <up>")    'windmove-up)
