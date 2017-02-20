@@ -43,6 +43,7 @@
        'ido                   ; manage buffers
        'phi-search            ; replace isearch
        'linum-relative        ; linum relative
+       'emmet-mode            ; emmet mode
        ;; 'auto-complete         ; autocompletion
        ;; 'autocomplete-config   ; autocompletion conf
 
@@ -57,7 +58,7 @@
 ;; modes per files type
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda() (web-mode) (emmet-mode))))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
@@ -105,6 +106,7 @@
     ;; helm
     (define-key map (kbd "M-x") 'helm-M-x)
     (define-key map (kbd "C-x C-f") 'helm-find-files)
+    (define-key map (kbd "C-x C-e") 'emmet-preview)
 
     (define-key map (kbd "M-z") 'vim-prompt)
 

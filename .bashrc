@@ -8,6 +8,9 @@ export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
 export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
 
+export ANDROID_HOME=/root/Android/Sdk
+export NDK_HOME=/opt/android-ndk-r13b
+
 # \emacs --daemon
 
 # If not running interactively, don't do anything
