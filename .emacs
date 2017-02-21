@@ -56,7 +56,7 @@
 (add-to-list 'load-path "~/.emacs.d/elpa")
 
 ;; modes per files type
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (js2-mode) (company-mode) (company-tern) )))
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda() (web-mode) (emmet-mode))))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
@@ -70,8 +70,6 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . (lambda() (markdown-mode) (setq-default indent-tabs-mode nil)) ))
 (add-to-list 'auto-mode-alist '("\\.c\\'" . (c++-mode)))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . (c++-mode)))
-
-
 
 (load "~/.emacs.d/custom.el")
 (load "~/.emacs.d/experiment.el")
