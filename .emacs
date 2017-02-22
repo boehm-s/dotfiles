@@ -68,8 +68,8 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . (lambda() (markdown-mode) (setq-default indent-tabs-mode nil)) ))
-(add-to-list 'auto-mode-alist '("\\.c\\'" . (c++-mode)))
-(add-to-list 'auto-mode-alist '("\\.h\\'" . (c++-mode)))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . (c-mode)))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . (c-mode)))
 
 (load "~/.emacs.d/custom.el")
 (load "~/.emacs.d/experiment.el")
