@@ -83,8 +83,21 @@ It shows undefined variables, functions with side effects, functions that doesn'
 
 `company-mode` allows fast autocomplete (better than `autocomplete`).
 
+### custom-prompt
+
+<kbd>ALT</kbd>+<kbd>z</kbd> will execute `custom-prompt` function. This little function is located at the following place :
+
+> .emacs.d/experiment.el
+
+For the moment, here are the few features of this prompt (more will come) :
+
+* `:*number*` : go to line *number*
+* `d*number*` : delete the next *number* lines
+
+
 ## TODO
 
+- [ ] Auto-install missing packages
 - [ ] Create different configurations for emacs in terminal and emacs with GUI
 - [ ] Optimization : prevent useless minor-modes or scripts from being used while they are unnecessary
 - [ ] Optimization : make it work with emacsclient (emacs as a daemon)
