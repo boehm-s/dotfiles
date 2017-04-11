@@ -10,6 +10,7 @@
 	c-electric-semi&comma
 	c-electric-slash
 	c-electric-star
+	c-toggle-electric-state
 	comment-dwim
 	dabbrev-expand
 	downcase-region
@@ -18,6 +19,7 @@
 	hs-hide-block
 	hs-show-block
 	indent-for-tab-command
+	jade-newline-and-indent
 	kill-region
 	list-directory
 	markdown-cycle
@@ -28,6 +30,7 @@
 	org-shiftright
 	org-yank
 	phi-search
+	split-and-find-file-V
 	tab-to-tab-stop
 	tern-ac-dot-complete
 	tern-rename-variable

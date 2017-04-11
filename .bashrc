@@ -4,12 +4,14 @@
 
 source $HOME/.cargo/env
 
-export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
-export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
+export ALTERNATE_EDITOR="gedit"
+export EDITOR="emacs -nw"
 
 export ANDROID_HOME=/root/Android/Sdk
 export NDK_HOME=/opt/android-ndk-r13b
+export ANDROID_NDK_ROOT=/opt/android-ndk-r13b
+export NDK_TOOLCHAIN=/opt/android-ndk-r13b/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
+export NDK_SYSROOT=/opt/android-ndk-r13b/platforms/android-18/arch-arm/
 
 # \emacs --daemon
 
@@ -104,7 +106,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias emacs='emacs -nw'
 alias sudo='sudo '
-alias pp='rm -rf *~'
+alias pp='rm -rf *~ \#*\#'
 alias catt='pygmentize'
 alias norme='/opt/norme.py -nocheat'
 

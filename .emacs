@@ -61,6 +61,7 @@
 (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda() (web-mode) (emmet-mode))))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.handlebars\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.coffee\\'" . coffee-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
@@ -96,6 +97,9 @@
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
 
+    ;; company tab
+    ;; (define-key map (kbd "<tab>") 'company-complete-selection)
+
     ;; helm
     (define-key map (kbd "M-x") 'helm-M-x)
     (define-key map (kbd "C-x C-f") 'helm-find-files)
@@ -130,7 +134,8 @@
 (my-keys-minor-mode 1)
 
 
-
+;; active company-mode
+(global-company-mode)
 
 ;; Header ETNA
 (load-file "~/.emacs.d/std_comment.el")
