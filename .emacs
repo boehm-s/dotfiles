@@ -103,7 +103,7 @@
     (define-key map (kbd "C-x C-f") 'helm-find-files)
     (define-key map (kbd "C-x C-e") 'emmet-preview)
 
-    (define-key map (kbd "M-z") 'vim-prompt)
+    (define-key map (kbd "M-z") 'custom-prompt)
 
     (define-key map (kbd "C-c C-SPC") 'comment-dwim)
     (global-set-key (kbd "C-d") 'duplicate-line)

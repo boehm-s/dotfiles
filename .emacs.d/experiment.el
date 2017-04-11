@@ -20,7 +20,7 @@
 	      "';")))
     (setq deactivate-mark t))
 
-(defun vim-prompt (str)
+(defun custom-prompt (str)
   (interactive
    (list
     (read-string "vim command : ")))
