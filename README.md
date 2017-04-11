@@ -1,2 +1,59 @@
-# custom-emacs
-.emacs file for custom functions and shortcuts
+# Dotfiles
+
+Here are my configuration files (especially **emacs** !)
+
+## Emacs
+
+Here are the languages, frameworks and technologies that I often use :
+
+* NodeJS / Javascript (ES6)
+* PostgreSQL / SQLite / SQL
+* Rust
+* C
+* Angular / React
+* Pug (Jade) / Handlebars / HTML
+* SASS / LESS / CSS
+* Emacs Lisp
+* Markdown / JSON
+* Git / SVN
+* PHP when I have no choice :'(
+
+## Shortcuts :
+
+### Window (Buffer) manipulation :
+
+| Shortcut                                                              | Action        |
+| --------------------------------------------------------------------- |:-------------:|
+| <kbd>CTRL</kbd>+<kbd>x</kbd>  <kbd>CTRL</kbd>+<kbd>&#9654;</kbd>      | Vertically split the screen and let you choose a file to open in the right part of the screen  |
+| <kbd>CTRL</kbd>+<kbd>x</kbd>  <kbd>CTRL</kbd>+<kbd>&#9660;</kbd>      | Horizontally split the screen and let you choose a file to open in the lower part of the screen|
+| <kbd>CTRL</kbd>+<kbd>x</kbd>  <kbd>CTRL</kbd>+<kbd>x</kbd>            | Kill (exit) the current window, if there are others ones|
+| <kbd>ALT</kbd>+(<kbd>SHIFT</kbd>) + <kbd>&#9654;</kbd>                | Move to window right|
+| <kbd>ALT</kbd>+(<kbd>SHIFT</kbd>) + <kbd>&#9664;</kbd>                | Move to window left |
+| <kbd>ALT</kbd>+(<kbd>SHIFT</kbd>) + <kbd>&#9650;</kbd>                | Move to window top  |
+| <kbd>ALT</kbd>+(<kbd>SHIFT</kbd>) + <kbd>&#9660;</kbd>                | Move to window down |
+| <kbd>CTRL</kbd>+<kbd>x</kbd>  <kbd>CTRL</kbd>+<kbd>m</kbd>            | Open a menu-bar (*neotree*)|
+
+
+### Search
+
+| Shortcut                                                              | Action        |
+| <kbd>CTRL</kbd>+<kbd>f</kbd>                                          | Search (*helm-swoop*)|
+| <kbd>CTRL</kbd>+<kbd>x</kbd> <kbd>CTRL</kbd>+<kbd>f</kbd>             | Search for a file to load in the current window (*helm-find-file*)|
+| <kbd>CTRL</kbd>+<kbd>s</kbd>                                          | Search forward (*phi-search*)|
+| <kbd>CTRL</kbd>+<kbd>r</kbd>                                          | Search backward (*phi-search-backward*)|
+
+
+### Multiple cursors
+
+| Shortcut                                                              | Action        |
+| <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>CTRL</kbd>+<kbd>s</kbd>             | Set a new cursor at the next occurence of the selected word (*mc/mark-next-like-this-word*)|
+| <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>CTRL</kbd>+<kbd>r</kbd>             | Set a new cursor at the previous occurence of the selected word (*mc/mark-previous-like-this-word*)|
+| <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>ENTER</kbd>                         | Set cursors on region (*mc/edit-lines*)|
+
+### Hide and show blocks of code
+
+| Shortcut                                                              | Action        |
+| <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>CTRL</kbd>+<kbd>&#9664;</kbd>       | Hide all blocks of code [`{...}`] (*hs-hide-all*)|
+| <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>CTRL</kbd>+<kbd>&#9654;</kbd>       | Show all blocks of code (*hs-show-all*)|
+| <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>&#9664;</kbd>                       | Hide current block of code [`{...}`] (*hs-hide-block*)|
+| <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>&#9654;</kbd>                       | Show current block of code (*hs-show-block*)|

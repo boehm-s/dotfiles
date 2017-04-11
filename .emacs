@@ -97,8 +97,6 @@
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
 
-    ;; company tab
-    ;; (define-key map (kbd "<tab>") 'company-complete-selection)
 
     ;; helm
     (define-key map (kbd "M-x") 'helm-M-x)
@@ -132,7 +130,6 @@
   :init-value t
   :lighter " my-keys")
 (my-keys-minor-mode 1)
-
 
 ;; active company-mode
 (global-company-mode)
