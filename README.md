@@ -98,7 +98,7 @@ For the moment, here are the few features of this prompt (more will come) :
 ## TODO
 
 - [ ] Auto-install missing packages
-- [ ] Use phi-search only in multiple-cursors mode
+- [x] Use phi-search only in multiple-cursors mode
 - [ ] Create different configurations for emacs in terminal and emacs with GUI
 - [ ] Optimization : prevent useless minor-modes or scripts from being used while they are unnecessary
 - [ ] Optimization : make it work with emacsclient (emacs as a daemon)
