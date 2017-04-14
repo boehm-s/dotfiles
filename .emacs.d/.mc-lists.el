@@ -20,6 +20,7 @@
 	hs-show-block
 	indent-for-tab-command
 	jade-newline-and-indent
+	jade-unindent
 	kill-region
 	list-directory
 	markdown-cycle

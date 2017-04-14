@@ -3,6 +3,88 @@
 ;;; commentary:
 
 
+;; packages
+(setq package-list
+      (list
+
+       'elscreen              ; tabs
+       'emmet-mode            ; emmet mode
+       'esqlite               ; sqlite
+       'f                     ; Modern API for working with files and directories
+       'google-translate      ; translate in emacs
+       'ido                   ; manage buffers
+       'json-reformat         ; format JSON
+       'js-comint             ; js interpreter
+       'linum-relative        ; linum relative
+       'magit                 ; git integration
+       'magit-popup
+       'multiple-cursors      ; ST-like multiple cursors
+       'neotree               ; menu bar
+       'nodejs-repl           ; nodeJS REPL
+       'nyan-prompt
+       'pcre2el               ; regexp syntax converter
+       'phi-search            ; replace isearch
+       'rainbow-delimiters    ; rainbowy parens/braces/...
+       'request
+       'smex                  ; M-x
+       'sr-speedbar           ; menu bar
+       'tern                  ; Tern-powered JavaScript integration
+       'yasnippet             ; snippets for emacs
+       'zlc                   ; zsh for emacs
+
+       ;; popup
+       'popup
+       'popup-complete
+       'popup-imenu
+       'popup-kill-ring
+       'popup-switcher
+
+       ;; modes
+       'angular-mode
+       'arduino-mode
+       'coffee-mode
+       'dockerfile-mode
+       'emmet-mode
+       'go-mode
+       'handlebars-mode
+       'jade-mode
+       'json-mode
+       'js2-mode
+       'js3-mode
+       'markdown-mode
+       'nyan-mode
+       'php-mode
+       'rust-mode
+       'skewer-mode
+       'toml-mode
+       'top-mode
+       'web-mode
+
+       ;; helm
+       'helm
+       'helm-c-moccur
+       'helm-c-yasnippet
+       'helm-company
+       'helm-core
+       'helm-emmet
+       'helm-swoop
+
+       ;; company
+       'company
+       'company-arduino
+       'company-c-headers
+       'company-go
+       'company-irony
+       'company-php
+       'company-tern
+       'company-web
+
+       ;; 'auto-complete         ; autocompletion
+       ;; 'autocomplete-config   ; autocompletion conf
+
+       ))
+
+
 (when (>= emacs-major-version 24)
   (require 'package)
   (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
@@ -11,47 +93,15 @@
 			   ("marmalade" . "http://marmalade-repo.org/packages/")))
   )
 
-;; packages
-(setq package-list
-      (list
-
-       'magit                 ; git integration
-       'elscreen              ; tabs
-       'multiple-cursors      ; ST-like multiple cursors
-       'rainbow-delimiters    ; rainbowy parens/braces/...
-       'zlc                   ; zsh for emacs
-
-       'rust-mode             ; Rust mode
-       'toml-mode             ; TOML mode
-       'go-mode               ; golang mode
-       'php-mode              ; PHP mode
-       'jade-mode             ; jade mode
-       'js2-mode              ; ES6+ js mode
-       'coffee-mode           ; coffeescript mode
-       'web-mode              ; html/css/php mode
-       'angular-mode          ; angularjs mode for js
-       'json-mode             ; JSON mode
-       'sql-mode              ; SQL mode
-       'markdown-mode         ; Markdown mode
-
-       'nodejs-repl           ; nodeJS REPL
-       'json-reformat         ; format JSON
-       'sr-speedbar           ; menu bar
-       'yasnippet             ; snippets for emacs
-       'helm                  ; Helm
-       'smex                  ; M-x
-       'ido                   ; manage buffers
-       'phi-search            ; replace isearch
-       'linum-relative        ; linum relative
-       'emmet-mode            ; emmet mode
-       ;; 'auto-complete         ; autocompletion
-       ;; 'autocomplete-config   ; autocompletion conf
-
-       'google-translate      ; translate in emacs
-
-       ))
-
 (package-initialize)
+
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(dolist (package package-list)
+  (unless (package-installed-p package)
+        (package-install package)))
+
 
 (add-to-list 'load-path "~/.emacs.d/elpa")
 
