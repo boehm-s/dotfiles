@@ -1,4 +1,4 @@
-;; ;; package --- summary
+;; package --- summary
 ;;; code:
 ;;; commentary:
 
@@ -31,6 +31,8 @@
        'tern                  ; Tern-powered JavaScript integration
        'yasnippet             ; snippets for emacs
        'zlc                   ; zsh for emacs
+
+       'zenburn-theme
 
        ;; popup
        'popup
@@ -81,9 +83,7 @@
 
        ;; 'auto-complete         ; autocompletion
        ;; 'autocomplete-config   ; autocompletion conf
-
        ))
-
 
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -101,7 +101,6 @@
 (dolist (package package-list)
   (unless (package-installed-p package)
         (package-install package)))
-
 
 (add-to-list 'load-path "~/.emacs.d/elpa")
 
@@ -122,6 +121,9 @@
 (add-to-list 'auto-mode-alist '("\\.c\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-mode))
 
+(when (display-graphic-p)
+  (load "~/.emacs.d/gui.el"))
+
 (load "~/.emacs.d/custom.el")
 (load "~/.emacs.d/experiment.el")
 (load "~/.emacs.d/linum.el")
@@ -139,14 +141,19 @@
 (global-set-key (kbd "M-<up>")    'windmove-up)
 (global-set-key (kbd "M-<down>")  'windmove-down)
 
-(global-set-key (kbd "C-x C-x")  'delete-window)
+;; (global-set-key (kbd "C-g s t")  'magit-status)
+;; (global-set-key (kbd "C-g b l")  'magit-blame)
+;; (global-set-key (kbd "C-g c o")  'magit-commit)
+;; (global-set-key (kbd "C-g p s")  'magit-push)
+;; (global-set-key (kbd "C-g p l")  'magit-pull)
 
+
+(global-set-key (kbd "C-x C-x")  'delete-window)
 (global-set-key (kbd "C-x C-m")  'neotree)
 
 ;; minor mode for overriding some major-mode keymap
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
-
 
     ;; helm
     (define-key map (kbd "M-x") 'helm-M-x)
@@ -155,7 +162,7 @@
 
     (define-key map (kbd "M-z") 'custom-prompt)
 
-    (define-key map (kbd "C-c C-SPC") 'comment-dwim)
+    (define-key map (kbd "C-c C-c") 'comment-dwim)
     (global-set-key (kbd "C-d") 'duplicate-line)
 
     (define-key map (kbd "C-c RET") 'mc/edit-lines)
@@ -194,3 +201,45 @@
 ;; (setq-default indent-tabs-mode nil)
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(custom-safe-themes
+   (quote
+    ("f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+ '(fci-rule-color "#383838")
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(vc-annotate-background "#2B2B2B")
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#BC8383")
+     (40 . "#CC9393")
+     (60 . "#DFAF8F")
+     (80 . "#D0BF8F")
+     (100 . "#E0CF9F")
+     (120 . "#F0DFAF")
+     (140 . "#5F7F5F")
+     (160 . "#7F9F7F")
+     (180 . "#8FB28F")
+     (200 . "#9FC59F")
+     (220 . "#AFD8AF")
+     (240 . "#BFEBBF")
+     (260 . "#93E0E3")
+     (280 . "#6CA0A3")
+     (300 . "#7CB8BB")
+     (320 . "#8CD0D3")
+     (340 . "#94BFF3")
+     (360 . "#DC8CC3"))))
+ '(vc-annotate-very-old-color "#DC8CC3"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

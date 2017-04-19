@@ -54,7 +54,7 @@ Syntax highlighting features are available for this languages.
 | <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>CTRL</kbd>+<kbd>r</kbd>             | Set a new cursor at the previous occurence of the selected word (*mc/mark-previous-like-this-word*)|
 | <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>ENTER</kbd>                         | Set cursors on region (*mc/edit-lines*)|
 
-### Hide and show blocks of code
+### Code manipulation
 
 | Shortcut                                                              | Action        |
 | --------------------------------------------------------------------- |:-------------:|
@@ -62,8 +62,9 @@ Syntax highlighting features are available for this languages.
 | <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>CTRL</kbd>+<kbd>&#9654;</kbd>       | Show all blocks of code (*hs-show-all*)|
 | <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>&#9664;</kbd>                       | Hide current block of code [`{...}`] (*hs-hide-block*)|
 | <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>&#9654;</kbd>                       | Show current block of code (*hs-show-block*)|
+| <kbd>CTRL</kbd>+<kbd>c</kbd> <kbd>CTRL</kbd>+<kbd>c</kbd>             | Comment / Uncomment selected code (*comment-dwim*)|
 
-### Emmet (HTML)
+#### Emmet (HTML)
 
 You can write HTML with Emmet thanks to the *emmet-mode*.
 
@@ -99,7 +100,8 @@ For the moment, here are the few features of this prompt (more will come) :
 
 - [x] Auto-install missing packages
 - [x] Use phi-search only in multiple-cursors mode
-- [ ] Create different configurations for emacs in terminal and emacs with GUI
+- [x] Create different configurations for emacs in terminal and emacs with GUI
+- [ ] improve emacs with GUI
 - [ ] Optimization : prevent useless minor-modes or scripts from being used while they are unnecessary
 - [ ] Optimization : make it work with emacsclient (emacs as a daemon)
 - [ ] Autocomplete (company-mode) : Make it work with Rust, SQL, C and HTML

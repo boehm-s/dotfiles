@@ -16,7 +16,10 @@
 ;;__________________________________________________________________________
 
 ;; highlight current line
-(blink-cursor-mode nil)
+(tool-bar-mode -1)
+(toggle-scroll-bar -1)
+(menu-bar-mode -1)
+
 (global-hl-line-mode 1)
 (set-face-background 'hl-line "#3e4446")
 (set-face-foreground 'highlight nil)

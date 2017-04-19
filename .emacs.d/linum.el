@@ -2,7 +2,7 @@
 (setq column-number-mode t)
 (linum-relative-global-mode t)
 
-
+(string-to-number (format-mode-line "%l"))
 (setq linum-relative-current-symbol "->")
 (setq linum-relative-format "%3s \u2502")
 (set-face-attribute 'linum nil :foreground "magenta")
