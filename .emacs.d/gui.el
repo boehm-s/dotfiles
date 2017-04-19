@@ -1,3 +1,5 @@
 (setq inhibit-startup-screen t)
-(custom-set-variables
-  '(custom-enabled-themes (quote (spacemacs-dark))))
+(setq linum-relative-format "%3s ") ; "%3s \u2502"
+
+;; (custom-set-variables
+;;   '(custom-enabled-themes (quote (spacemacs-dark))))

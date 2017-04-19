@@ -121,14 +121,15 @@
 (add-to-list 'auto-mode-alist '("\\.c\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-mode))
 
-(when (display-graphic-p)
-  (load "~/.emacs.d/gui.el"))
 
 (load "~/.emacs.d/custom.el")
 (load "~/.emacs.d/experiment.el")
 (load "~/.emacs.d/linum.el")
 (load "~/.emacs.d/js-config.el")
 (load "~/.emacs.d/web-config.el")
+
+(when (display-graphic-p)
+  (load "~/.emacs.d/gui.el"))
 
 ;; shortcuts
 (global-set-key (kbd "C-x C-<right>") 'split-and-find-file-H)

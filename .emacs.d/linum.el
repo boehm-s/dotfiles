@@ -4,7 +4,7 @@
 
 (string-to-number (format-mode-line "%l"))
 (setq linum-relative-current-symbol "->")
-(setq linum-relative-format "%3s \u2502")
+(setq linum-relative-format "%3s \u2502") ; "%3s \u2502"
 (set-face-attribute 'linum nil :foreground "magenta")
 
 (defadvice linum-update (around my-linum-update)
