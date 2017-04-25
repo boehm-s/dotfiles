@@ -16,9 +16,11 @@
 	downcase-region
 	duplicate-line
 	find-file
+	helm-M-x
 	hs-hide-block
 	hs-show-block
 	indent-for-tab-command
+	jade-indent
 	jade-newline-and-indent
 	jade-unindent
 	kill-region

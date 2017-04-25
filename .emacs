@@ -85,6 +85,8 @@
        ;; 'autocomplete-config   ; autocompletion conf
        ))
 
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 (when (>= emacs-major-version 24)
   (require 'package)
   (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
@@ -244,3 +246,17 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
+(defun nodejs-repl-restart ()
+  "restart the nodejs REPL"
+  (interactive)
+  (defvar nodejs-repl-code
+    (concat "process.stdout.columns = %d;" "require('repl').start('%s', null, null, true, false)"))
+  (with-current-buffer "*nodejs*"
+    (kill-process nil comint-ptyp)
+    (run-with-timer 0.01 nil (lambda ()
+			      (setq nodejs-repl-prompt-re (format nodejs-repl-prompt-re-format nodejs-repl-prompt nodejs-repl-prompt))
+			      (with-current-buffer "*nodejs*"
+				(apply 'make-comint nodejs-repl-process-name nodejs-repl-command nil `("-e" ,(format nodejs-repl-code (window-width) nodejs-repl-prompt)))
+				(nodejs-repl-mode) (erase-buffer) )))))
