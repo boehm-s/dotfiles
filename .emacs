@@ -133,6 +133,8 @@
 (when (display-graphic-p)
   (load "~/.emacs.d/gui.el"))
 
+(smerge-mode)
+
 ;; shortcuts
 (global-set-key (kbd "C-x C-<right>") 'split-and-find-file-H)
 (global-set-key (kbd "C-x C-<left>")  'split-and-find-file-H)
@@ -248,6 +250,16 @@
  )
 
 
+(defun buffer-contains-substring (string)
+  (save-excursion
+    (save-match-data
+      (goto-char (point-min))
+      (search-forward string nil t))))
+
+
+ (add-hook 'buffer-list-update-hook 'trigger-smerge)
+
+
 (defun nodejs-repl-restart ()
   "restart the nodejs REPL"
   (interactive)
@@ -260,3 +272,9 @@
 			      (with-current-buffer "*nodejs*"
 				(apply 'make-comint nodejs-repl-process-name nodejs-repl-command nil `("-e" ,(format nodejs-repl-code (window-width) nodejs-repl-prompt)))
 				(nodejs-repl-mode) (erase-buffer) )))))
+
+
+(defun trigger-smerge ()
+  (when (buffer-contains-substring "<<<<<<") nil
+      (smerge-mode))
+)
