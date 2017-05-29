@@ -32,7 +32,7 @@
        'yasnippet             ; snippets for emacs
        'zlc                   ; zsh for emacs
 
-       'zenburn-theme
+       ;'zenburn-theme
 
        ;; popup
        'popup
@@ -67,7 +67,7 @@
        'helm-c-moccur
        'helm-c-yasnippet
        'helm-company
-       'helm-core
+       ;'helm-core
        'helm-emmet
        'helm-swoop
 
@@ -115,7 +115,7 @@
 (add-to-list 'auto-mode-alist '("\\.handlebars\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.coffee\\'" . coffee-mode))
-(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))

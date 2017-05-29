@@ -53,3 +53,20 @@
   (let ((filename (read-file-name "Enter file name:")))
     (switch-to-buffer (find-file-noselect filename)))
   )
+
+;; company-mode settings
+
+(setq company-dabbrev-downcase 0)
+(setq company-idle-delay 0)
+
+(defun tab-indent-or-complete ()
+  (interactive)
+  (if (minibufferp)
+      (minibuffer-complete)
+    (if (or (not yas-minor-mode)
+            (null (do-yas-expand)))
+        (if (check-expansion)
+            (company-complete-common)
+          (indent-for-tab-command)))))
+
+(global-set-key [backtab] 'tab-indent-or-complete)
