@@ -89,8 +89,7 @@
 
 (when (>= emacs-major-version 24)
   (require 'package)
-  (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
-			   ("gnu" . "http://elpa.gnu.org/packages/")
+  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 			   ("melpa" . "http://melpa.org/packages/")
 			   ("marmalade" . "http://marmalade-repo.org/packages/")))
   )
@@ -117,7 +116,10 @@
 (add-to-list 'auto-mode-alist '("\\.coffee\\'" . coffee-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.sass\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.less\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . (lambda() (markdown-mode) (setq-default indent-tabs-mode nil)) ))
 (add-to-list 'auto-mode-alist '("\\.c\\'" . c-mode))
@@ -133,7 +135,7 @@
 (when (display-graphic-p)
   (load "~/.emacs.d/gui.el"))
 
-(smerge-mode)
+;; (smerge-mode)
 
 ;; shortcuts
 (global-set-key (kbd "C-x C-<right>") 'split-and-find-file-H)
