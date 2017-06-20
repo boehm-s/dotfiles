@@ -67,7 +67,8 @@
        'helm-c-moccur
        'helm-c-yasnippet
        'helm-company
-       ;'helm-core
+
+       ;;'helm-core
        'helm-emmet
        'helm-swoop
 
@@ -95,6 +96,9 @@
   )
 
 (package-initialize)
+
+(rainbow-delimiters-mode)
+(nyan-mode)
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -148,6 +152,9 @@
 (global-set-key (kbd "M-<up>")    'windmove-up)
 (global-set-key (kbd "M-<down>")  'windmove-down)
 
+(global-set-key (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
+(global-set-key (kbd "M-k")  'browse-kill-ring)
+
 ;; (global-set-key (kbd "C-g s t")  'magit-status)
 ;; (global-set-key (kbd "C-g b l")  'magit-blame)
 ;; (global-set-key (kbd "C-g c o")  'magit-commit)
@@ -163,7 +170,7 @@
   (let ((map (make-sparse-keymap)))
 
     ;; helm
-    (define-key map (kbd "M-x") 'helm-M-x)
+    (define-key map (kbd "M-x") 'helm-smex)
     (define-key map (kbd "C-x C-f") 'helm-find-files)
     (define-key map (kbd "C-x C-e") 'emmet-preview)
 

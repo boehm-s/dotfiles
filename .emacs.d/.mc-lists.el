@@ -38,6 +38,7 @@
 	tern-ac-dot-complete
 	tern-rename-variable
 	upcase-region
+	yaml-electric-backspace
 	yas-expand
 	))
 
