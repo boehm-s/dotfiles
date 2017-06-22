@@ -1,0 +1,285 @@
+#+TITLE: My emacs conf file
+
+** Set up load path
+
+The variable =load-path= lists all the directories where Emacs should look for Elisp files.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setq load-path
+      (append
+       (list
+        (expand-file-name "~/.emacs.d")
+        (expand-file-name "~/.emacs.d/elpa"))
+       load-path))
+#+END_SRC
+
+** Packages
+
+*** Activate all the packages.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(require 'package)
+(package-initialize)
+#+END_SRC
+
+*** List of repositories containing packages.
+
+1. elpa repo (from gnu)
+2. [[http://melpa.milkbox.net/#/][melpa]] repo - contains packages updated daily.
+3. [[http://melpa-stable.milkbox.net/#/][melpa-stable]] repo - [alternative to [[http://marmalade-repo.org/][Marmalade]]] It offers stable packages built automatically from git tags.
+4. [[http://orgmode.org/elpa/][org]] repo - Org's package repository.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+
+(when (>= emacs-major-version 24)
+      (require 'package)
+      (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                               ("melpa" . "http://melpa.org/packages/")
+                               ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+                               ("org" . "http://orgmode.org/elpa/"))
+      )
+)
+
+#+END_SRC
+
+*** List of packages used in this configuration.
+
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+
+(setq package-list
+      (list
+
+       'emmet-mode            ; emmet mode
+       'esqlite               ; sqlite
+       'f                     ; Modern API for working with files and directories
+       'google-translate      ; translate in emacs
+       'ido                   ; manage buffers
+       'json-reformat         ; format JSON
+       'js-comint             ; js interpreter
+       'linum-relative        ; linum relative
+       'magit                 ; git integration
+       'magit-popup
+       'multiple-cursors      ; ST-like multiple cursors
+       'neotree               ; menu bar
+       'nodejs-repl           ; nodeJS REPL
+       'nyan-prompt
+       'pcre2el               ; regexp syntax converter
+       'phi-search            ; replace isearch
+       'rainbow-delimiters    ; rainbowy parens/braces/...
+       'request
+       'smex                  ; M-x
+       'tern                  ; Tern-powered JavaScript integration
+       'yasnippet             ; snippets for emacs
+       'zlc                   ; zsh for emacs
+       'browse-kill-ring      ; kill-ring history
+
+       ;;'zenburn-theme
+
+       ;; popup
+       'popup
+       'popup-complete
+       'popup-imenu
+       'popup-kill-ring
+       'popup-switcher
+
+       ;; modes
+       'angular-mode
+       'arduino-mode
+       'coffee-mode
+       'dockerfile-mode
+       'emmet-mode
+       'go-mode
+       'handlebars-mode
+       'jade-mode
+       'json-mode
+       'js2-mode
+       'js3-mode
+       'markdown-mode
+       'nyan-mode
+       'php-mode
+       'rust-mode
+       'skewer-mode
+       'toml-mode
+       'top-mode
+       'web-mode
+
+       ;; helm
+       'helm
+       'helm-c-moccur
+       'helm-c-yasnippet
+       'helm-company
+       'helm-smex
+
+       ;;'helm-core
+       'helm-emmet
+       'helm-swoop
+
+       ;; company
+       'company
+       'company-arduino
+       'company-c-headers
+       'company-go
+       'company-irony
+       'company-php
+       'company-tern
+       'company-web
+
+       ;; 'auto-complete         ; autocompletion
+       ;; 'autocomplete-config   ; autocompletion conf
+       ))
+
+
+(package-initialize)
+
+#+END_SRC
+
+
+*** Check if all packages are installed.
+
+if not all packages are installed, check one by one and install the missing ones.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(dolist (package package-list)
+  (unless (package-installed-p package)
+        (package-install package)))
+
+#+END_SRC
+
+** Visual appearance
+
+I turn =off= mouse interface early in startup to avoid momentary display.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
+(if (fboundp 'use-file-dialog) (setq use-file-dialog nil))
+(if (fboundp 'use-dialog-box) (setq use-dialog-box nil))
+#+END_SRC
+
+For the most part I prefer to disable Emacs' fringe.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(fringe-mode '(0 . 0))
+#+END_SRC
+
+
+Remove startup screen and custom linum relative format
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(when (display-graphic-p)
+  (setq inhibit-startup-screen t)
+  (setq linum-relative-format "%3s ") ; "%3s \u2502"
+)
+#+END_SRC
+
+highlight current line and custom window appearance
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(tool-bar-mode -1)
+(toggle-scroll-bar -1)
+(menu-bar-mode -1)
+
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#3e4446")
+(set-face-foreground 'highlight nil)
+#+END_SRC
+
+
+Theme code (custom)
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(custom-safe-themes
+   (quote
+    ("f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+ '(fci-rule-color "#383838")
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(package-selected-packages
+   (quote
+    (helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar spacemacs-theme spaceline sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game)))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(vc-annotate-background "#2B2B2B")
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#BC8383")
+     (40 . "#CC9393")
+     (60 . "#DFAF8F")
+     (80 . "#D0BF8F")
+     (100 . "#E0CF9F")
+     (120 . "#F0DFAF")
+     (140 . "#5F7F5F")
+     (160 . "#7F9F7F")
+     (180 . "#8FB28F")
+     (200 . "#9FC59F")
+     (220 . "#AFD8AF")
+     (240 . "#BFEBBF")
+     (260 . "#93E0E3")
+     (280 . "#6CA0A3")
+     (300 . "#7CB8BB")
+     (320 . "#8CD0D3")
+     (340 . "#94BFF3")
+     (360 . "#DC8CC3"))))
+ '(vc-annotate-very-old-color "#DC8CC3"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+#+END_SRC
+
+Highlight matching parentheses when the point is on them.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(show-paren-mode t)
+(setq show-paren-delay 0)
+#+END_SRC
+
+Nyan mode and rainbow delimiters
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(rainbow-delimiters-mode)
+(nyan-mode)
+#+END_SRC
+
+** Code Editor / IDE
+
+*** associating files types and modes
+
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (js2-mode) (company-mode) (company-tern) )))
+(add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda() (web-mode) (emmet-mode))))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.handlebars\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.coffee\\'" . coffee-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.sass\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.less\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . (lambda() (markdown-mode) (setq-default indent-tabs-mode nil)) ))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c-mode))
+#+END_SRC
