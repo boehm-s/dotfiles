@@ -163,3 +163,5 @@ if ! shopt -oq posix; then
 fi
 
 export EDITOR="/usr/bin/emacs -nw"
+
+PATH=/home/boehm-s/Public/emacs/src:/home/boehm-s/Public/emacs/src:/home/boehm-s/.cargo/bin:/home/boehm-s/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games

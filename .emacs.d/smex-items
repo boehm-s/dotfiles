@@ -1,16 +1,51 @@
 
 ;; ----- smex-history -----
 (
- cd
- 5x5
- arp
- dbx
- dig
- erc
- ert
+ global-company-mode
+ company-tern
+ company-begin-backend
+ replace-string
+ js2-mode
+ json-mode
+ rainbow-delimiters-mode
 )
 
 ;; ----- smex-data -----
 (
- 
+ (package-show-package-list . 5)
+ (helm-dash . 3)
+ (helm-dash-install-docset . 2)
+ (eww . 1)
+ (list-packages . 2)
+ (w3m . 1)
+ (w3m-search . 2)
+ (version . 1)
+ (xwidget-webkit-browse-url . 11)
+ (replace-string . 5)
+ (org-mode . 1)
+ (xwidget-cleanup . 3)
+ (xwidget-webkit-mode . 3)
+ (xwidget-webkit-adjust-size . 4)
+ (xwidget-webkit-insert-string . 1)
+ (xwidget-webkit-end-edit-textarea . 1)
+ (xwidget-webkit-back . 4)
+ (symon-mode . 1)
+ (symon-display . 1)
+ (treemacs . 1)
+ (helm-documentation . 1)
+ (tern-find-definition . 1)
+ (company-complete . 2)
+ (pwd . 2)
+ (rainbow-delimiters-mode . 6)
+ (magit-find-file . 4)
+ (zone . 37)
+ (run-lisp . 2)
+ (magit-blame . 1)
+ (nodejs-repl . 1)
+ (nodejs-repl-restart . 1)
+ (json-mode . 1)
+ (js2-mode . 2)
+ (company-begin-backend . 1)
+ (company-tern . 1)
+ (global-company-mode . 2)
 )
