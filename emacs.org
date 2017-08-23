@@ -169,12 +169,30 @@ For the most part I prefer to disable Emacs' fringe.
 #+END_SRC
 
 
-Remove startup screen and custom linum relative format
+Remove startup screen
+
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (when (display-graphic-p)
   (setq inhibit-startup-screen t)
-  (setq linum-relative-format "%3s ") ; "%3s \u2502"
 )
+#+END_SRC
+
+Line number display
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setq column-number-mode t)
+(linum-relative-global-mode t)
+
+(string-to-number (format-mode-line "%l"))
+(setq linum-relative-current-symbol "->")
+(setq linum-relative-format "%3s \u2502") ; "%3s \u2502"
+(set-face-attribute 'linum nil :foreground "magenta")
+
+(defadvice linum-update (around my-linum-update)
+  (setq linum-relative-current-symbol (number-to-string (current-column)))
+  ad-do-it)
+
+(ad-activate 'linum-update)
 #+END_SRC
 
 highlight current line and custom window appearance
@@ -282,4 +300,160 @@ Nyan mode and rainbow delimiters
 (add-to-list 'auto-mode-alist '("\\.md\\'" . (lambda() (markdown-mode) (setq-default indent-tabs-mode nil)) ))
 (add-to-list 'auto-mode-alist '("\\.c\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-mode))
+#+END_SRC
+
+
+*** JS configuration
+
+Node as JS interpreter for js2-mode
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+#+END_SRC
+
+tern autocomplete config with company-mode
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(if (eq system-type 'windows-nt) (setq tern-command '("node" "<TERN LOCATION>\\bin\\tern")))
+(eval-after-load 'tern
+  '(progn
+     (require 'tern-auto-complete)
+     (tern-ac-setup)))
+
+(add-hook 'js-mode-hook '(lambda () (setq-local company-backends '((company-web company-css company-tern :with company-yasnippet)))))
+(add-hook 'js-mode-hook 'js2-minor-mode)
+(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+(add-hook 'js2-mode-hook 'tern-mode)
+(add-hook 'js-mode-hook 'tern-mode)
+(add-hook 'js-mode-hook (lambda () (imenu-add-menubar-index) (hs-minor-mode t)))
+#+END_SRC
+
+
+*** Web dev configuration
+
+Customizations for the web-mode
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(defun my-web-mode-hook ()
+  "Web mode customization."
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+
+  (set-face-attribute 'web-mode-doctype-face nil :foreground "#1affff")
+  (set-face-attribute 'web-mode-html-tag-face nil :foreground "#999999")
+  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "#493e99")
+  (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "#264d73")
+  (set-face-attribute 'web-mode-html-attr-value-face nil :foreground "#336699")
+
+  (set-face-attribute 'web-mode-function-call-face nil :foreground "#33d6ff")
+  (set-face-attribute 'web-mode-function-name-face nil :foreground "#33d6ff")
+  (setq web-mode-enable-css-colorization t)
+  (set-face-attribute 'web-mode-css-at-rule-face nil :foreground "Pink3")
+
+  (setq web-mode-enable-heredoc-fontification t)
+  (setq web-mode-enable-current-element-highlight t)
+  (setq web-mode-enable-current-column-highlight t)
+  )
+
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+#+END_SRC
+
+*** company-mode settings
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setq company-dabbrev-downcase 0)
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 2)
+
+(eval-after-load 'company
+  '(progn
+     (define-key company-active-map (kbd "TAB") 'company-complete-selection)
+     (define-key company-active-map [tab] 'company-complete-selection)))
+
+(defun tab-indent-or-complete ()
+  (interactive)
+  (if (minibufferp)
+      (minibuffer-complete)
+    (if (or (not yas-minor-mode)
+            (null (do-yas-expand)))
+        (if (check-expansion)
+            (company-complete-common)
+          (indent-for-tab-command)))))
+
+(global-set-key [backtab] 'tab-indent-or-complete)
+
+#+END_SRC
+
+
+*** Experiments
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+;; eval region js and insert
+(defun node-js-eval-region-or-buffer ()
+  "evaluate the region and 'node' it !"
+  (interactive)
+    (insert
+     (shell-command-to-string
+      (concat "node -e '"
+	      (buffer-substring (mark) (point))
+	      "';")))
+    (setq deactivate-mark t))
+
+;; eval region python and insert
+(defun python-eval-region-or-buffer ()
+  "evaluate the region and 'python' it !"
+  (interactive)
+    (insert
+     (shell-command-to-string
+      (concat "python -c '"
+	      (buffer-substring (mark) (point))
+	      "';")))
+    (setq deactivate-mark t))
+
+(defun custom-prompt (str)
+  (interactive
+   (list
+    (read-string "my_prompt : ")))
+  (when (string-match "^\:\\(.[[:digit:]]+\\)" str)
+    (goto-line (string-to-number (match-string 1 str))))
+  (when (string-match "^d\\([[:digit:]]+\\)" str)
+    (dotimes (i (string-to-number (match-string 1 str))) (kill-line)))
+  )
+#+END_SRC
+
+
+*** Duplicate line
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(defun duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (next-line 1)
+  (yank))
+#+END_SRC
+
+*** Split window and find file
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(defun  split-and-find-file-H ()
+  "Split the window and open the find-file prompt"
+  (interactive)
+  (split-window-horizontally)
+  (other-window 1)
+  (let ((filename (read-file-name "Enter file name:")))
+    (switch-to-buffer (find-file-noselect filename)))
+  )
+
+(defun  split-and-find-file-V ()
+  "Split the window and open the find-file prompt"
+  (interactive)
+  (split-window-vertically)
+  (other-window 1)
+  (let ((filename (read-file-name "Enter file name:")))
+    (switch-to-buffer (find-file-noselect filename)))
+  )
 #+END_SRC
