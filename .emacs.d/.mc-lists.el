@@ -47,6 +47,7 @@
 	c-indent-line-or-region
 	comment-region
 	delete-window
+	helm-swoop
 	keyboard-escape-quit
 	overwrite-mode
 	split-and-find-file-H

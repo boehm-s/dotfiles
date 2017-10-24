@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
- global-company-mode
- company-tern
- company-begin-backend
- replace-string
- js2-mode
- json-mode
+ helm-projectile
+ helm-projectile-on
+ markdown-mode
  rainbow-delimiters-mode
+ projectile-find-file
+ projectile-grep
+ projectile-switch-to-buffer
 )
 
 ;; ----- smex-data -----
@@ -16,12 +16,12 @@
  (helm-dash . 3)
  (helm-dash-install-docset . 2)
  (eww . 1)
- (list-packages . 2)
+ (list-packages . 6)
  (w3m . 1)
  (w3m-search . 2)
  (version . 1)
  (xwidget-webkit-browse-url . 11)
- (replace-string . 5)
+ (replace-string . 10)
  (org-mode . 1)
  (xwidget-cleanup . 3)
  (xwidget-webkit-mode . 3)
@@ -36,16 +36,56 @@
  (tern-find-definition . 1)
  (company-complete . 2)
  (pwd . 2)
- (rainbow-delimiters-mode . 6)
+ (rainbow-delimiters-mode . 13)
  (magit-find-file . 4)
- (zone . 37)
+ (zone . 39)
  (run-lisp . 2)
  (magit-blame . 1)
- (nodejs-repl . 1)
+ (nodejs-repl . 6)
  (nodejs-repl-restart . 1)
- (json-mode . 1)
- (js2-mode . 2)
+ (json-mode . 4)
+ (js2-mode . 6)
  (company-begin-backend . 1)
  (company-tern . 1)
- (global-company-mode . 2)
+ (global-company-mode . 3)
+ (bs-show . 6)
+ (term . 4)
+ (ebrowse-tags-find-declaration . 1)
+ (js2-jump-to-definition . 2)
+ (calendar . 1)
+ (eval-last-sexp . 1)
+ (js3-mode . 1)
+ (apib-mode . 3)
+ (indium-repl-mode . 2)
+ (indium-reload . 1)
+ (indium-run-chrome . 1)
+ (indium-interaction-mode . 3)
+ (tabulated-list-mode . 1)
+ (yaml-mode . 1)
+ (package-list-packages . 5)
+ (ldap-mode . 5)
+ (js-mode . 1)
+ (json-pretty-print . 1)
+ (helm-top . 1)
+ (global-auto-complete-mode . 1)
+ (package-install-selected-packages . 1)
+ (hl-line-mode . 1)
+ (global-hl-line-mode . 1)
+ (customize . 3)
+ (bats-mode . 1)
+ (toml-mode . 1)
+ (back-button-mode . 1)
+ (rust-playground . 1)
+ (rust-playground-exec . 10)
+ (racket-mode . 4)
+ (web-mode . 1)
+ (web-mode-jsx-is-html . 1)
+ (rjsx-mode . 5)
+ (helm-projectile . 6)
+ (helm-projectile-switch-project . 1)
+ (projectile-switch-to-buffer . 1)
+ (projectile-grep . 1)
+ (projectile-find-file . 1)
+ (markdown-mode . 1)
+ (helm-projectile-on . 2)
 )
