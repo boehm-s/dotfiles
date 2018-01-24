@@ -1,5 +1,12 @@
 #+TITLE: My emacs conf file
 
+*Introduction*
+
+This document uses org-babel. Open it with emacs, run `org-babel-tangle` and it will copy
+all the code that is between the tags ` #+BEGIN_SRC emacs-lisp :tangle ~/.emacs`  and ` #+END_SRC`
+in the *tangle* directory, here : ~/.emacs
+So once the command is executed, all the code present in this file will be in the `.emacs` file.
+
 *** Set up load path
 
  The variable =load-path= lists all the directories where Emacs should look for Elisp files.
