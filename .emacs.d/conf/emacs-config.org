@@ -483,60 +483,58 @@ Customizations for the web-mode
 ** Shortcuts
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(global-set-key (kbd "C-x C-<right>") 'split-and-find-file-H)
-(global-set-key (kbd "C-x C-<left>")  'split-and-find-file-H)
-(global-set-key (kbd "C-x C-<up>")    'split-and-find-file-V)
-(global-set-key (kbd "C-x C-<down>")  'split-and-find-file-V)
-
-(global-set-key (kbd "s-<left>")  'windmove-left)
-(global-set-key (kbd "s-<right>") 'windmove-right)
-(global-set-key (kbd "s-<up>")    'windmove-up)
-(global-set-key (kbd "s-<down>")  'windmove-down)
-
-(global-set-key (kbd "M-<left>")  'windmove-left)
-(global-set-key (kbd "M-<right>") 'windmove-right)
-(global-set-key (kbd "M-<up>")    'windmove-up)
-(global-set-key (kbd "M-<down>")  'windmove-down)
-
-(global-set-key (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
-(global-set-key (kbd "M-k")  'browse-kill-ring)
-(global-set-key (kbd "C-x C-x")  'delete-window)
-(global-set-key (kbd "C-x C-m")  'neotree)
-#+END_SRC
-
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
 
-    ;; helm
-    (define-key map (kbd "M-x") 'helm-smex)
-    (define-key map (kbd "C-x C-f") 'projectile-find-file)
-    (define-key map (kbd "C-x C-e") 'emmet-preview)
+  (define-key map (kbd "C-x C-<right>") 'split-and-find-file-H)
+  (define-key map (kbd "C-x C-<left>")  'split-and-find-file-H)
+  (define-key map (kbd "C-x C-<up>")    'split-and-find-file-V)
+  (define-key map (kbd "C-x C-<down>")  'split-and-find-file-V)
 
-    (define-key map (kbd "M-z") 'custom-prompt)
+  (define-key map (kbd "s-<left>")  'windmove-left)
+  (define-key map (kbd "s-<right>") 'windmove-right)
+  (define-key map (kbd "s-<up>")    'windmove-up)
+  (define-key map (kbd "s-<down>")  'windmove-down)
 
-    (define-key map (kbd "C-c C-c") 'comment-dwim)
-    (global-set-key (kbd "C-d") 'duplicate-line)
+  (define-key map (kbd "M-<left>")  'windmove-left)
+  (define-key map (kbd "M-<right>") 'windmove-right)
+  (define-key map (kbd "M-<up>")    'windmove-up)
+  (define-key map (kbd "M-<down>")  'windmove-down)
 
-    (define-key map (kbd "C-c RET") 'mc/edit-lines)
-    (define-key map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
-    (define-key map (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
+  (define-key map (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
+  (define-key map (kbd "M-k")  'browse-kill-ring)
+  (define-key map (kbd "C-x C-x")  'delete-window)
+  (define-key map (kbd "C-x C-m")  'neotree)
 
-    (define-key map (kbd "C-c C-<left>") 'hs-hide-all)
-    (define-key map (kbd "C-c C-<right>") 'hs-show-all)
-    (define-key map (kbd "C-c <left>") 'hs-hide-block)
-    (define-key map (kbd "C-c <right>") 'hs-show-block)
+  ;; helm
+  (define-key map (kbd "M-x") 'helm-smex)
+  (define-key map (kbd "C-x C-f") 'projectile-find-file)
+  (define-key map (kbd "C-x C-e") 'emmet-preview)
 
-    (define-key map (kbd "C-f") 'helm-swoop)
+  (define-key map (kbd "M-z") 'custom-prompt)
 
-    map)
+  (define-key map (kbd "C-c C-c") 'comment-dwim)
+
+  (define-key map (kbd "C-d") 'duplicate-line)
+
+  (define-key map (kbd "C-c RET") 'mc/edit-lines)
+  (define-key map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
+  (define-key map (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
+
+  (define-key map (kbd "C-c C-<left>") 'hs-hide-all)
+  (define-key map (kbd "C-c C-<right>") 'hs-show-all)
+  (define-key map (kbd "C-c <left>") 'hs-hide-block)
+  (define-key map (kbd "C-c <right>") 'hs-show-block)
+
+  (define-key map (kbd "C-f") 'helm-swoop)
+
+  map)
   "my-keys-minor-mode keymap.")
 
-(define-minor-mode my-keys-minor-mode
+  (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
   :init-value t
   :lighter " my-keys")
 
-(my-keys-minor-mode 1)
+  (my-keys-minor-mode 1)
 #+END_SRC

@@ -17,6 +17,7 @@
 	duplicate-line
 	find-file
 	helm-M-x
+	helm-smex
 	hs-hide-block
 	hs-show-block
 	indent-for-tab-command
@@ -47,6 +48,7 @@
 	c-indent-line-or-region
 	comment-region
 	delete-window
+	enlarge-window-horizontally
 	helm-swoop
 	keyboard-escape-quit
 	overwrite-mode
