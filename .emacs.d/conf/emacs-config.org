@@ -538,3 +538,25 @@ Customizations for the web-mode
 
   (my-keys-minor-mode 1)
 #+END_SRC
+
+
+** Atomic conf
+*** trying to write a major-mode for editing textareas
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(require 'atomic-chrome)
+(unless (zerop (call-process "lsof" nil nil nil "-i" ":64292"))
+(atomic-chrome-start-server)
+)
+
+(define-derived-mode atomic-edit-mode fundamental-mode "atomic-edit-mode"
+  "major mode for editing textareas on chrome."
+;;  (delete-other-windows)
+  (toggle-frame-maximized)
+  (set-frame-size (selected-frame) 40000 20)
+  (set-frame-position (selected-frame) 0 10000)
+)
+
+(setq atomic-chrome-buffer-open-style 'frame)
+(setq atomic-chrome-default-major-mode 'atomic-edit-mode)
+#+END_SRC

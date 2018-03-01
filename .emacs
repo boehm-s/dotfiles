@@ -166,11 +166,6 @@
    (quote
     (helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar spacemacs-theme spaceline sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- '(projectile-mode t nil (projectile))
- '(projectile-project-root-files-functions
-   (quote
-    (projectile-root-local projectile-root-bottom-up projectile-root-top-down)))
- '(projectile-switch-project-action (quote helm-projectile-find-file))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
@@ -355,56 +350,73 @@
   (helm-projectile-find-file)
   )
 
-(global-set-key (kbd "C-x C-<right>") 'split-and-find-file-H)
-(global-set-key (kbd "C-x C-<left>")  'split-and-find-file-H)
-(global-set-key (kbd "C-x C-<up>")    'split-and-find-file-V)
-(global-set-key (kbd "C-x C-<down>")  'split-and-find-file-V)
-
-(global-set-key (kbd "s-<left>")  'windmove-left)
-(global-set-key (kbd "s-<right>") 'windmove-right)
-(global-set-key (kbd "s-<up>")    'windmove-up)
-(global-set-key (kbd "s-<down>")  'windmove-down)
-
-(global-set-key (kbd "M-<left>")  'windmove-left)
-(global-set-key (kbd "M-<right>") 'windmove-right)
-(global-set-key (kbd "M-<up>")    'windmove-up)
-(global-set-key (kbd "M-<down>")  'windmove-down)
-
-(global-set-key (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
-(global-set-key (kbd "M-k")  'browse-kill-ring)
-(global-set-key (kbd "C-x C-x")  'delete-window)
-(global-set-key (kbd "C-x C-m")  'neotree)
-
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
 
-    ;; helm
-    (define-key map (kbd "M-x") 'helm-smex)
-    (define-key map (kbd "C-x C-f") 'projectile-find-file)
-    (define-key map (kbd "C-x C-e") 'emmet-preview)
+  (define-key map (kbd "C-x C-<right>") 'split-and-find-file-H)
+  (define-key map (kbd "C-x C-<left>")  'split-and-find-file-H)
+  (define-key map (kbd "C-x C-<up>")    'split-and-find-file-V)
+  (define-key map (kbd "C-x C-<down>")  'split-and-find-file-V)
 
-    (define-key map (kbd "M-z") 'custom-prompt)
+  (define-key map (kbd "s-<left>")  'windmove-left)
+  (define-key map (kbd "s-<right>") 'windmove-right)
+  (define-key map (kbd "s-<up>")    'windmove-up)
+  (define-key map (kbd "s-<down>")  'windmove-down)
 
-    (define-key map (kbd "C-c C-c") 'comment-dwim)
-    (global-set-key (kbd "C-d") 'duplicate-line)
+  (define-key map (kbd "M-<left>")  'windmove-left)
+  (define-key map (kbd "M-<right>") 'windmove-right)
+  (define-key map (kbd "M-<up>")    'windmove-up)
+  (define-key map (kbd "M-<down>")  'windmove-down)
 
-    (define-key map (kbd "C-c RET") 'mc/edit-lines)
-    (define-key map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
-    (define-key map (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
+  (define-key map (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
+  (define-key map (kbd "M-k")  'browse-kill-ring)
+  (define-key map (kbd "C-x C-x")  'delete-window)
+  (define-key map (kbd "C-x C-m")  'neotree)
 
-    (define-key map (kbd "C-c C-<left>") 'hs-hide-all)
-    (define-key map (kbd "C-c C-<right>") 'hs-show-all)
-    (define-key map (kbd "C-c <left>") 'hs-hide-block)
-    (define-key map (kbd "C-c <right>") 'hs-show-block)
+  ;; helm
+  (define-key map (kbd "M-x") 'helm-smex)
+  (define-key map (kbd "C-x C-f") 'projectile-find-file)
+  (define-key map (kbd "C-x C-e") 'emmet-preview)
 
-    (define-key map (kbd "C-f") 'helm-swoop)
+  (define-key map (kbd "M-z") 'custom-prompt)
 
-    map)
+  (define-key map (kbd "C-c C-c") 'comment-dwim)
+
+  (define-key map (kbd "C-d") 'duplicate-line)
+
+  (define-key map (kbd "C-c RET") 'mc/edit-lines)
+  (define-key map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
+  (define-key map (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
+
+  (define-key map (kbd "C-c C-<left>") 'hs-hide-all)
+  (define-key map (kbd "C-c C-<right>") 'hs-show-all)
+  (define-key map (kbd "C-c <left>") 'hs-hide-block)
+  (define-key map (kbd "C-c <right>") 'hs-show-block)
+
+  (define-key map (kbd "C-f") 'helm-swoop)
+
+  map)
   "my-keys-minor-mode keymap.")
 
-(define-minor-mode my-keys-minor-mode
+  (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
   :init-value t
   :lighter " my-keys")
 
-(my-keys-minor-mode 1)
+  (my-keys-minor-mode 1)
+
+(require 'atomic-chrome)
+(unless (zerop (call-process "lsof" nil nil nil "-i" ":64292"))
+(atomic-chrome-start-server)
+)
+
+(define-derived-mode atomic-edit-mode fundamental-mode "atomic-edit-mode"
+  "major mode for editing textareas on chrome."
+;;  (delete-other-windows)
+  (toggle-frame-maximized)
+  (set-frame-size (selected-frame) 40000 20)
+  (set-frame-position (selected-frame) 0 10000)
+)
+
+(setq atomic-chrome-buffer-open-style 'frame)
+(setq atomic-chrome-default-major-mode 'atomic-edit-mode)

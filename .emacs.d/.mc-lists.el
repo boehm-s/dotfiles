@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	atomic-chrome-send-buffer-text
 	c-electric-brace
 	c-electric-colon
 	c-electric-paren
@@ -51,6 +52,7 @@
 	enlarge-window-horizontally
 	helm-swoop
 	keyboard-escape-quit
+	mouse-buffer-menu
 	overwrite-mode
 	split-and-find-file-H
 	vim-prompt
