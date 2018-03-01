@@ -155,6 +155,9 @@ if not all packages are installed, check one by one and install the missing ones
 I turn =off= mouse interface early in startup to avoid momentary display.
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(load "~/.emacs.d/font-lock+.el")
+(add-to-list 'load-path "~/.emacs.d/sidebar.el/")
+(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -480,6 +483,14 @@ Customizations for the web-mode
   )
 #+END_SRC
 
+** Sidebar
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(require 'sidebar)
+#+END_SRC
+
+
+
 ** Shortcuts
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
@@ -504,7 +515,7 @@ Customizations for the web-mode
   (define-key map (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
   (define-key map (kbd "M-k")  'browse-kill-ring)
   (define-key map (kbd "C-x C-x")  'delete-window)
-  (define-key map (kbd "C-x C-m")  'neotree)
+  (define-key map (kbd "C-x C-m")  'sidebar-open)
 
   ;; helm
   (define-key map (kbd "M-x") 'helm-smex)
@@ -537,6 +548,67 @@ Customizations for the web-mode
   :lighter " my-keys")
 
   (my-keys-minor-mode 1)
+#+END_SRC
+
+** multi-term keys
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(defvar my-term-minor-mode-map
+(let ((map (make-sparse-keymap)))
+  (define-key map (kbd "s-<left>")  'windmove-left)
+  (define-key map (kbd "s-<right>") 'windmove-right)
+  (define-key map (kbd "s-<up>")    'windmove-up)
+  (define-key map (kbd "s-<down>")  'windmove-down)
+
+  (define-key map (kbd "M-<left>")  'windmove-left)
+  (define-key map (kbd "M-<right>") 'windmove-right)
+  (define-key map (kbd "M-<up>")    'windmove-up)
+  (define-key map (kbd "M-<down>")  'windmove-down)
+  (define-key map (kbd "M-x") 'helm-smex)
+
+  (define-key map (kbd "C-c")  'term-interrupt-subjob)
+  (define-key map (kbd "M-DEL") 'term-send-backward-kill-word)
+  (define-key map (kbd "C-<right>") (lambda() (interactive) (term-send-raw-string "\e[1;5C")))
+  (define-key map (kbd "C-<left>") (lambda() (interactive) (term-send-raw-string "\e[1;5D")))
+  (define-key map (kbd "C-r") (lambda()(interactive) (term-send-raw-string "\C-r")))
+  (define-key map (kbd "C-d") (lambda()(interactive) (term-send-raw-string "\C-d")))
+
+  map)
+"my-term-minor-mode keymap.")
+  (define-minor-mode my-term-minor-mode
+  "A minor mode so that I got a normal terminal."
+  :init-value t
+  :lighter " my-term")
+
+(add-hook 'term-mode-hook
+    (lambda()
+    (message "%s" "This is in term mode and hook enabled.")
+(dolist (key '("\C-a" "\C-b" "\C-c" "\C-d" "\C-e" "\C-f" "\C-g"
+               "\C-h" "\C-k" "\C-l" "\C-n" "\C-o" "\C-p" "\C-q"
+               "\C-t" "\C-u" "\C-v" "\C-x" "\C-z" "\C-r" "\M-DEL" "\e"))
+  (local-unset-key key))
+
+    (my-keys-minor-mode -1)
+    (clean-aindent-mode -1)
+    (my-term-minor-mode 1)
+
+
+;; Cancel C-c C-c   comment-dwim in terminal mode
+;;  (let ((oldmap (cdr (assoc 'my-keys-minor-mode minor-mode-map-alist)))
+;;        (newmap (make-sparse-keymap)))
+;;    (set-keymap-parent newmap oldmap)
+;;    (define-key newmap (kbd "C-c C-c") nil)
+;;    (make-local-variable 'minor-mode-overriding-map-alist)
+;;    (push `(my-keys-minor-mode . ,newmap) minor-mode-overriding-map-alist))
+
+))
+#+END_SRC
+
+
+** org-mode shift select
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setq org-support-shift-select t)
+
 #+END_SRC
 
 
