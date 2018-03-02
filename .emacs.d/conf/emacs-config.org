@@ -299,7 +299,7 @@ Nyan mode
 *** associating files types and modes
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (js2-mode) (company-mode) (company-tern) )))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (indium) )))
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda() (web-mode) (emmet-mode))))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
@@ -326,25 +326,10 @@ Nyan mode
 Node as JS interpreter for js2-mode
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+(require 'indium)
+(add-hook 'js-mode-hook #'indium-interaction-mode)
 #+END_SRC
 
-tern autocomplete config with company-mode
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(if (eq system-type 'windows-nt) (setq tern-command '("node" "<TERN LOCATION>\\bin\\tern")))
-(eval-after-load 'tern
-  '(progn
-     (require 'tern-auto-complete)
-     (tern-ac-setup)))
-
-(add-hook 'js-mode-hook '(lambda () (setq-local company-backends '((company-web company-css company-tern :with company-yasnippet)))))
-(add-hook 'js-mode-hook 'js2-minor-mode)
-(add-hook 'js-mode-hook (lambda () (tern-mode t)))
-(add-hook 'js2-mode-hook 'tern-mode)
-(add-hook 'js-mode-hook 'tern-mode)
-(add-hook 'js-mode-hook (lambda () (imenu-add-menubar-index) (hs-minor-mode t)))
-#+END_SRC
 
 
 *** Web dev configuration
@@ -483,134 +468,141 @@ Customizations for the web-mode
   )
 #+END_SRC
 
-** Sidebar
+
+** Shortcuts (minor-mode)
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(defvar custom-keys-map (make-keymap) "my custom shortcuts")
+
+(define-key custom-keys-map (kbd "C-x C-<right>") 'split-and-find-file-H)
+(define-key custom-keys-map (kbd "C-x C-<left>")  'split-and-find-file-H)
+(define-key custom-keys-map (kbd "C-x C-<up>")    'split-and-find-file-V)
+(define-key custom-keys-map (kbd "C-x C-<down>")  'split-and-find-file-V)
+
+(define-key custom-keys-map (kbd "s-<left>")  'windmove-left)
+(define-key custom-keys-map (kbd "s-<right>") 'windmove-right)
+(define-key custom-keys-map (kbd "s-<up>")    'windmove-up)
+(define-key custom-keys-map (kbd "s-<down>")  'windmove-down)
+
+(define-key custom-keys-map (kbd "M-<left>")  'windmove-left)
+(define-key custom-keys-map (kbd "M-<right>") 'windmove-right)
+(define-key custom-keys-map (kbd "M-<up>")    'windmove-up)
+(define-key custom-keys-map (kbd "M-<down>")  'windmove-down)
+
+(define-key custom-keys-map (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
+(define-key custom-keys-map (kbd "M-k")  'browse-kill-ring)
+(define-key custom-keys-map (kbd "C-x C-x")  'delete-window)
+(define-key custom-keys-map (kbd "C-x C-m")  'sidebar-open)
+
+;; helm
+(define-key custom-keys-map (kbd "M-x") 'helm-smex)
+(define-key custom-keys-map (kbd "C-x C-f") 'projectile-find-file)
+(define-key custom-keys-map (kbd "C-x C-e") 'emmet-preview)
+
+(define-key custom-keys-map (kbd "M-z") 'custom-prompt)
+
+(define-key custom-keys-map (kbd "C-c C-c") 'comment-dwim)
+
+(define-key custom-keys-map (kbd "C-d") 'duplicate-line)
+
+(define-key custom-keys-map (kbd "C-c RET") 'mc/edit-lines)
+(define-key custom-keys-map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
+(define-key custom-keys-map (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
+
+(define-key custom-keys-map (kbd "C-c C-<left>") 'hs-hide-all)
+(define-key custom-keys-map (kbd "C-c C-<right>") 'hs-show-all)
+(define-key custom-keys-map (kbd "C-c <left>") 'hs-hide-block)
+(define-key custom-keys-map (kbd "C-c <right>") 'hs-show-block)
+
+(define-key custom-keys-map (kbd "C-f") 'helm-swoop)
+
+(define-minor-mode my-keys-minor-mode
+"A minor mode so that my key settings override annoying major modes."
+:init-value t
+:lighter " my-keys"
+:keymap custom-keys-map)
+
+#+END_SRC
+
+** multi-term keys (minor-mode)
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(defvar term-mode-keymap (make-keymap) "term-mode keymap.")
+
+(define-key term-mode-keymap (kbd "s-<left>")  'windmove-left)
+(define-key term-mode-keymap (kbd "s-<right>") 'windmove-right)
+(define-key term-mode-keymap (kbd "s-<up>")    'windmove-up)
+(define-key term-mode-keymap (kbd "s-<down>")  'windmove-down)
+
+(define-key term-mode-keymap (kbd "M-<left>")  'windmove-left)
+(define-key term-mode-keymap (kbd "M-<right>") 'windmove-right)
+(define-key term-mode-keymap (kbd "M-<up>")    'windmove-up)
+(define-key term-mode-keymap (kbd "M-<down>")  'windmove-down)
+(define-key term-mode-keymap (kbd "M-x") 'helm-smex)
+
+(define-key term-mode-keymap (kbd "C-c")  'term-interrupt-subjob)
+(define-key term-mode-keymap (kbd "M-DEL") 'term-send-backward-kill-word)
+(define-key term-mode-keymap (kbd "C-<right>") (lambda() (interactive) (term-send-raw-string "\e[1;5C")))
+(define-key term-mode-keymap (kbd "C-<left>") (lambda() (interactive) (term-send-raw-string "\e[1;5D")))
+(define-key term-mode-keymap (kbd "C-r") (lambda()(interactive) (term-send-raw-string "\C-r")))
+(define-key term-mode-keymap (kbd "C-d") (lambda()(interactive) (term-send-raw-string "\C-d")))
+
+(define-minor-mode my-term-minor-mode
+"A minor mode so that I got a normal terminal."
+:init-value nil
+:lighter " my-term"
+:keymap term-mode-keymap)
+
+(add-hook 'term-mode-hook
+(lambda()
+
+(message "%s" "This is in term mode and hook enabled.")
+
+(dolist (key '("\C-a" "\C-b" "\C-c" "\C-d" "\C-e" "\C-f" "\C-g"
+"\C-h" "\C-k" "\C-l" "\C-n" "\C-o" "\C-p" "\C-q"
+"\C-t" "\C-u" "\C-v" "\C-x" "\C-z" "\C-r" "\M-DEL" "\e"))
+(local-unset-key key))
+
+(my-keys-minor-mode -1)
+(clean-aindent-mode -1)
+(my-term-minor-mode 1)
+))
+#+END_SRC
+
+
+** sidebar keymap and hook
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (require 'sidebar)
-#+END_SRC
+(defvar sidebar-mode-map (make-keymap) "keymap for the sidebar")
+(define-key sidebar-mode-map (kbd "<right>")  'sidebar-open-line)
+(define-key sidebar-mode-map (kbd "<left>")  'sidebar-up-directory)
 
+(add-hook 'before-make-frame-hook (lambda()
+(message "%s" "plop")
+(setq helm-split-window-default-side 'same)
 
-
-** Shortcuts
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(defvar my-keys-minor-mode-map
-  (let ((map (make-sparse-keymap)))
-
-  (define-key map (kbd "C-x C-<right>") 'split-and-find-file-H)
-  (define-key map (kbd "C-x C-<left>")  'split-and-find-file-H)
-  (define-key map (kbd "C-x C-<up>")    'split-and-find-file-V)
-  (define-key map (kbd "C-x C-<down>")  'split-and-find-file-V)
-
-  (define-key map (kbd "s-<left>")  'windmove-left)
-  (define-key map (kbd "s-<right>") 'windmove-right)
-  (define-key map (kbd "s-<up>")    'windmove-up)
-  (define-key map (kbd "s-<down>")  'windmove-down)
-
-  (define-key map (kbd "M-<left>")  'windmove-left)
-  (define-key map (kbd "M-<right>") 'windmove-right)
-  (define-key map (kbd "M-<up>")    'windmove-up)
-  (define-key map (kbd "M-<down>")  'windmove-down)
-
-  (define-key map (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
-  (define-key map (kbd "M-k")  'browse-kill-ring)
-  (define-key map (kbd "C-x C-x")  'delete-window)
-  (define-key map (kbd "C-x C-m")  'sidebar-open)
-
-  ;; helm
-  (define-key map (kbd "M-x") 'helm-smex)
-  (define-key map (kbd "C-x C-f") 'projectile-find-file)
-  (define-key map (kbd "C-x C-e") 'emmet-preview)
-
-  (define-key map (kbd "M-z") 'custom-prompt)
-
-  (define-key map (kbd "C-c C-c") 'comment-dwim)
-
-  (define-key map (kbd "C-d") 'duplicate-line)
-
-  (define-key map (kbd "C-c RET") 'mc/edit-lines)
-  (define-key map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
-  (define-key map (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
-
-  (define-key map (kbd "C-c C-<left>") 'hs-hide-all)
-  (define-key map (kbd "C-c C-<right>") 'hs-show-all)
-  (define-key map (kbd "C-c <left>") 'hs-hide-block)
-  (define-key map (kbd "C-c <right>") 'hs-show-block)
-
-  (define-key map (kbd "C-f") 'helm-swoop)
-
-  map)
-  "my-keys-minor-mode keymap.")
-
-  (define-minor-mode my-keys-minor-mode
-  "A minor mode so that my key settings override annoying major modes."
-  :init-value t
-  :lighter " my-keys")
-
-  (my-keys-minor-mode 1)
-#+END_SRC
-
-** multi-term keys
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(defvar my-term-minor-mode-map
-(let ((map (make-sparse-keymap)))
-  (define-key map (kbd "s-<left>")  'windmove-left)
-  (define-key map (kbd "s-<right>") 'windmove-right)
-  (define-key map (kbd "s-<up>")    'windmove-up)
-  (define-key map (kbd "s-<down>")  'windmove-down)
-
-  (define-key map (kbd "M-<left>")  'windmove-left)
-  (define-key map (kbd "M-<right>") 'windmove-right)
-  (define-key map (kbd "M-<up>")    'windmove-up)
-  (define-key map (kbd "M-<down>")  'windmove-down)
-  (define-key map (kbd "M-x") 'helm-smex)
-
-  (define-key map (kbd "C-c")  'term-interrupt-subjob)
-  (define-key map (kbd "M-DEL") 'term-send-backward-kill-word)
-  (define-key map (kbd "C-<right>") (lambda() (interactive) (term-send-raw-string "\e[1;5C")))
-  (define-key map (kbd "C-<left>") (lambda() (interactive) (term-send-raw-string "\e[1;5D")))
-  (define-key map (kbd "C-r") (lambda()(interactive) (term-send-raw-string "\C-r")))
-  (define-key map (kbd "C-d") (lambda()(interactive) (term-send-raw-string "\C-d")))
-
-  map)
-"my-term-minor-mode keymap.")
-  (define-minor-mode my-term-minor-mode
-  "A minor mode so that I got a normal terminal."
-  :init-value t
-  :lighter " my-term")
-
-(add-hook 'term-mode-hook
-    (lambda()
-    (message "%s" "This is in term mode and hook enabled.")
-(dolist (key '("\C-a" "\C-b" "\C-c" "\C-d" "\C-e" "\C-f" "\C-g"
-               "\C-h" "\C-k" "\C-l" "\C-n" "\C-o" "\C-p" "\C-q"
-               "\C-t" "\C-u" "\C-v" "\C-x" "\C-z" "\C-r" "\M-DEL" "\e"))
-  (local-unset-key key))
-
-    (my-keys-minor-mode -1)
-    (clean-aindent-mode -1)
-    (my-term-minor-mode 1)
-
-
-;; Cancel C-c C-c   comment-dwim in terminal mode
-;;  (let ((oldmap (cdr (assoc 'my-keys-minor-mode minor-mode-map-alist)))
-;;        (newmap (make-sparse-keymap)))
-;;    (set-keymap-parent newmap oldmap)
-;;    (define-key newmap (kbd "C-c C-c") nil)
-;;    (make-local-variable 'minor-mode-overriding-map-alist)
-;;    (push `(my-keys-minor-mode . ,newmap) minor-mode-overriding-map-alist))
+(define-key sidebar-mode-map (kbd "C-f") 'helm-swoop)
 
 ))
+(add-hook 'post-command-hook (lambda()
+))
+
 #+END_SRC
 
 
 ** org-mode shift select
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setq org-support-shift-select t)
-
 #+END_SRC
 
+
+** default minor mode values
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(my-keys-minor-mode 1)
+(my-term-minor-mode -1)
+#+END_SRC
 
 ** Atomic conf
 *** trying to write a major-mode for editing textareas
