@@ -16,6 +16,7 @@
 	dabbrev-expand
 	downcase-region
 	duplicate-line
+	duplicate-line-or-region
 	find-file
 	helm-M-x
 	helm-smex

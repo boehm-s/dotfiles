@@ -288,7 +288,6 @@ Nyan mode
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (projectile-global-mode)
 (rainbow-delimiters-mode)
-(global-company-mode)
 (put 'dired-find-alternate-file 'disabled nil)
 (setq load-prefer-newer t)
 (helm-projectile-on)
@@ -299,8 +298,9 @@ Nyan mode
 *** associating files types and modes
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (indium) )))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (indium) ))) ;; TODO
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
+(add-to-list 'auto-mode-alist '("\\.pug\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda() (web-mode) (emmet-mode))))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
@@ -365,6 +365,9 @@ Customizations for the web-mode
 *** company-mode settings
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+
+(global-company-mode)
+
 (setq company-dabbrev-downcase 0)
 (setq company-idle-delay 0)
 (setq company-minimum-prefix-length 2)
@@ -388,6 +391,13 @@ Customizations for the web-mode
 
 #+END_SRC
 
+*** Find files with filpr
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setq fiplr-root-markers '(".git" ".svn"))
+(setq fiplr-ignored-globs '((directories (".git" ".svn" "node_modules"))
+                            (files ("*.jpg" "*.png" "*.zip" "*~"))))
+#+END_SRC
 
 *** Experiments
 
@@ -434,18 +444,30 @@ Customizations for the web-mode
 (put 'upcase-region 'disabled nil)
 #+END_SRC
 
-
 *** Duplicate line
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(defun duplicate-line()
-  (interactive)
-  (move-beginning-of-line 1)
-  (kill-line)
-  (yank)
-  (open-line 1)
-  (next-line 1)
-  (yank))
+(defun duplicate-line-or-region (&optional n)
+  "Duplicate current line, or region if active.
+With argument N, make N copies.
+With negative N, comment out original line and use the absolute value."
+  (interactive "*p")
+  (let ((use-region (use-region-p)))
+    (save-excursion
+      (let ((text (if use-region        ;Get region if active, otherwise line
+                      (buffer-substring (region-beginning) (region-end))
+                    (prog1 (thing-at-point 'line)
+                      (end-of-line)
+                      (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+                          (newline))))))
+        (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+          (insert text))))
+    (if use-region nil                  ;Only if we're working with a line (not a region)
+      (let ((pos (- (point) (line-beginning-position)))) ;Save column
+        (if (> 0 n)                             ;Comment out original with negative arg
+            (comment-region (line-beginning-position) (line-end-position)))
+        (forward-line 1)
+        (forward-char pos)))))
 #+END_SRC
 
 *** Split window and find file
@@ -456,7 +478,7 @@ Customizations for the web-mode
   (interactive)
   (split-window-horizontally)
   (other-window 1)
-  (helm-projectile-find-file)
+  (fiplr-find-file)
   )
 
 (defun  split-and-find-file-V ()
@@ -464,7 +486,7 @@ Customizations for the web-mode
   (interactive)
   (split-window-vertically)
   (other-window 1)
-  (helm-projectile-find-file)
+  (fiplr-find-file)
   )
 #+END_SRC
 
@@ -492,18 +514,19 @@ Customizations for the web-mode
 (define-key custom-keys-map (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
 (define-key custom-keys-map (kbd "M-k")  'browse-kill-ring)
 (define-key custom-keys-map (kbd "C-x C-x")  'delete-window)
-(define-key custom-keys-map (kbd "C-x C-m")  'sidebar-open)
+(define-key custom-keys-map (kbd "C-x C-m")  'treemacs)
 
 ;; helm
 (define-key custom-keys-map (kbd "M-x") 'helm-smex)
-(define-key custom-keys-map (kbd "C-x C-f") 'projectile-find-file)
+(define-key custom-keys-map (kbd "C-x C-f") 'fiplr-find-file)
 (define-key custom-keys-map (kbd "C-x C-e") 'emmet-preview)
 
 (define-key custom-keys-map (kbd "M-z") 'custom-prompt)
+(define-key custom-keys-map (kbd "M-l") 'goto-line)
 
 (define-key custom-keys-map (kbd "C-c C-c") 'comment-dwim)
 
-(define-key custom-keys-map (kbd "C-d") 'duplicate-line)
+(define-key custom-keys-map (kbd "C-d") 'duplicate-line-or-region)
 
 (define-key custom-keys-map (kbd "C-c RET") 'mc/edit-lines)
 (define-key custom-keys-map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
@@ -573,19 +596,15 @@ Customizations for the web-mode
 ** sidebar keymap and hook
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(require 'sidebar)
-(defvar sidebar-mode-map (make-keymap) "keymap for the sidebar")
-(define-key sidebar-mode-map (kbd "<right>")  'sidebar-open-line)
-(define-key sidebar-mode-map (kbd "<left>")  'sidebar-up-directory)
+(require 'treemacs)
 
-(add-hook 'before-make-frame-hook (lambda()
-(message "%s" "plop")
-(setq helm-split-window-default-side 'same)
-
-(define-key sidebar-mode-map (kbd "C-f") 'helm-swoop)
-
-))
-(add-hook 'post-command-hook (lambda()
+;; after-change-major-mode-hook
+(add-hook 'after-change-major-mode-hook (lambda()
+(when (eq major-mode 'treemacs-mode)
+(interactive)
+(linum-relative-global-mode nil)
+(linum-mode -1)
+)
 ))
 
 #+END_SRC
