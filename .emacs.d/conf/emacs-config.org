@@ -221,7 +221,7 @@ highlight current line and custom window appearance
 #+END_SRC
 
 
-Theme code (custom)
+M-x customize generated code
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 
@@ -286,11 +286,9 @@ Nyan mode
 *** global config for all files
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(projectile-global-mode)
 (rainbow-delimiters-mode)
 (put 'dired-find-alternate-file 'disabled nil)
 (setq load-prefer-newer t)
-(helm-projectile-on)
 (setq show-smartparens-delay 0)
 (show-smartparens-global-mode +1)
 #+END_SRC
@@ -444,6 +442,36 @@ Customizations for the web-mode
 (put 'upcase-region 'disabled nil)
 #+END_SRC
 
+*** Copy without killing
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(defun xah-copy-to-register-1 ()
+  "Copy current line or text selection to register 1.
+See also: `xah-paste-from-register-1', `copy-to-register'.
+
+URL `http://ergoemacs.org/emacs/elisp_copy-paste_register_1.html'
+Version 2017-01-23"
+  (interactive)
+  (let ($p1 $p2)
+    (if (region-active-p)
+        (progn (setq $p1 (region-beginning))
+               (setq $p2 (region-end)))
+      (progn (setq $p1 (line-beginning-position))
+      (setq $p2 (line-end-position))))
+	     (copy-to-register ?1 $p1 $p2)))
+
+
+(defun xah-paste-from-register-1 ()
+  "Paste text from register 1.
+See also: `xah-copy-to-register-1', `insert-register'.
+URL `http://ergoemacs.org/emacs/elisp_copy-paste_register_1.html'
+Version 2015-12-08"
+  (interactive)
+  (when (use-region-p)
+    (delete-region (region-beginning) (region-end)))
+  (insert-register ?1 t))
+
+#+END_SRC
+
 *** Duplicate line
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
@@ -527,6 +555,8 @@ With negative N, comment out original line and use the absolute value."
 (define-key custom-keys-map (kbd "C-c C-c") 'comment-dwim)
 
 (define-key custom-keys-map (kbd "C-d") 'duplicate-line-or-region)
+(define-key custom-keys-map (kbd "C-S-c") 'xah-copy-to-register-1)
+(define-key custom-keys-map (kbd "C-S-v") 'xah-paste-from-register-1)
 
 (define-key custom-keys-map (kbd "C-c RET") 'mc/edit-lines)
 (define-key custom-keys-map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
@@ -596,7 +626,82 @@ With negative N, comment out original line and use the absolute value."
 ** sidebar keymap and hook
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(require 'treemacs)
+      (require 'treemacs)
+      (require 'grizzl)
+
+      (defvar *_treemacs-search-index*  (grizzl-make-index (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n")  :case-sensitive t))
+  ;;      (defvar *treemacs-search-index*  (grizzl-make-index '("one" "two" "three" "four"))) ;; :case-sensitive t))
+      (defvar *treemacs-current-search* "")
+      (defvar res-buffer (get-buffer-create "*treemacs-fuzzy-search-RESULT*"))
+
+
+      (defun treemacs-search-change ()  ""
+      (setq *treemacs-search-index* *_treemacs-search-index*)
+      ;; chamge value when treemacs root change
+      ;; find hook for treemacs root change
+      (setq *treemacs-current-search* (minibuffer-contents))
+      (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
+
+      ;; somehow *treemacs-search-index*  becomes nil in grizzl-search function
+
+      (grizzl-result-strings *treemacs-search-result* *treemacs-search-index*
+      :start 0
+      :end   100)
+      ;; (switch-to-buffer-other-window res-buffer)
+      )
+
+    ;;  (let ((inhibit-modification-hooks nil)) (treemacs-search-change))
+
+      (defun treemacs-fuzzy-search ()  ""
+      (interactive)
+      (setq *treemacs-search-index*  (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n"))
+      (minibuffer-with-setup-hook
+      (lambda ()
+      (add-hook 'post-self-insert-hook #'treemacs-search-change nil t))
+      (read-string (format "Pattern [%s]: " *treemacs-current-search*) nil nil *treemacs-current-search*))
+      )
+
+    ;; (setq *treemacs-current-search*
+
+
+
+      ;; Hi,
+
+      ;; I'm new to elisp programming, I want to implement a feature that I've seen in many emacs packages (helm, ido, fiplr ...) : calling a function (hook) when user types something in the minibuffer (read-string).
+
+      ;; If someone could write the simpliest piece of code that implements this feature and explain it to me, it would be wonderful.
+      ;; Something like writing to the current buffer everything I type on the minibuffer.
+
+      ;; So far, I just know how to use `interactive` and `read-string` to get the user input.
+
+      ;; Best regards,
+
+
+
+
+
+
+      ;;  (fiplr-find-file-in-directory (treemacs--current-root) fiplr-ignored-globs)
+
+
+      (defvar treemacs-mode-keymap (make-keymap) "treemacs-mode keymap.")
+
+      (define-key treemacs-mode-keymap (kbd "<left>")  'treemacs-uproot)
+      (define-key treemacs-mode-keymap (kbd "<right>")  'treemacs-RET-action)
+      (define-key treemacs-mode-keymap (kbd "SPC")  'treemacs-RET-action)
+      (define-key treemacs-mode-keymap (kbd "C-<return>")  'treemacs-change-root)
+      (define-key treemacs-mode-keymap (kbd "C-<right>")  'treemacs-change-root)
+      (define-key treemacs-mode-keymap (kbd "C-f")  'treemacs-fuzzy-search)
+
+      (define-minor-mode my-treemacs-minor-mode
+      "A minor mode for navigating in treemacs"
+      :init-value nil
+      :lighter " my-treemacs"
+      :keymap treemacs-mode-keymap)
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 
 ;; after-change-major-mode-hook
 (add-hook 'after-change-major-mode-hook (lambda()
@@ -604,6 +709,7 @@ With negative N, comment out original line and use the absolute value."
 (interactive)
 (linum-relative-global-mode nil)
 (linum-mode -1)
+(my-treemacs-minor-mode)
 )
 ))
 

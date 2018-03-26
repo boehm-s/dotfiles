@@ -110,6 +110,9 @@
   (unless (package-installed-p package)
         (package-install package)))
 
+(load "~/.emacs.d/font-lock+.el")
+(add-to-list 'load-path "~/.emacs.d/sidebar.el/")
+(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -197,17 +200,15 @@
 
 (nyan-mode)
 
-(projectile-global-mode)
 (rainbow-delimiters-mode)
-(global-company-mode)
 (put 'dired-find-alternate-file 'disabled nil)
 (setq load-prefer-newer t)
-(helm-projectile-on)
 (setq show-smartparens-delay 0)
 (show-smartparens-global-mode +1)
 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (js2-mode) (company-mode) (company-tern) )))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (indium) ))) ;; TODO
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
+(add-to-list 'auto-mode-alist '("\\.pug\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda() (web-mode) (emmet-mode))))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
@@ -226,20 +227,8 @@
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.racket\\'" . racket-mode))
 
-(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
-
-(if (eq system-type 'windows-nt) (setq tern-command '("node" "<TERN LOCATION>\\bin\\tern")))
-(eval-after-load 'tern
-  '(progn
-     (require 'tern-auto-complete)
-     (tern-ac-setup)))
-
-(add-hook 'js-mode-hook '(lambda () (setq-local company-backends '((company-web company-css company-tern :with company-yasnippet)))))
-(add-hook 'js-mode-hook 'js2-minor-mode)
-(add-hook 'js-mode-hook (lambda () (tern-mode t)))
-(add-hook 'js2-mode-hook 'tern-mode)
-(add-hook 'js-mode-hook 'tern-mode)
-(add-hook 'js-mode-hook (lambda () (imenu-add-menubar-index) (hs-minor-mode t)))
+(require 'indium)
+(add-hook 'js-mode-hook #'indium-interaction-mode)
 
 (defun my-web-mode-hook ()
   "Web mode customization."
@@ -265,6 +254,8 @@
 
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
+(global-company-mode)
+
 (setq company-dabbrev-downcase 0)
 (setq company-idle-delay 0)
 (setq company-minimum-prefix-length 2)
@@ -286,6 +277,10 @@
 
 (global-set-key [backtab] 'tab-indent-or-complete)
 
+(setq fiplr-root-markers '(".git" ".svn"))
+(setq fiplr-ignored-globs '((directories (".git" ".svn" "node_modules"))
+                            (files ("*.jpg" "*.png" "*.zip" "*~"))))
+
 ;; eval region js and insert
 (defun node-js-eval-region-or-buffer ()
   "evaluate the region and 'node' it !"
@@ -293,8 +288,8 @@
     (insert
      (shell-command-to-string
       (concat "node -e '"
-              (buffer-substring (mark) (point))
-              "';")))
+	      (buffer-substring (mark) (point))
+	      "';")))
     (setq deactivate-mark t))
 
 ;; eval region python and insert
@@ -304,8 +299,8 @@
     (insert
      (shell-command-to-string
       (concat "python -c '"
-              (buffer-substring (mark) (point))
-              "';")))
+	      (buffer-substring (mark) (point))
+	      "';")))
     (setq deactivate-mark t))
 
 (defun custom-prompt (str)
@@ -325,21 +320,60 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-(defun duplicate-line()
+(defun xah-copy-to-register-1 ()
+  "Copy current line or text selection to register 1.
+See also: `xah-paste-from-register-1', `copy-to-register'.
+
+URL `http://ergoemacs.org/emacs/elisp_copy-paste_register_1.html'
+Version 2017-01-23"
   (interactive)
-  (move-beginning-of-line 1)
-  (kill-line)
-  (yank)
-  (open-line 1)
-  (next-line 1)
-  (yank))
+  (let ($p1 $p2)
+    (if (region-active-p)
+        (progn (setq $p1 (region-beginning))
+               (setq $p2 (region-end)))
+      (progn (setq $p1 (line-beginning-position))
+      (setq $p2 (line-end-position))))
+	     (copy-to-register ?1 $p1 $p2)))
+
+
+(defun xah-paste-from-register-1 ()
+  "Paste text from register 1.
+See also: `xah-copy-to-register-1', `insert-register'.
+URL `http://ergoemacs.org/emacs/elisp_copy-paste_register_1.html'
+Version 2015-12-08"
+  (interactive)
+  (when (use-region-p)
+    (delete-region (region-beginning) (region-end)))
+  (insert-register ?1 t))
+
+(defun duplicate-line-or-region (&optional n)
+  "Duplicate current line, or region if active.
+With argument N, make N copies.
+With negative N, comment out original line and use the absolute value."
+  (interactive "*p")
+  (let ((use-region (use-region-p)))
+    (save-excursion
+      (let ((text (if use-region        ;Get region if active, otherwise line
+                      (buffer-substring (region-beginning) (region-end))
+                    (prog1 (thing-at-point 'line)
+                      (end-of-line)
+                      (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+                          (newline))))))
+        (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+          (insert text))))
+    (if use-region nil                  ;Only if we're working with a line (not a region)
+      (let ((pos (- (point) (line-beginning-position)))) ;Save column
+        (if (> 0 n)                             ;Comment out original with negative arg
+            (comment-region (line-beginning-position) (line-end-position)))
+        (forward-line 1)
+        (forward-char pos)))))
 
 (defun  split-and-find-file-H ()
   "Split the window and open the find-file prompt"
   (interactive)
   (split-window-horizontally)
   (other-window 1)
-  (helm-projectile-find-file)
+  (fiplr-find-file)
   )
 
 (defun  split-and-find-file-V ()
@@ -347,63 +381,188 @@
   (interactive)
   (split-window-vertically)
   (other-window 1)
-  (helm-projectile-find-file)
+  (fiplr-find-file)
   )
 
-(defvar my-keys-minor-mode-map
-  (let ((map (make-sparse-keymap)))
+(defvar custom-keys-map (make-keymap) "my custom shortcuts")
 
-  (define-key map (kbd "C-x C-<right>") 'split-and-find-file-H)
-  (define-key map (kbd "C-x C-<left>")  'split-and-find-file-H)
-  (define-key map (kbd "C-x C-<up>")    'split-and-find-file-V)
-  (define-key map (kbd "C-x C-<down>")  'split-and-find-file-V)
+(define-key custom-keys-map (kbd "C-x C-<right>") 'split-and-find-file-H)
+(define-key custom-keys-map (kbd "C-x C-<left>")  'split-and-find-file-H)
+(define-key custom-keys-map (kbd "C-x C-<up>")    'split-and-find-file-V)
+(define-key custom-keys-map (kbd "C-x C-<down>")  'split-and-find-file-V)
 
-  (define-key map (kbd "s-<left>")  'windmove-left)
-  (define-key map (kbd "s-<right>") 'windmove-right)
-  (define-key map (kbd "s-<up>")    'windmove-up)
-  (define-key map (kbd "s-<down>")  'windmove-down)
+(define-key custom-keys-map (kbd "s-<left>")  'windmove-left)
+(define-key custom-keys-map (kbd "s-<right>") 'windmove-right)
+(define-key custom-keys-map (kbd "s-<up>")    'windmove-up)
+(define-key custom-keys-map (kbd "s-<down>")  'windmove-down)
 
-  (define-key map (kbd "M-<left>")  'windmove-left)
-  (define-key map (kbd "M-<right>") 'windmove-right)
-  (define-key map (kbd "M-<up>")    'windmove-up)
-  (define-key map (kbd "M-<down>")  'windmove-down)
+(define-key custom-keys-map (kbd "M-<left>")  'windmove-left)
+(define-key custom-keys-map (kbd "M-<right>") 'windmove-right)
+(define-key custom-keys-map (kbd "M-<up>")    'windmove-up)
+(define-key custom-keys-map (kbd "M-<down>")  'windmove-down)
 
-  (define-key map (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
-  (define-key map (kbd "M-k")  'browse-kill-ring)
-  (define-key map (kbd "C-x C-x")  'delete-window)
-  (define-key map (kbd "C-x C-m")  'neotree)
+(define-key custom-keys-map (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
+(define-key custom-keys-map (kbd "M-k")  'browse-kill-ring)
+(define-key custom-keys-map (kbd "C-x C-x")  'delete-window)
+(define-key custom-keys-map (kbd "C-x C-m")  'treemacs)
 
-  ;; helm
-  (define-key map (kbd "M-x") 'helm-smex)
-  (define-key map (kbd "C-x C-f") 'projectile-find-file)
-  (define-key map (kbd "C-x C-e") 'emmet-preview)
+;; helm
+(define-key custom-keys-map (kbd "M-x") 'helm-smex)
+(define-key custom-keys-map (kbd "C-x C-f") 'fiplr-find-file)
+(define-key custom-keys-map (kbd "C-x C-e") 'emmet-preview)
 
-  (define-key map (kbd "M-z") 'custom-prompt)
+(define-key custom-keys-map (kbd "M-z") 'custom-prompt)
+(define-key custom-keys-map (kbd "M-l") 'goto-line)
 
-  (define-key map (kbd "C-c C-c") 'comment-dwim)
+(define-key custom-keys-map (kbd "C-c C-c") 'comment-dwim)
 
-  (define-key map (kbd "C-d") 'duplicate-line)
+(define-key custom-keys-map (kbd "C-d") 'duplicate-line-or-region)
+(define-key custom-keys-map (kbd "C-S-c") 'xah-copy-to-register-1)
+(define-key custom-keys-map (kbd "C-S-v") 'xah-paste-from-register-1)
 
-  (define-key map (kbd "C-c RET") 'mc/edit-lines)
-  (define-key map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
-  (define-key map (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
+(define-key custom-keys-map (kbd "C-c RET") 'mc/edit-lines)
+(define-key custom-keys-map (kbd "C-c C-s") 'mc/mark-next-like-this-word)
+(define-key custom-keys-map (kbd "C-c C-r") 'mc/mark-previous-like-this-word)
 
-  (define-key map (kbd "C-c C-<left>") 'hs-hide-all)
-  (define-key map (kbd "C-c C-<right>") 'hs-show-all)
-  (define-key map (kbd "C-c <left>") 'hs-hide-block)
-  (define-key map (kbd "C-c <right>") 'hs-show-block)
+(define-key custom-keys-map (kbd "C-c C-<left>") 'hs-hide-all)
+(define-key custom-keys-map (kbd "C-c C-<right>") 'hs-show-all)
+(define-key custom-keys-map (kbd "C-c <left>") 'hs-hide-block)
+(define-key custom-keys-map (kbd "C-c <right>") 'hs-show-block)
 
-  (define-key map (kbd "C-f") 'helm-swoop)
+(define-key custom-keys-map (kbd "C-f") 'helm-swoop)
 
-  map)
-  "my-keys-minor-mode keymap.")
+(define-minor-mode my-keys-minor-mode
+"A minor mode so that my key settings override annoying major modes."
+:init-value t
+:lighter " my-keys"
+:keymap custom-keys-map)
 
-  (define-minor-mode my-keys-minor-mode
-  "A minor mode so that my key settings override annoying major modes."
-  :init-value t
-  :lighter " my-keys")
+(defvar term-mode-keymap (make-keymap) "term-mode keymap.")
 
-  (my-keys-minor-mode 1)
+(define-key term-mode-keymap (kbd "s-<left>")  'windmove-left)
+(define-key term-mode-keymap (kbd "s-<right>") 'windmove-right)
+(define-key term-mode-keymap (kbd "s-<up>")    'windmove-up)
+(define-key term-mode-keymap (kbd "s-<down>")  'windmove-down)
+
+(define-key term-mode-keymap (kbd "M-<left>")  'windmove-left)
+(define-key term-mode-keymap (kbd "M-<right>") 'windmove-right)
+(define-key term-mode-keymap (kbd "M-<up>")    'windmove-up)
+(define-key term-mode-keymap (kbd "M-<down>")  'windmove-down)
+(define-key term-mode-keymap (kbd "M-x") 'helm-smex)
+
+(define-key term-mode-keymap (kbd "C-c")  'term-interrupt-subjob)
+(define-key term-mode-keymap (kbd "M-DEL") 'term-send-backward-kill-word)
+(define-key term-mode-keymap (kbd "C-<right>") (lambda() (interactive) (term-send-raw-string "\e[1;5C")))
+(define-key term-mode-keymap (kbd "C-<left>") (lambda() (interactive) (term-send-raw-string "\e[1;5D")))
+(define-key term-mode-keymap (kbd "C-r") (lambda()(interactive) (term-send-raw-string "\C-r")))
+(define-key term-mode-keymap (kbd "C-d") (lambda()(interactive) (term-send-raw-string "\C-d")))
+
+(define-minor-mode my-term-minor-mode
+"A minor mode so that I got a normal terminal."
+:init-value nil
+:lighter " my-term"
+:keymap term-mode-keymap)
+
+(add-hook 'term-mode-hook
+(lambda()
+
+(message "%s" "This is in term mode and hook enabled.")
+
+(dolist (key '("\C-a" "\C-b" "\C-c" "\C-d" "\C-e" "\C-f" "\C-g"
+"\C-h" "\C-k" "\C-l" "\C-n" "\C-o" "\C-p" "\C-q"
+"\C-t" "\C-u" "\C-v" "\C-x" "\C-z" "\C-r" "\M-DEL" "\e"))
+(local-unset-key key))
+
+(my-keys-minor-mode -1)
+(clean-aindent-mode -1)
+(my-term-minor-mode 1)
+))
+
+(require 'treemacs)
+    (require 'grizzl)
+
+    (defvar *_treemacs-search-index*  (grizzl-make-index (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n")  :case-sensitive t))
+;;      (defvar *treemacs-search-index*  (grizzl-make-index '("one" "two" "three" "four"))) ;; :case-sensitive t))
+    (defvar *treemacs-current-search* "")
+    (defvar res-buffer (get-buffer-create "*treemacs-fuzzy-search-RESULT*"))
+
+
+    (defun treemacs-search-change ()  ""
+    (setq *treemacs-search-index* *_treemacs-search-index*)
+    (setq *treemacs-current-search* (minibuffer-contents))
+    (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
+
+    ;; somehow *treemacs-search-index*  becomes nil in grizzl-search function
+
+    (grizzl-result-strings *treemacs-search-result* *treemacs-search-index*
+    :start 0
+    :end   100)
+    ;; (switch-to-buffer-other-window res-buffer)
+    )
+
+  ;;  (let ((inhibit-modification-hooks nil)) (treemacs-search-change))
+
+    (defun treemacs-fuzzy-search ()  ""
+    (interactive)
+    (setq *treemacs-search-index*  (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n"))
+    (minibuffer-with-setup-hook
+    (lambda ()
+    (add-hook 'post-self-insert-hook #'treemacs-search-change nil t))
+    (read-string (format "Pattern [%s]: " *treemacs-current-search*) nil nil *treemacs-current-search*))
+    )
+
+  ;; (setq *treemacs-current-search*
+
+
+
+    ;; Hi,
+
+    ;; I'm new to elisp programming, I want to implement a feature that I've seen in many emacs packages (helm, ido, fiplr ...) : calling a function (hook) when user types something in the minibuffer (read-string).
+
+    ;; If someone could write the simpliest piece of code that implements this feature and explain it to me, it would be wonderful.
+    ;; Something like writing to the current buffer everything I type on the minibuffer.
+
+    ;; So far, I just know how to use `interactive` and `read-string` to get the user input.
+
+    ;; Best regards,
+
+
+
+
+
+
+    ;;  (fiplr-find-file-in-directory (treemacs--current-root) fiplr-ignored-globs)
+
+
+    (defvar treemacs-mode-keymap (make-keymap) "treemacs-mode keymap.")
+
+    (define-key treemacs-mode-keymap (kbd "<left>")  'treemacs-uproot)
+    (define-key treemacs-mode-keymap (kbd "<right>")  'treemacs-RET-action)
+    (define-key treemacs-mode-keymap (kbd "SPC")  'treemacs-RET-action)
+    (define-key treemacs-mode-keymap (kbd "C-<return>")  'treemacs-change-root)
+    (define-key treemacs-mode-keymap (kbd "C-<right>")  'treemacs-change-root)
+    (define-key treemacs-mode-keymap (kbd "C-f")  'treemacs-fuzzy-search)
+
+    (define-minor-mode my-treemacs-minor-mode
+    "A minor mode for navigating in treemacs"
+    :init-value nil
+    :lighter " my-treemacs"
+    :keymap treemacs-mode-keymap)
+
+;; after-change-major-mode-hook
+(add-hook 'after-change-major-mode-hook (lambda()
+(when (eq major-mode 'treemacs-mode)
+(interactive)
+(linum-relative-global-mode nil)
+(linum-mode -1)
+(my-treemacs-minor-mode)
+)
+))
+
+(setq org-support-shift-select t)
+
+(my-keys-minor-mode 1)
+(my-term-minor-mode -1)
 
 (require 'atomic-chrome)
 (unless (zerop (call-process "lsof" nil nil nil "-i" ":64292"))
