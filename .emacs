@@ -229,6 +229,20 @@
 
 (require 'indium)
 (add-hook 'js-mode-hook #'indium-interaction-mode)
+(require 'xref-js2)
+(require 'helm-xref)
+(setq xref-show-xrefs-function 'helm-xref-show-xrefs)
+
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(js2r-add-keybindings-with-prefix "C-c C-r")
+(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+
+;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
+;; unbind it.
+(define-key js-mode-map (kbd "M-.") nil)
+
+(add-hook 'js2-mode-hook (lambda ()
+  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
 (defun my-web-mode-hook ()
   "Web mode customization."
@@ -489,6 +503,8 @@ With negative N, comment out original line and use the absolute value."
 
     (defun treemacs-search-change ()  ""
     (setq *treemacs-search-index* *_treemacs-search-index*)
+    ;; chamge value when treemacs root change
+    ;; find hook for treemacs root change
     (setq *treemacs-current-search* (minibuffer-contents))
     (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
 
@@ -579,3 +595,61 @@ With negative N, comment out original line and use the absolute value."
 
 (setq atomic-chrome-buffer-open-style 'frame)
 (setq atomic-chrome-default-major-mode 'atomic-edit-mode)
+
+(lambda ()
+  (interactive)
+  (let ((command (concat "-a " (Man-default-man-entry))))
+    (man command)
+    (other-window 1)))
+
+(setenv "GDK_SCALE" "1")
+(setenv "GDK_DPI_SCALE" "1")
+(modify-all-frames-parameters '((inhibit-double-buffering . t)))
+
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+(require 'mu4e)
+
+(setq mail-user-agent 'mu4e-user-agent)
+(setq mu4e-sent-messages-behavior 'delete)
+
+;; default
+(setq mu4e-maildir "~/Maildir")
+(setq mu4e-drafts-folder "/[Gmail].Brouillons")
+(setq mu4e-sent-folder   "/[Gmail].Messages envoy&AOk-s")
+(setq mu4e-trash-folder  "/[Gmail].Corbeille")
+
+;; setup some handy shortcuts
+(setq mu4e-maildir-shortcuts
+      '(("INBOX"             . ?i)
+        ("[Gmail].Messages envoy&AOk-s" . ?s)
+        ("[Gmail].Corbeille"     . ?t)))
+
+;; allow for updating mail using 'U' in the main view:
+(setq mu4e-get-mail-command "offlineimap")
+
+;; something about ourselves
+;; I don't use a signature...
+(setq
+ user-mail-address "boehm_s@etna-alternance.net"
+ user-full-name  "Steven BOEHM"
+ ;; message-signature
+ ;;  (concat
+ ;;    "Foo X. Bar\n"
+ ;;    "http://www.example.com\n")
+)
+
+(setq message-kill-buffer-on-exit t)
+
+
+(require 'smtpmail)
+
+(setq message-send-mail-function 'smtpmail-send-it
+      starttls-use-gnutls t
+      smtpmail-starttls-credentials
+      '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-auth-credentials
+      (expand-file-name "~/.authinfo.gpg")
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-debug-info t)

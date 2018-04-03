@@ -23,6 +23,7 @@
 	hs-hide-block
 	hs-show-block
 	indent-for-tab-command
+	jade-comment-dwim
 	jade-indent
 	jade-newline-and-indent
 	jade-unindent

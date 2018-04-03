@@ -1,0 +1,160 @@
+  Where should the build process find the source code?    .
+  What compiler should emacs be built with?               gcc -g3 -O2
+  Should Emacs use the GNU version of malloc?             yes
+      (Using Doug Lea's new malloc from the GNU C Library.)
+  Should Emacs use a relocating allocator for buffers?    no
+  Should Emacs use mmap(2) for buffer allocation?         no
+  What window system should Emacs use?                    x11
+  What toolkit should Emacs use?                          GTK3
+  Where do we find X Windows header files?                Standard dirs
+  Where do we find X Windows libraries?                   Standard dirs
+  Does Emacs use -lXaw3d?                                 no
+  Does Emacs use -lXpm?                                   yes
+  Does Emacs use -ljpeg?                                  yes
+  Does Emacs use -ltiff?                                  yes
+  Does Emacs use a gif library?                           yes -lgif
+  Does Emacs use a png library?                           yes -lpng12
+  Does Emacs use -lrsvg-2?                                yes
+  Does Emacs use cairo?                                   yes
+  Does Emacs use -llcms2?                                 yes
+  Does Emacs use imagemagick (version 6)?                 yes
+  Does Emacs support sound?                               yes
+  Does Emacs use -lgpm?                                   yes
+  Does Emacs use -ldbus?                                  yes
+  Does Emacs use -lgconf?                                 yes
+  Does Emacs use GSettings?                               yes
+  Does Emacs use a file notification library?             yes -lglibc (inotify)
+  Does Emacs use access control lists?                    no
+  Does Emacs use -lselinux?                               yes
+  Does Emacs use -lgnutls?                                yes
+  Does Emacs use -lxml2?                                  yes
+  Does Emacs use -lfreetype?                              yes
+  Does Emacs use -lm17n-flt?                              yes
+  Does Emacs use -lotf?                                   yes
+  Does Emacs use -lxft?                                   yes
+  Does Emacs use -lsystemd?                               yes
+  Does Emacs directly use zlib?                           yes
+  Does Emacs have dynamic modules support?                no
+  Does Emacs use toolkit scroll bars?                     yes
+  Does Emacs support Xwidgets (requires gtk3)?            yes
+  Does Emacs have threading support in lisp?              yes
+
+
+
+--bindir=
+--enable-check-lisp-object-type
+--localstatedir=
+--with-cairo
+--without-gnutls
+--without-xaw3d
+
+--build=
+--enable-FEATURE
+--mandir=
+--with-file-notification=
+--without-gpm
+--without-xft
+
+--cache-file=
+--enable-gcc-warnings
+--no-create
+--with-gameuser=
+--without-gsettings
+--without-xim
+
+--config-cache
+--enable-gtk-deprecation-warnings
+--oldincludedir=
+--with-gconf
+--without-imagemagick
+--without-xml2
+
+--datadir=
+--enable-link-time-optimization
+--pdfdir=
+--with-gnustep-conf=
+--without-jpeg
+--without-xpm
+
+--datarootdir=
+--enable-locallisppath=
+--prefix=
+--with-hesiod
+--without-lcms2
+--without-zlib
+
+--disable-acl
+--enable-profiling
+--program-prefix=
+--with-kerberos
+--without-libotf
+--with-PACKAGE
+
+--disable-build-details
+--exec-prefix=
+--program-suffix=
+--with-kerberos5
+--without-libsystemd
+--with-pop
+
+--disable-FEATURE
+--help
+--program-transform-name=
+--with-mailhost=
+--without-m17n-flt
+--with-sound=
+
+--disable-largefile
+--help=
+--psdir=
+--with-mail-unlink
+--without-makeinfo
+--with-w32
+
+--disable-ns-self-contained
+--host=
+--quiet
+--with-mailutils
+--without-PACKAGE
+--with-wide-int
+
+--disable-option-checking
+--htmldir=
+--runstatedir=
+--with-modules
+--without-png
+--with-x
+
+--disable-silent-rules
+--includedir=
+--sbindir=
+--with-ns
+--without-rsvg
+--with-x-toolkit=
+
+--docdir=
+--infodir=
+--sharedstatedir=
+--without-all
+--without-selinux
+--with-xwidgets
+
+--dvidir=
+--libdir=
+--srcdir=
+--without-compress-install
+--without-threads
+--x-includes=
+
+--enable-autodepend
+--libexecdir=
+--sysconfdir=
+--without-dbus
+--without-tiff
+--x-libraries=
+
+--enable-checking
+--localedir=
+--version
+--without-gif
+--without-toolkit-scroll-bars
