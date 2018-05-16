@@ -131,8 +131,6 @@
        ))
 
 
-(package-initialize)
-
 #+END_SRC
 
 
@@ -186,8 +184,6 @@ Big window on startup
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+END_SRC
-
-
 
 
 Line number display
@@ -286,17 +282,18 @@ Nyan mode
 *** global config for all files
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(rainbow-delimiters-mode)
-(put 'dired-find-alternate-file 'disabled nil)
-(setq load-prefer-newer t)
-(setq show-smartparens-delay 0)
-(show-smartparens-global-mode +1)
+;; (rainbow-delimiters-mode)
+;; (put 'dired-find-alternate-file 'disabled nil)
+
+;; (setq load-prefer-newer t)
+;; (setq show-smartparens-delay 0)
+;; (show-smartparens-global-mode +1)
 #+END_SRC
 
 *** associating files types and modes
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (indium) ))) ;; TODO
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)) ;; TODO
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.pug\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda() (web-mode) (emmet-mode))))
@@ -316,6 +313,19 @@ Nyan mode
 (add-to-list 'auto-mode-alist '("\\.c\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.racket\\'" . racket-mode))
+(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
+#+END_SRC
+
+
+*** C# conf
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(add-hook 'csharp-mode-hook 'omnisharp-mode)
+
+(eval-after-load
+ 'company
+ '(add-to-list 'company-backends 'company-omnisharp))
+
+(add-hook 'csharp-mode-hook #'company-mode)
 #+END_SRC
 
 
@@ -324,22 +334,20 @@ Nyan mode
 Node as JS interpreter for js2-mode
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(require 'indium)
-(add-hook 'js-mode-hook #'indium-interaction-mode)
-(require 'xref-js2)
-(require 'helm-xref)
-(setq xref-show-xrefs-function 'helm-xref-show-xrefs)
+  (require 'company)
+  (require 'company-tern)
 
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-(js2r-add-keybindings-with-prefix "C-c C-r")
-(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+  (add-hook 'after-init-hook 'global-company-mode)
 
-;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
-;; unbind it.
-(define-key js-mode-map (kbd "M-.") nil)
+  (add-to-list 'company-backends 'company-tern)
+  (add-hook 'js2-mode-hook (lambda ()
+			     (tern-mode)
+			     (company-mode)))
 
-(add-hook 'js2-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
+  ;; (eval-after-load 'tern
+  ;;    '(progn
+  ;;       (add-to-list 'company-backends 'company-tern)))
 #+END_SRC
 
 

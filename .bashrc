@@ -7,11 +7,6 @@ source $HOME/.cargo/env
 export ALTERNATE_EDITOR="gedit"
 export EDITOR="emacs -nw"
 
-export ANDROID_HOME=/root/Android/Sdk
-export NDK_HOME=/opt/android-ndk-r13b
-export ANDROID_NDK_ROOT=/opt/android-ndk-r13b
-export NDK_TOOLCHAIN=/opt/android-ndk-r13b/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
-export NDK_SYSROOT=/opt/android-ndk-r13b/platforms/android-18/arch-arm/
 
 # \emacs --daemon
 
@@ -89,30 +84,36 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
 alias ll='ls -l'
 alias la='ls -A'
+alias lla='ls -la'
+alias llA='ls -lA'
 alias l='ls -CF'
-alias emacs='emacs -nw'
+alias emacs='XLIB_SKIP_ARGB_VISUALS=1 emacs'
 alias sudo='sudo '
 alias pp='rm -rf *~ \#*\#'
 alias catt='pygmentize'
 alias norme='/opt/norme.py -nocheat'
+alias xtrace='/home/boehm-s/install/xtrace.sh'
+
 
 alias gst='git status'
 alias gc='git commit'
 alias gp='git push'
+alias sbrc='source /home/boehm-s/.bashrc'
+alias grep='grep --color=auto'
 
 #source ~/.bash-powerline.sh
 
@@ -124,17 +125,12 @@ function mkcdir() {
     do
 	if [[ $var =~ ^- ]]
 	then
-	    echo -- $var
 	    opt[i]=("$var")
 	else
-	    echo @@ $var
 	    dir+=("$var")
 	fi
 	i=$((i+1))
     done
-    echo ---------------------
-    echo $testt
-    echo --------------------
     mkdir $opt $dir
     cd ${dir[-1]}
 }
@@ -165,3 +161,39 @@ fi
 export EDITOR="/usr/bin/emacs -nw"
 
 PATH=/home/boehm-s/Public/emacs/src:/home/boehm-s/Public/emacs/src:/home/boehm-s/.cargo/bin:/home/boehm-s/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+# Custom commands
+
+
+
+function fpkg() {
+    options=`getopt -o n --long names -- "$@"`
+
+    [ $? -eq 0 ] || {
+    echo "Incorrect options provided"
+    exit 1
+    }
+
+    pkglist=$(sudo dpkg -l | grep -i $1)
+
+    eval set -- "$options"
+
+    while true; do
+	case "$1" in
+	    -n|--names)
+		echo "$pkglist" | head -n10 | awk '{print $2}'
+		;;
+	    --)
+		shift
+		break
+		;;
+	esac
+	shift
+    done
+
+}

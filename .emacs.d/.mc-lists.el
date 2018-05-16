@@ -27,6 +27,7 @@
 	jade-indent
 	jade-newline-and-indent
 	jade-unindent
+	js2r-kill
 	kill-region
 	list-directory
 	markdown-cycle
@@ -37,6 +38,8 @@
 	org-shiftright
 	org-yank
 	phi-search
+	phi-search-backward
+	repeat
 	split-and-find-file-V
 	tab-to-tab-stop
 	tern-ac-dot-complete
@@ -53,9 +56,13 @@
 	delete-window
 	enlarge-window-horizontally
 	helm-swoop
+	js2-down-mouse-3
 	keyboard-escape-quit
+	markdown-outdent-or-delete
 	mouse-buffer-menu
+	mouse-save-then-kill
 	overwrite-mode
 	split-and-find-file-H
+	view-emacs-FAQ
 	vim-prompt
 	))

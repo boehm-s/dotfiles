@@ -131,8 +131,6 @@
        ))
 
 
-(package-initialize)
-
 #+END_SRC
 
 
@@ -186,8 +184,6 @@ Big window on startup
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+END_SRC
-
-
 
 
 Line number display
@@ -286,17 +282,20 @@ Nyan mode
 *** global config for all files
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(rainbow-delimiters-mode)
-(put 'dired-find-alternate-file 'disabled nil)
-(setq load-prefer-newer t)
-(setq show-smartparens-delay 0)
-(show-smartparens-global-mode +1)
+;; (rainbow-delimiters-mode)
+;; (put 'dired-find-alternate-file 'disabled nil)
+
+;; (setq load-prefer-newer t)
+;; (setq show-smartparens-delay 0)
+;; (show-smartparens-global-mode +1)
 #+END_SRC
 
 *** associating files types and modes
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda() (indium) ))) ;; TODO
+(add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda()
+(company-mode) (tern-mode) (js2-mode) (indium-interaction-mode)
+))) ;; TODO
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.pug\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda() (web-mode) (emmet-mode))))
@@ -324,8 +323,33 @@ Nyan mode
 Node as JS interpreter for js2-mode
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(require 'indium)
+(add-to-list 'company-backends 'company-tern)
 (add-hook 'js-mode-hook #'indium-interaction-mode)
+;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
+;; unbind it.
+(define-key js-mode-map (kbd "M-.") nil)
+
+
+(defun js-conf ()
+(interactive)
+  (kill-all-local-variables)
+  (setq company-idle-delay 0)
+
+  (tern-mode)
+  (js2-mode)
+  (company-mode)
+
+
+  (require 'indium)
+  (require 'xref-js2)
+  (require 'helm-xref)
+
+  (setq xref-show-xrefs-function 'helm-xref-show-xrefs)
+
+  (js2r-add-keybindings-with-prefix "C-c C-r")
+  (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+
+  )
 #+END_SRC
 
 
@@ -760,7 +784,61 @@ With negative N, comment out original line and use the absolute value."
     (other-window 1)))
 #+END_SRC
 
-***  disable double-buffering 
+***  emacs 26 hacks
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setenv "GDK_SCALE" "1")
+(setenv "GDK_DPI_SCALE" "1")
 (modify-all-frames-parameters '((inhibit-double-buffering . t)))
+#+END_SRC
+
+*** emails
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+(require 'mu4e)
+
+(setq mail-user-agent 'mu4e-user-agent)
+(setq mu4e-sent-messages-behavior 'delete)
+
+;; default
+(setq mu4e-maildir "~/Maildir")
+(setq mu4e-drafts-folder "/[Gmail].Brouillons")
+(setq mu4e-sent-folder   "/[Gmail].Messages envoy&AOk-s")
+(setq mu4e-trash-folder  "/[Gmail].Corbeille")
+
+;; setup some handy shortcuts
+(setq mu4e-maildir-shortcuts
+      '(("INBOX"             . ?i)
+        ("[Gmail].Messages envoy&AOk-s" . ?s)
+        ("[Gmail].Corbeille"     . ?t)))
+
+;; allow for updating mail using 'U' in the main view:
+(setq mu4e-get-mail-command "offlineimap")
+
+;; something about ourselves
+;; I don't use a signature...
+(setq
+ user-mail-address "boehm_s@etna-alternance.net"
+ user-full-name  "Steven BOEHM"
+ ;; message-signature
+ ;;  (concat
+ ;;    "Foo X. Bar\n"
+ ;;    "http://www.example.com\n")
+)
+
+(setq message-kill-buffer-on-exit t)
+
+
+(require 'smtpmail)
+
+(setq message-send-mail-function 'smtpmail-send-it
+      starttls-use-gnutls t
+      smtpmail-starttls-credentials
+      '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-auth-credentials
+      (expand-file-name "~/.authinfo.gpg")
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-debug-info t)
 #+END_SRC
