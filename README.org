@@ -1,34 +1,11 @@
-#+TITLE: My emacs conf file
+(setq load-path
+      (append
+       (list
+        (expand-file-name "~/.emacs.d/elpa"))
+       load-path))
 
-*** Set up load path
-
- The variable =load-path= lists all the directories where Emacs should look for Elisp files.
-
- #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
- (setq load-path
-       (append
-	(list
-         (expand-file-name "~/.emacs.d/elpa"))
-	load-path))
- #+END_SRC
-
-** Packages
-
-*** Activate all the packages.
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (require 'package)
 (package-initialize)
-#+END_SRC
-
-*** List of repositories containing packages.
-
-1. elpa repo (from gnu)
-2. [[http://melpa.milkbox.net/#/][melpa]] repo - contains packages updated daily.
-3. [[http://melpa-stable.milkbox.net/#/][melpa-stable]] repo - [alternative to [[http://marmalade-repo.org/][Marmalade]]] It offers stable packages built automatically from git tags.
-4. [[http://orgmode.org/elpa/][org]] repo - Org's package repository.
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 
 (when (>= emacs-major-version 24)
       (require 'package)
@@ -38,13 +15,6 @@
                                ("org" . "http://orgmode.org/elpa/"))
       )
 )
-
-#+END_SRC
-
-*** List of packages used in this configuration.
-
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 
 (setq package-list
       (list
@@ -56,7 +26,6 @@
        'ido                   ; manage buffers
        'json-reformat         ; format JSON
        'js-comint             ; js interpreter
-       'linum-relative        ; linum relative
        'magit                 ; git integration
        'magit-popup
        'multiple-cursors      ; ST-like multiple cursors
@@ -130,15 +99,6 @@
        ;; 'autocomplete-config   ; autocompletion conf
        ))
 
-
-#+END_SRC
-
-
-*** Check if all packages are installed.
-
-if not all packages are installed, check one by one and install the missing ones.
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -146,13 +106,6 @@ if not all packages are installed, check one by one and install the missing ones
   (unless (package-installed-p package)
         (package-install package)))
 
-#+END_SRC
-
-** Visual appearance
-
-I turn =off= mouse interface early in startup to avoid momentary display.
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (load "~/.emacs.d/font-lock+.el")
 (add-to-list 'load-path "~/.emacs.d/sidebar.el/")
 (add-to-list 'load-path "~/.local/share/icons-in-terminal/")
@@ -162,51 +115,29 @@ I turn =off= mouse interface early in startup to avoid momentary display.
 (if (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
 (if (fboundp 'use-file-dialog) (setq use-file-dialog nil))
 (if (fboundp 'use-dialog-box) (setq use-dialog-box nil))
-#+END_SRC
 
-I prefer to disable Emacs' fringe.
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (fringe-mode '(0 . 0))
-#+END_SRC
 
-
-Remove startup screen
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (when (display-graphic-p)
   (setq inhibit-startup-screen t)
 )
-#+END_SRC
 
-Big window on startup
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-#+END_SRC
 
+;; (setq column-number-mode t)
+;; (linum-relative-global-mode t)
 
-Line number display
+;; (string-to-number (format-mode-line "%l"))
+;; (setq linum-relative-current-symbol "->")
+;; (setq linum-relative-format "%3s \u2502") ; "%3s \u2502"
+;; (set-face-attribute 'linum nil :foreground "magenta")
 
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(setq column-number-mode t)
-(linum-relative-global-mode t)
+;; (defadvice linum-update (around my-linum-update)
+;;   (setq linum-relative-current-symbol (number-to-string (current-column)))
+;;   ad-do-it)
 
-(string-to-number (format-mode-line "%l"))
-(setq linum-relative-current-symbol "->")
-(setq linum-relative-format "%3s \u2502") ; "%3s \u2502"
-(set-face-attribute 'linum nil :foreground "magenta")
+;; (ad-activate 'linum-update)
 
-(defadvice linum-update (around my-linum-update)
-  (setq linum-relative-current-symbol (number-to-string (current-column)))
-  ad-do-it)
-
-(ad-activate 'linum-update)
-#+END_SRC
-
-highlight current line and custom window appearance
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
@@ -214,36 +145,27 @@ highlight current line and custom window appearance
 (global-hl-line-mode 1)
 (set-face-background 'hl-line "#3e4446")
 (set-face-foreground 'highlight nil)
-#+END_SRC
 
-
-M-x customize generated code
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(ansi-color-names-vector
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(custom-enabled-themes '(zerodark))
  '(custom-safe-themes
-   (quote
-    ("f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+   '("cdc2a7ba4ecf0910f13ba207cce7080b58d9ed2234032113b8846a4e44597e41" "d8a7a7d2cffbc55ec5efbeb5d14a5477f588ee18c5cddd7560918f9674032727" "b5cff93c3c6ed12d09ce827231b0f5d4925cfda018c9dcf93a2517ce3739e7f1" "8e7044bfad5a2e70dfc4671337a4f772ee1b41c5677b8318f17f046faa42b16b" "d9e811d5a12dec79289c5bacaecd8ae393d168e9a92a659542c2a9bab6102041" "9dc64d345811d74b5cd0dac92e5717e1016573417b23811b2c37bb985da41da2" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" "6332c9756bde31cf9e34154395868413e45714488507527969f95a61b5f24518" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(fci-rule-color "#383838")
+ '(global-whitespace-mode t)
  '(nrepl-message-colors
-   (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+   '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   (quote
-    (helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar spacemacs-theme spaceline sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game)))
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+   '(zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar spacemacs-theme spaceline sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
+ '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
-   (quote
-    ((20 . "#BC8383")
+   '((20 . "#BC8383")
      (40 . "#CC9393")
      (60 . "#DFAF8F")
      (80 . "#D0BF8F")
@@ -260,7 +182,7 @@ M-x customize generated code
      (300 . "#7CB8BB")
      (320 . "#8CD0D3")
      (340 . "#94BFF3")
-     (360 . "#DC8CC3"))))
+     (360 . "#DC8CC3")))
  '(vc-annotate-very-old-color "#DC8CC3"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -269,30 +191,15 @@ M-x customize generated code
  ;; If there is more than one, they won't work right.
  )
 
-#+END_SRC
+;; (nyan-mode)
 
-Nyan mode
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(nyan-mode)
-#+END_SRC
-
-** Code Editor / IDE
-
-*** global config for all files
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 ;; (rainbow-delimiters-mode)
 ;; (put 'dired-find-alternate-file 'disabled nil)
 
 ;; (setq load-prefer-newer t)
 ;; (setq show-smartparens-delay 0)
 ;; (show-smartparens-global-mode +1)
-#+END_SRC
 
-*** associating files types and modes
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)) ;; TODO
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.pug\\'" . jade-mode))
@@ -314,11 +221,7 @@ Nyan mode
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.racket\\'" . racket-mode))
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
-#+END_SRC
 
-
-*** C# conf
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (add-hook 'csharp-mode-hook 'omnisharp-mode)
 
 (eval-after-load
@@ -326,37 +229,22 @@ Nyan mode
  '(add-to-list 'company-backends 'company-omnisharp))
 
 (add-hook 'csharp-mode-hook #'company-mode)
-#+END_SRC
+
+(require 'company)
+(require 'company-tern)
+
+(add-hook 'after-init-hook 'global-company-mode)
+
+(add-to-list 'company-backends 'company-tern)
+(add-hook 'js2-mode-hook (lambda ()
+			   (tern-mode)
+			   (company-mode)))
 
 
-*** JS configuration
+;; (eval-after-load 'tern
+;;    '(progn
+;;       (add-to-list 'company-backends 'company-tern)))
 
-Node as JS interpreter for js2-mode
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-  (require 'company)
-  (require 'company-tern)
-
-  (add-hook 'after-init-hook 'global-company-mode)
-
-  (add-to-list 'company-backends 'company-tern)
-  (add-hook 'js2-mode-hook (lambda ()
-			     (tern-mode)
-			     (company-mode)))
-
-
-  ;; (eval-after-load 'tern
-  ;;    '(progn
-  ;;       (add-to-list 'company-backends 'company-tern)))
-#+END_SRC
-
-
-
-*** Web dev configuration
-
-Customizations for the web-mode
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defun my-web-mode-hook ()
   "Web mode customization."
   (setq web-mode-markup-indent-offset 2)
@@ -380,11 +268,6 @@ Customizations for the web-mode
   )
 
 (add-hook 'web-mode-hook  'my-web-mode-hook)
-#+END_SRC
-
-*** company-mode settings
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 
 (global-company-mode)
 
@@ -409,19 +292,10 @@ Customizations for the web-mode
 
 (global-set-key [backtab] 'tab-indent-or-complete)
 
-#+END_SRC
-
-*** Find files with filpr
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setq fiplr-root-markers '(".git" ".svn"))
 (setq fiplr-ignored-globs '((directories (".git" ".svn" "node_modules"))
                             (files ("*.jpg" "*.png" "*.zip" "*~"))))
-#+END_SRC
 
-*** Experiments
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 ;; eval region js and insert
 (defun node-js-eval-region-or-buffer ()
   "evaluate the region and 'node' it !"
@@ -453,19 +327,14 @@ Customizations for the web-mode
   (when (string-match "^d\\([[:digit:]]+\\)" str)
     (dotimes (i (string-to-number (match-string 1 str))) (kill-line)))
   )
-#+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (setq backup-directory-alist `(("." . "~/.emacs.d/backup")))
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-#+END_SRC
 
-*** Copy without killing
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defun xah-copy-to-register-1 ()
   "Copy current line or text selection to register 1.
 See also: `xah-paste-from-register-1', `copy-to-register'.
@@ -492,11 +361,6 @@ Version 2015-12-08"
     (delete-region (region-beginning) (region-end)))
   (insert-register ?1 t))
 
-#+END_SRC
-
-*** Duplicate line
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defun duplicate-line-or-region (&optional n)
   "Duplicate current line, or region if active.
 With argument N, make N copies.
@@ -518,11 +382,7 @@ With negative N, comment out original line and use the absolute value."
             (comment-region (line-beginning-position) (line-end-position)))
         (forward-line 1)
         (forward-char pos)))))
-#+END_SRC
 
-*** Split window and find file
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defun  split-and-find-file-H ()
   "Split the window and open the find-file prompt"
   (interactive)
@@ -538,12 +398,7 @@ With negative N, comment out original line and use the absolute value."
   (other-window 1)
   (fiplr-find-file)
   )
-#+END_SRC
 
-
-** Shortcuts (minor-mode)
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defvar custom-keys-map (make-keymap) "my custom shortcuts")
 
 (define-key custom-keys-map (kbd "C-x C-<right>") 'split-and-find-file-H)
@@ -597,11 +452,6 @@ With negative N, comment out original line and use the absolute value."
 :lighter " my-keys"
 :keymap custom-keys-map)
 
-#+END_SRC
-
-** multi-term keys (minor-mode)
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defvar term-mode-keymap (make-keymap) "term-mode keymap.")
 
 (define-key term-mode-keymap (kbd "s-<left>")  'windmove-left)
@@ -642,88 +492,79 @@ With negative N, comment out original line and use the absolute value."
 (clean-aindent-mode -1)
 (my-term-minor-mode 1)
 ))
-#+END_SRC
+
+(require 'treemacs)
+    (require 'grizzl)
+
+    (defvar *_treemacs-search-index*  (grizzl-make-index (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n")  :case-sensitive t))
+;;      (defvar *treemacs-search-index*  (grizzl-make-index '("one" "two" "three" "four"))) ;; :case-sensitive t))
+    (defvar *treemacs-current-search* "")
+    (defvar res-buffer (get-buffer-create "*treemacs-fuzzy-search-RESULT*"))
 
 
-** sidebar keymap and hook
+    (defun treemacs-search-change ()  ""
+    (setq *treemacs-search-index* *_treemacs-search-index*)
+    ;; chamge value when treemacs root change
+    ;; find hook for treemacs root change
+    (setq *treemacs-current-search* (minibuffer-contents))
+    (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
 
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-      (require 'treemacs)
-      (require 'grizzl)
+    ;; somehow *treemacs-search-index*  becomes nil in grizzl-search function
 
-      (defvar *_treemacs-search-index*  (grizzl-make-index (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n")  :case-sensitive t))
-  ;;      (defvar *treemacs-search-index*  (grizzl-make-index '("one" "two" "three" "four"))) ;; :case-sensitive t))
-      (defvar *treemacs-current-search* "")
-      (defvar res-buffer (get-buffer-create "*treemacs-fuzzy-search-RESULT*"))
+    (grizzl-result-strings *treemacs-search-result* *treemacs-search-index*
+    :start 0
+    :end   100)
+    ;; (switch-to-buffer-other-window res-buffer)
+    )
 
+  ;;  (let ((inhibit-modification-hooks nil)) (treemacs-search-change))
 
-      (defun treemacs-search-change ()  ""
-      (setq *treemacs-search-index* *_treemacs-search-index*)
-      ;; chamge value when treemacs root change
-      ;; find hook for treemacs root change
-      (setq *treemacs-current-search* (minibuffer-contents))
-      (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
+    (defun treemacs-fuzzy-search ()  ""
+    (interactive)
+    (setq *treemacs-search-index*  (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n"))
+    (minibuffer-with-setup-hook
+    (lambda ()
+    (add-hook 'post-self-insert-hook #'treemacs-search-change nil t))
+    (read-string (format "Pattern [%s]: " *treemacs-current-search*) nil nil *treemacs-current-search*))
+    )
 
-      ;; somehow *treemacs-search-index*  becomes nil in grizzl-search function
-
-      (grizzl-result-strings *treemacs-search-result* *treemacs-search-index*
-      :start 0
-      :end   100)
-      ;; (switch-to-buffer-other-window res-buffer)
-      )
-
-    ;;  (let ((inhibit-modification-hooks nil)) (treemacs-search-change))
-
-      (defun treemacs-fuzzy-search ()  ""
-      (interactive)
-      (setq *treemacs-search-index*  (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n"))
-      (minibuffer-with-setup-hook
-      (lambda ()
-      (add-hook 'post-self-insert-hook #'treemacs-search-change nil t))
-      (read-string (format "Pattern [%s]: " *treemacs-current-search*) nil nil *treemacs-current-search*))
-      )
-
-    ;; (setq *treemacs-current-search*
+  ;; (setq *treemacs-current-search*
 
 
 
-      ;; Hi,
+    ;; Hi,
 
-      ;; I'm new to elisp programming, I want to implement a feature that I've seen in many emacs packages (helm, ido, fiplr ...) : calling a function (hook) when user types something in the minibuffer (read-string).
+    ;; I'm new to elisp programming, I want to implement a feature that I've seen in many emacs packages (helm, ido, fiplr ...) : calling a function (hook) when user types something in the minibuffer (read-string).
 
-      ;; If someone could write the simpliest piece of code that implements this feature and explain it to me, it would be wonderful.
-      ;; Something like writing to the current buffer everything I type on the minibuffer.
+    ;; If someone could write the simpliest piece of code that implements this feature and explain it to me, it would be wonderful.
+    ;; Something like writing to the current buffer everything I type on the minibuffer.
 
-      ;; So far, I just know how to use `interactive` and `read-string` to get the user input.
+    ;; So far, I just know how to use `interactive` and `read-string` to get the user input.
 
-      ;; Best regards,
+    ;; Best regards,
 
 
 
 
 
 
-      ;;  (fiplr-find-file-in-directory (treemacs--current-root) fiplr-ignored-globs)
+    ;;  (fiplr-find-file-in-directory (treemacs--current-root) fiplr-ignored-globs)
 
 
-      (defvar treemacs-mode-keymap (make-keymap) "treemacs-mode keymap.")
+    (defvar treemacs-mode-keymap (make-keymap) "treemacs-mode keymap.")
 
-      (define-key treemacs-mode-keymap (kbd "<left>")  'treemacs-uproot)
-      (define-key treemacs-mode-keymap (kbd "<right>")  'treemacs-RET-action)
-      (define-key treemacs-mode-keymap (kbd "SPC")  'treemacs-RET-action)
-      (define-key treemacs-mode-keymap (kbd "C-<return>")  'treemacs-change-root)
-      (define-key treemacs-mode-keymap (kbd "C-<right>")  'treemacs-change-root)
-      (define-key treemacs-mode-keymap (kbd "C-f")  'treemacs-fuzzy-search)
+    (define-key treemacs-mode-keymap (kbd "<left>")  'treemacs-uproot)
+    (define-key treemacs-mode-keymap (kbd "<right>")  'treemacs-RET-action)
+    (define-key treemacs-mode-keymap (kbd "SPC")  'treemacs-RET-action)
+    (define-key treemacs-mode-keymap (kbd "C-<return>")  'treemacs-change-root)
+    (define-key treemacs-mode-keymap (kbd "C-<right>")  'treemacs-change-root)
+    (define-key treemacs-mode-keymap (kbd "C-f")  'treemacs-fuzzy-search)
 
-      (define-minor-mode my-treemacs-minor-mode
-      "A minor mode for navigating in treemacs"
-      :init-value nil
-      :lighter " my-treemacs"
-      :keymap treemacs-mode-keymap)
-#+END_SRC
-
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+    (define-minor-mode my-treemacs-minor-mode
+    "A minor mode for navigating in treemacs"
+    :init-value nil
+    :lighter " my-treemacs"
+    :keymap treemacs-mode-keymap)
 
 ;; after-change-major-mode-hook
 (add-hook 'after-change-major-mode-hook (lambda()
@@ -735,26 +576,11 @@ With negative N, comment out original line and use the absolute value."
 )
 ))
 
-#+END_SRC
-
-
-** org-mode shift select
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setq org-support-shift-select t)
-#+END_SRC
 
-
-** default minor mode values
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (my-keys-minor-mode 1)
 (my-term-minor-mode -1)
-#+END_SRC
 
-** Atomic conf
-*** trying to write a major-mode for editing textareas
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (require 'atomic-chrome)
 (unless (zerop (call-process "lsof" nil nil nil "-i" ":64292"))
 (atomic-chrome-start-server)
@@ -770,28 +596,17 @@ With negative N, comment out original line and use the absolute value."
 
 (setq atomic-chrome-buffer-open-style 'frame)
 (setq atomic-chrome-default-major-mode 'atomic-edit-mode)
-#+END_SRC
 
-*** man conf
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (lambda ()
   (interactive)
   (let ((command (concat "-a " (Man-default-man-entry))))
     (man command)
     (other-window 1)))
-#+END_SRC
 
-***  emacs 26 hacks
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setenv "GDK_SCALE" "1")
 (setenv "GDK_DPI_SCALE" "1")
 (modify-all-frames-parameters '((inhibit-double-buffering . t)))
-#+END_SRC
 
-*** emails
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 
@@ -839,4 +654,3 @@ With negative N, comment out original line and use the absolute value."
       smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
       smtpmail-debug-info t)
-#+END_SRC

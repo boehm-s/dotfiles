@@ -65,4 +65,5 @@
 	split-and-find-file-H
 	view-emacs-FAQ
 	vim-prompt
+	yank-rectangle
 	))

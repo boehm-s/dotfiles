@@ -1,18 +1,18 @@
 
 ;; ----- smex-history -----
 (
- load-file
- helm-spotify-plus
- replace-string
- google-translate-query-translate
- version
- tern-get-type
+ org-babel-tangle
  find-file
+ customize-themes
+ global-whitespace-mode
+ discover-my-major
+ package-autoremove
+ package-list-packages
 )
 
 ;; ----- smex-data -----
 (
- (package-show-package-list . 8)
+ (package-show-package-list . 9)
  (helm-dash . 6)
  (helm-dash-install-docset . 5)
  (eww . 1)
@@ -21,7 +21,7 @@
  (w3m-search . 2)
  (version . 8)
  (xwidget-webkit-browse-url . 18)
- (replace-string . 83)
+ (replace-string . 85)
  (org-mode . 1)
  (xwidget-cleanup . 3)
  (xwidget-webkit-mode . 4)
@@ -41,14 +41,14 @@
  (zone . 83)
  (run-lisp . 3)
  (magit-blame . 2)
- (nodejs-repl . 15)
+ (nodejs-repl . 17)
  (nodejs-repl-restart . 1)
  (json-mode . 10)
  (js2-mode . 17)
  (company-begin-backend . 1)
  (company-tern . 3)
  (global-company-mode . 3)
- (bs-show . 34)
+ (bs-show . 36)
  (term . 6)
  (ebrowse-tags-find-declaration . 1)
  (js2-jump-to-definition . 4)
@@ -62,11 +62,11 @@
  (indium-interaction-mode . 10)
  (tabulated-list-mode . 2)
  (yaml-mode . 2)
- (package-list-packages . 70)
+ (package-list-packages . 76)
  (ldap-mode . 5)
  (js-mode . 1)
  (json-pretty-print . 5)
- (helm-top . 2)
+ (helm-top . 3)
  (global-auto-complete-mode . 1)
  (package-install-selected-packages . 2)
  (hl-line-mode . 1)
@@ -89,10 +89,10 @@
  (markdown-mode . 5)
  (helm-projectile-on . 2)
  (twit . 1)
- (hackernews . 1)
+ (hackernews . 2)
  (css-mode . 11)
  (read-color . 4)
- (find-file . 219)
+ (find-file . 226)
  (csv-mode . 3)
  (palette . 2)
  (browse-kill-ring . 3)
@@ -124,7 +124,7 @@
  (capitalize-region . 2)
  (eval-expression . 1)
  (java-mode . 2)
- (org-babel-tangle . 218)
+ (org-babel-tangle . 220)
  (org-babel-load-file . 1)
  (org-babel-switch-to-session-with-code . 1)
  (org-babel-expand-src-block . 2)
@@ -145,7 +145,7 @@
  (nxml-web-mode . 1)
  (linum-mode . 3)
  (helm-find-files . 4)
- (load-file . 33)
+ (load-file . 31)
  (ido-find-file . 1)
  (helm-fuzzy-find . 7)
  (html2text . 4)
@@ -166,7 +166,7 @@
  (describe-minor-mode . 3)
  (describe-mode . 3)
  (customize-group . 8)
- (customize-themes . 1)
+ (customize-themes . 5)
  (color-theme-print . 6)
  (helm-colors . 4)
  (list-faces-display . 3)
@@ -195,8 +195,8 @@
  (swiper-toggle-face-matching . 1)
  (ibuffer-or-filter . 1)
  (ibuffer-filter-by-name . 1)
- (package-autoremove . 1)
- (helm-ag . 180)
+ (package-autoremove . 2)
+ (helm-ag . 181)
  (helm-ag-r . 1)
  (package-delete . 1)
  (swiper-helm . 1)
@@ -237,7 +237,7 @@
  (look-at-files . 1)
  (look-mode . 1)
  (html-image . 1)
- (auto-image-file-mode . 2)
+ (auto-image-file-mode . 3)
  (image-dired-show-all-from-dir . 1)
  (iimage-mode . 1)
  (find-dired . 3)
@@ -424,7 +424,7 @@
  (mu4e-show-log . 1)
  (mu4e-compose-attach-captured-message . 1)
  (mail-signature . 2)
- (helm-spotify-plus . 11)
+ (helm-spotify-plus . 9)
  (helm-spotify . 3)
  (helm-spotify-plus-next . 1)
  (helm-spotify-plus-toggle-play-pause . 2)
@@ -434,4 +434,9 @@
  (treemacs-visit-node-horizontal-split . 1)
  (treemacs-visit-node-ace-horizontal-split . 3)
  (treemacs-visit-node-ace . 1)
+ (discover-my-major . 2)
+ (helm-google . 1)
+ (magit-stage . 1)
+ (magit-status . 1)
+ (global-whitespace-mode . 6)
 )
