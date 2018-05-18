@@ -5,7 +5,6 @@
        load-path))
 
 (require 'package)
-(package-initialize)
 
 (when (>= emacs-major-version 24)
       (require 'package)
@@ -124,20 +123,6 @@
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; (setq column-number-mode t)
-;; (linum-relative-global-mode t)
-
-;; (string-to-number (format-mode-line "%l"))
-;; (setq linum-relative-current-symbol "->")
-;; (setq linum-relative-format "%3s \u2502") ; "%3s \u2502"
-;; (set-face-attribute 'linum nil :foreground "magenta")
-
-;; (defadvice linum-update (around my-linum-update)
-;;   (setq linum-relative-current-symbol (number-to-string (current-column)))
-;;   ad-do-it)
-
-;; (ad-activate 'linum-update)
-
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
@@ -155,13 +140,13 @@
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(custom-enabled-themes '(zerodark))
  '(custom-safe-themes
-   '("cdc2a7ba4ecf0910f13ba207cce7080b58d9ed2234032113b8846a4e44597e41" "d8a7a7d2cffbc55ec5efbeb5d14a5477f588ee18c5cddd7560918f9674032727" "b5cff93c3c6ed12d09ce827231b0f5d4925cfda018c9dcf93a2517ce3739e7f1" "8e7044bfad5a2e70dfc4671337a4f772ee1b41c5677b8318f17f046faa42b16b" "d9e811d5a12dec79289c5bacaecd8ae393d168e9a92a659542c2a9bab6102041" "9dc64d345811d74b5cd0dac92e5717e1016573417b23811b2c37bb985da41da2" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" "6332c9756bde31cf9e34154395868413e45714488507527969f95a61b5f24518" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+   '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "cdc2a7ba4ecf0910f13ba207cce7080b58d9ed2234032113b8846a4e44597e41" "d8a7a7d2cffbc55ec5efbeb5d14a5477f588ee18c5cddd7560918f9674032727" "b5cff93c3c6ed12d09ce827231b0f5d4925cfda018c9dcf93a2517ce3739e7f1" "8e7044bfad5a2e70dfc4671337a4f772ee1b41c5677b8318f17f046faa42b16b" "d9e811d5a12dec79289c5bacaecd8ae393d168e9a92a659542c2a9bab6102041" "9dc64d345811d74b5cd0dac92e5717e1016573417b23811b2c37bb985da41da2" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" "6332c9756bde31cf9e34154395868413e45714488507527969f95a61b5f24518" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(fci-rule-color "#383838")
  '(global-whitespace-mode t)
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   '(zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar spacemacs-theme spaceline sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
+   '(zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -190,6 +175,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(setq sml/theme 'respectful)
 
 ;; (nyan-mode)
 
@@ -493,40 +480,40 @@ With negative N, comment out original line and use the absolute value."
 (my-term-minor-mode 1)
 ))
 
-(require 'treemacs)
-    (require 'grizzl)
+;;     (require 'treemacs)
+;;     (require 'grizzl)
 
-    (defvar *_treemacs-search-index*  (grizzl-make-index (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n")  :case-sensitive t))
-;;      (defvar *treemacs-search-index*  (grizzl-make-index '("one" "two" "three" "four"))) ;; :case-sensitive t))
-    (defvar *treemacs-current-search* "")
-    (defvar res-buffer (get-buffer-create "*treemacs-fuzzy-search-RESULT*"))
+;;     (defvar *_treemacs-search-index*  (grizzl-make-index (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n")  :case-sensitive t))
+;; ;;      (defvar *treemacs-search-index*  (grizzl-make-index '("one" "two" "three" "four"))) ;; :case-sensitive t))
+;;     (defvar *treemacs-current-search* "")
+;;     (defvar res-buffer (get-buffer-create "*treemacs-fuzzy-search-RESULT*"))
 
 
-    (defun treemacs-search-change ()  ""
-    (setq *treemacs-search-index* *_treemacs-search-index*)
-    ;; chamge value when treemacs root change
-    ;; find hook for treemacs root change
-    (setq *treemacs-current-search* (minibuffer-contents))
-    (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
+;;     (defun treemacs-search-change ()  ""
+;;     (setq *treemacs-search-index* *_treemacs-search-index*)
+;;     ;; chamge value when treemacs root change
+;;     ;; find hook for treemacs root change
+;;     (setq *treemacs-current-search* (minibuffer-contents))
+;;     (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
 
-    ;; somehow *treemacs-search-index*  becomes nil in grizzl-search function
+;;     ;; somehow *treemacs-search-index*  becomes nil in grizzl-search function
 
-    (grizzl-result-strings *treemacs-search-result* *treemacs-search-index*
-    :start 0
-    :end   100)
-    ;; (switch-to-buffer-other-window res-buffer)
-    )
+;;     (grizzl-result-strings *treemacs-search-result* *treemacs-search-index*
+;;     :start 0
+;;     :end   100)
+;;     ;; (switch-to-buffer-other-window res-buffer)
+;;     )
 
-  ;;  (let ((inhibit-modification-hooks nil)) (treemacs-search-change))
+;;   ;;  (let ((inhibit-modification-hooks nil)) (treemacs-search-change))
 
-    (defun treemacs-fuzzy-search ()  ""
-    (interactive)
-    (setq *treemacs-search-index*  (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n"))
-    (minibuffer-with-setup-hook
-    (lambda ()
-    (add-hook 'post-self-insert-hook #'treemacs-search-change nil t))
-    (read-string (format "Pattern [%s]: " *treemacs-current-search*) nil nil *treemacs-current-search*))
-    )
+;;     (defun treemacs-fuzzy-search ()  ""
+;;     (interactive)
+;;     (setq *treemacs-search-index*  (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n"))
+;;     (minibuffer-with-setup-hook
+;;     (lambda ()
+;;     (add-hook 'post-self-insert-hook #'treemacs-search-change nil t))
+;;     (read-string (format "Pattern [%s]: " *treemacs-current-search*) nil nil *treemacs-current-search*))
+;;     )
 
   ;; (setq *treemacs-current-search*
 

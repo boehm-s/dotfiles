@@ -18,7 +18,6 @@
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (require 'package)
-(package-initialize)
 #+END_SRC
 
 *** List of repositories containing packages.
@@ -185,24 +184,6 @@ Big window on startup
 #+END_SRC
 
 
-Line number display
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-  ;; (setq column-number-mode t)
-  ;; (linum-relative-global-mode t)
-
-  ;; (string-to-number (format-mode-line "%l"))
-  ;; (setq linum-relative-current-symbol "->")
-  ;; (setq linum-relative-format "%3s \u2502") ; "%3s \u2502"
-  ;; (set-face-attribute 'linum nil :foreground "magenta")
-
-  ;; (defadvice linum-update (around my-linum-update)
-  ;;   (setq linum-relative-current-symbol (number-to-string (current-column)))
-  ;;   ad-do-it)
-
-  ;; (ad-activate 'linum-update)
-#+END_SRC
-
 highlight current line and custom window appearance
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
@@ -235,7 +216,7 @@ M-x customize generated code
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   '(zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar spacemacs-theme spaceline sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
+   '(zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -266,6 +247,13 @@ M-x customize generated code
  )
 
 #+END_SRC
+
+modeline
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setq sml/theme 'respectful)
+#+END_SRC
+
 
 Nyan mode
 
@@ -644,40 +632,40 @@ With negative N, comment out original line and use the absolute value."
 ** sidebar keymap and hook
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-      (require 'treemacs)
-      (require 'grizzl)
+  ;;     (require 'treemacs)
+  ;;     (require 'grizzl)
 
-      (defvar *_treemacs-search-index*  (grizzl-make-index (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n")  :case-sensitive t))
-  ;;      (defvar *treemacs-search-index*  (grizzl-make-index '("one" "two" "three" "four"))) ;; :case-sensitive t))
-      (defvar *treemacs-current-search* "")
-      (defvar res-buffer (get-buffer-create "*treemacs-fuzzy-search-RESULT*"))
+  ;;     (defvar *_treemacs-search-index*  (grizzl-make-index (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n")  :case-sensitive t))
+  ;; ;;      (defvar *treemacs-search-index*  (grizzl-make-index '("one" "two" "three" "four"))) ;; :case-sensitive t))
+  ;;     (defvar *treemacs-current-search* "")
+  ;;     (defvar res-buffer (get-buffer-create "*treemacs-fuzzy-search-RESULT*"))
 
 
-      (defun treemacs-search-change ()  ""
-      (setq *treemacs-search-index* *_treemacs-search-index*)
-      ;; chamge value when treemacs root change
-      ;; find hook for treemacs root change
-      (setq *treemacs-current-search* (minibuffer-contents))
-      (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
+  ;;     (defun treemacs-search-change ()  ""
+  ;;     (setq *treemacs-search-index* *_treemacs-search-index*)
+  ;;     ;; chamge value when treemacs root change
+  ;;     ;; find hook for treemacs root change
+  ;;     (setq *treemacs-current-search* (minibuffer-contents))
+  ;;     (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
 
-      ;; somehow *treemacs-search-index*  becomes nil in grizzl-search function
+  ;;     ;; somehow *treemacs-search-index*  becomes nil in grizzl-search function
 
-      (grizzl-result-strings *treemacs-search-result* *treemacs-search-index*
-      :start 0
-      :end   100)
-      ;; (switch-to-buffer-other-window res-buffer)
-      )
+  ;;     (grizzl-result-strings *treemacs-search-result* *treemacs-search-index*
+  ;;     :start 0
+  ;;     :end   100)
+  ;;     ;; (switch-to-buffer-other-window res-buffer)
+  ;;     )
 
-    ;;  (let ((inhibit-modification-hooks nil)) (treemacs-search-change))
+  ;;   ;;  (let ((inhibit-modification-hooks nil)) (treemacs-search-change))
 
-      (defun treemacs-fuzzy-search ()  ""
-      (interactive)
-      (setq *treemacs-search-index*  (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n"))
-      (minibuffer-with-setup-hook
-      (lambda ()
-      (add-hook 'post-self-insert-hook #'treemacs-search-change nil t))
-      (read-string (format "Pattern [%s]: " *treemacs-current-search*) nil nil *treemacs-current-search*))
-      )
+  ;;     (defun treemacs-fuzzy-search ()  ""
+  ;;     (interactive)
+  ;;     (setq *treemacs-search-index*  (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n"))
+  ;;     (minibuffer-with-setup-hook
+  ;;     (lambda ()
+  ;;     (add-hook 'post-self-insert-hook #'treemacs-search-change nil t))
+  ;;     (read-string (format "Pattern [%s]: " *treemacs-current-search*) nil nil *treemacs-current-search*))
+  ;;     )
 
     ;; (setq *treemacs-current-search*
 

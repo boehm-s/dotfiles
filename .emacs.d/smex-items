@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
- org-babel-tangle
- find-file
- customize-themes
- global-whitespace-mode
- discover-my-major
- package-autoremove
- package-list-packages
+ mu4e
+ mode-line-bury-buffer
+ zerodark-setup-modeline-format
+ vc-mode-line
+ mode-line-minor-mode-help
+ mode-line-widen
+ smart-mode-line-enable
 )
 
 ;; ----- smex-data -----
@@ -62,7 +62,7 @@
  (indium-interaction-mode . 10)
  (tabulated-list-mode . 2)
  (yaml-mode . 2)
- (package-list-packages . 76)
+ (package-list-packages . 77)
  (ldap-mode . 5)
  (js-mode . 1)
  (json-pretty-print . 5)
@@ -92,7 +92,7 @@
  (hackernews . 2)
  (css-mode . 11)
  (read-color . 4)
- (find-file . 226)
+ (find-file . 227)
  (csv-mode . 3)
  (palette . 2)
  (browse-kill-ring . 3)
@@ -124,7 +124,7 @@
  (capitalize-region . 2)
  (eval-expression . 1)
  (java-mode . 2)
- (org-babel-tangle . 220)
+ (org-babel-tangle . 224)
  (org-babel-load-file . 1)
  (org-babel-switch-to-session-with-code . 1)
  (org-babel-expand-src-block . 2)
@@ -390,7 +390,7 @@
  (emmet-mode . 3)
  (emmet-preview-mode . 3)
  (emmet-expand-line . 8)
- (mu4e . 28)
+ (mu4e . 29)
  (mu4e-update-index . 7)
  (mu4e-info . 3)
  (mu4e~main-menu . 6)
@@ -438,5 +438,21 @@
  (helm-google . 1)
  (magit-stage . 1)
  (magit-status . 1)
- (global-whitespace-mode . 6)
+ (global-whitespace-mode . 7)
+ (powerline-vim-theme . 2)
+ (powerline-reset . 2)
+ (powerline-center-evil-theme . 1)
+ (powerline-nano-theme . 1)
+ (spaceline-info-mode . 1)
+ (spaceline-helm-mode . 1)
+ (spaceline-install . 1)
+ (spaceline-compile . 1)
+ (spaceline-toggle-major-mode-off . 1)
+ (spaceline-toggle-major-mode-on . 1)
+ (zerodark-setup-modeline-format . 5)
+ (smart-mode-line-enable . 2)
+ (mode-line-widen . 2)
+ (mode-line-minor-mode-help . 1)
+ (vc-mode-line . 1)
+ (mode-line-bury-buffer . 2)
 )
