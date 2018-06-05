@@ -277,6 +277,7 @@ Nyan mode
 *** associating files types and modes
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(add-to-list 'auto-mode-alist '("\\.exs\\'" . elixir-mode)) ;; TODO
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)) ;; TODO
 (add-to-list 'auto-mode-alist '("\\.jade\\'" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.pug\\'" . jade-mode))
@@ -790,9 +791,9 @@ With negative N, comment out original line and use the absolute value."
 
 ;; setup some handy shortcuts
 (setq mu4e-maildir-shortcuts
-      '(("INBOX"             . ?i)
-        ("[Gmail].Messages envoy&AOk-s" . ?s)
-        ("[Gmail].Corbeille"     . ?t)))
+      '(("/INBOX"             . ?i)
+        ("/[Gmail].Messages envoy&AOk-s" . ?s)
+        ("/[Gmail].Corbeille"     . ?t)))
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "offlineimap")
