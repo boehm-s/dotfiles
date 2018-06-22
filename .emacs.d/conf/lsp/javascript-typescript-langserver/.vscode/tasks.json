@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$tsc"
+      ]
+    },
+    {
+      "type": "npm",
+      "script": "watch",
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": [
+        "$tsc-watch"
+      ]
+    },
+    {
+      "type": "npm",
+      "script": "lint",
+      "group": "test",
+      "problemMatcher": [
+        "$tslint5"
+      ]
+    },
+    {
+      "type": "npm",
+      "script": "tslint",
+      "problemMatcher": [
+        "$tslint5"
+      ]
+    }
+  ]
+}

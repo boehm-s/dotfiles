@@ -140,13 +140,12 @@
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(custom-enabled-themes '(zerodark))
  '(custom-safe-themes
-   '("cdc2a7ba4ecf0910f13ba207cce7080b58d9ed2234032113b8846a4e44597e41" "d8a7a7d2cffbc55ec5efbeb5d14a5477f588ee18c5cddd7560918f9674032727" "b5cff93c3c6ed12d09ce827231b0f5d4925cfda018c9dcf93a2517ce3739e7f1" "8e7044bfad5a2e70dfc4671337a4f772ee1b41c5677b8318f17f046faa42b16b" "d9e811d5a12dec79289c5bacaecd8ae393d168e9a92a659542c2a9bab6102041" "9dc64d345811d74b5cd0dac92e5717e1016573417b23811b2c37bb985da41da2" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" "6332c9756bde31cf9e34154395868413e45714488507527969f95a61b5f24518" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+   '("ff79b206ad804c41a37b7b782aca44201edfa8141268a6cdf60b1c0916343bd4" "cdc2a7ba4ecf0910f13ba207cce7080b58d9ed2234032113b8846a4e44597e41" "d8a7a7d2cffbc55ec5efbeb5d14a5477f588ee18c5cddd7560918f9674032727" "b5cff93c3c6ed12d09ce827231b0f5d4925cfda018c9dcf93a2517ce3739e7f1" "8e7044bfad5a2e70dfc4671337a4f772ee1b41c5677b8318f17f046faa42b16b" "d9e811d5a12dec79289c5bacaecd8ae393d168e9a92a659542c2a9bab6102041" "9dc64d345811d74b5cd0dac92e5717e1016573417b23811b2c37bb985da41da2" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" "6332c9756bde31cf9e34154395868413e45714488507527969f95a61b5f24518" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(fci-rule-color "#383838")
- '(global-whitespace-mode t)
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   '(zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
+   '(dionysos svg zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -283,6 +282,30 @@
 (setq fiplr-root-markers '(".git" ".svn"))
 (setq fiplr-ignored-globs '((directories (".git" ".svn" "node_modules"))
                             (files ("*.jpg" "*.png" "*.zip" "*~"))))
+
+(require 'lsp-mode)
+(lsp-define-stdio-client
+ ;; This can be a symbol of your choosing. It will be used as a the
+ ;; prefix for a dynamically generated function "-enable"; in this
+ ;; case: lsp-prog-major-mode-enable
+ lsp-prog-major-mode
+ "language-id"
+ ;; This will be used to report a project's root directory to the LSP
+ ;; server.
+ (lambda () default-directory)
+ ;; This is the command to start the LSP server. It may either be a
+ ;; string containing the path of the command, or a list wherein the
+ ;; car is a string containing the path of the command, and the cdr
+ ;; are arguments to that command.
+ '("node" "~/.emacs.d/conf/lsp/javascript-typescript-langserver/lib/language-server-stdio.js"))
+
+;; Here we'll add the function that was dynamically generated by the
+;; call to lsp-define-stdio-client to the major-mode hook of the
+;; language we want to run it under.
+;;
+;; This function will turn lsp-mode on and call the command given to
+;; start the LSP server.
+(add-hook 'prog-major-mode #'lsp-prog-major-mode-enable)
 
 ;; eval region js and insert
 (defun node-js-eval-region-or-buffer ()
