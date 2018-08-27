@@ -140,12 +140,12 @@
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(custom-enabled-themes '(zerodark))
  '(custom-safe-themes
-   '("ff79b206ad804c41a37b7b782aca44201edfa8141268a6cdf60b1c0916343bd4" "cdc2a7ba4ecf0910f13ba207cce7080b58d9ed2234032113b8846a4e44597e41" "d8a7a7d2cffbc55ec5efbeb5d14a5477f588ee18c5cddd7560918f9674032727" "b5cff93c3c6ed12d09ce827231b0f5d4925cfda018c9dcf93a2517ce3739e7f1" "8e7044bfad5a2e70dfc4671337a4f772ee1b41c5677b8318f17f046faa42b16b" "d9e811d5a12dec79289c5bacaecd8ae393d168e9a92a659542c2a9bab6102041" "9dc64d345811d74b5cd0dac92e5717e1016573417b23811b2c37bb985da41da2" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" "6332c9756bde31cf9e34154395868413e45714488507527969f95a61b5f24518" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+   '("7c58646ae5de2a5563bd4061d3ff9ee06a8f85d22b08f89f59f3a77a4797ece0" "cdc2a7ba4ecf0910f13ba207cce7080b58d9ed2234032113b8846a4e44597e41" "d8a7a7d2cffbc55ec5efbeb5d14a5477f588ee18c5cddd7560918f9674032727" "b5cff93c3c6ed12d09ce827231b0f5d4925cfda018c9dcf93a2517ce3739e7f1" "8e7044bfad5a2e70dfc4671337a4f772ee1b41c5677b8318f17f046faa42b16b" "d9e811d5a12dec79289c5bacaecd8ae393d168e9a92a659542c2a9bab6102041" "9dc64d345811d74b5cd0dac92e5717e1016573417b23811b2c37bb985da41da2" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" "6332c9756bde31cf9e34154395868413e45714488507527969f95a61b5f24518" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(fci-rule-color "#383838")
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   '(dionysos svg zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
+   '(zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -399,7 +399,7 @@ With negative N, comment out original line and use the absolute value."
   (interactive)
   (split-window-horizontally)
   (other-window 1)
-  (fiplr-find-file)
+  (helm-find-files ".")
   )
 
 (defun  split-and-find-file-V ()
@@ -407,7 +407,7 @@ With negative N, comment out original line and use the absolute value."
   (interactive)
   (split-window-vertically)
   (other-window 1)
-  (fiplr-find-file)
+  (helm-find-files ".")
   )
 
 (defvar custom-keys-map (make-keymap) "my custom shortcuts")
@@ -434,7 +434,7 @@ With negative N, comment out original line and use the absolute value."
 
 ;; helm
 (define-key custom-keys-map (kbd "M-x") 'helm-smex)
-(define-key custom-keys-map (kbd "C-x C-f") 'fiplr-find-file)
+(define-key custom-keys-map (kbd "C-x C-f") 'helm-projectile)
 (define-key custom-keys-map (kbd "C-x C-e") 'emmet-preview)
 
 (define-key custom-keys-map (kbd "M-z") 'custom-prompt)
@@ -665,3 +665,155 @@ With negative N, comment out original line and use the absolute value."
       smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
       smtpmail-debug-info t)
+
+;; automatically start helm spotify plus
+
+(require 'helm-spotify-plus)
+
+(defvar bash-get-spotify-current-music "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'); artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2); song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2); echo \"[$artist]   $song\"")
+(defvar bash-get-spotify-play-pause "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | tail -n1 | cut -d\\\" -f2")
+(defvar current-music (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-current-music)))
+(defvar music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-play-pause))))
+(defun current-spotify-music ()
+  (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-current-music))
+)
+(defun update-current-spotify-data ()
+  (setq current-music (current-spotify-music))
+  (setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-play-pause))))
+  (force-mode-line-update t)
+)
+
+(run-with-timer 0 1 'update-current-spotify-data)
+
+(setq-default
+ mode-line-format
+ '(; Position, including warning for 80 columns
+   (:propertize "%5l:" face mode-line-position-face)
+   (:eval (propertize "%3c" 'face
+		      (if (>= (current-column) 80)
+			  'mode-line-80col-face
+			'mode-line-position-face)))
+					; emacsclient [default -- keep?]
+   mode-line-client
+   " "
+					 ; read-only or modified status
+   (:eval
+    (cond (buffer-read-only
+	   (propertize "RO" 'face 'mode-line-read-only-face))
+	  ((buffer-modified-p)
+	   (propertize "**" 'face 'mode-line-modified-face))
+	  (t "  ")))
+   " "
+					; directory and buffer/file name
+
+   (:eval (if (string= "*" (substring (buffer-name) 0 1) )
+	      (propertize "" 'face 'mode-line-folder-face)
+	    (propertize (shorten-directory default-directory 5) 'face
+			'mode-line-folder-face)))
+   (:propertize "%b"
+		face mode-line-filename-face)
+					; narrow [default -- keep?]
+   "%n"
+					; mode indicators: vc, recursive edit, major mode, minor modes, process, global
+   (vc-mode vc-mode)
+
+   (:propertize " (" face mode-line-mode-face)
+   (:propertize mode-name
+		face mode-line-mode-face)
+   (:propertize ")" face mode-line-mode-face)
+
+   (:eval (propertize (format-mode-line minor-mode-alist)
+		      'face 'mode-line-minor-mode-face))
+   (:propertize mode-line-process
+		face mode-line-process-face)
+   (global-mode-string global-mode-string)
+   " "
+					; nyan-mode uses nyan cat as an alternative to %p
+   ;; (:eval (when nyan-mode (list (nyan-create))))
+
+   (:propertize "     " nil nil)
+   (:eval (propertize " ⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-previous) (update-current-spotify-data) ) )))
+   (:eval (if (eq music-paused t)
+	      (propertize " ⏸ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused nil)) ))
+	      (propertize " ⏵ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused t)) ))
+   ))
+   (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (update-current-spotify-data)) ) ))
+   (:propertize "   " nil nil)
+   (:eval (propertize " 🔍 " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus) (update-current-spotify-data)) ) ))
+   (:propertize "   " nil nil)
+   (:propertize current-music)
+   ))
+
+
+
+
+
+;; Helper function
+(defun shorten-directory (dir max-length)
+  "Show up to `max-length' characters of a directory name `dir'."
+  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+	(output ""))
+    (when (and path (equal "" (car path)))
+      (setq path (cdr path)))
+    (while (and path (< (length output) (- max-length 4)))
+      (setq output (concat (car path) "/" output))
+      (setq path (cdr path)))
+    (when path
+      (setq output (concat ".../" output)))
+    output))
+
+;; Extra mode line faces
+(make-face 'mode-line-read-only-face)
+(make-face 'mode-line-modified-face)
+(make-face 'mode-line-folder-face)
+(make-face 'mode-line-filename-face)
+(make-face 'mode-line-position-face)
+(make-face 'mode-line-mode-face)
+(make-face 'mode-line-minor-mode-face)
+(make-face 'mode-line-process-face)
+(make-face 'mode-line-80col-face)
+
+(set-face-attribute 'mode-line nil
+		    :foreground "gray50" :background "gray30"
+		    :inverse-video nil
+		    :box '(:line-width 6 :color "gray30" :style nil))
+(set-face-attribute 'mode-line-inactive nil
+		    :foreground "gray80" :background "gray10"
+		    :inverse-video nil
+		    :box '(:line-width 6 :color "gray10" :style nil))
+
+(set-face-attribute 'mode-line-read-only-face nil
+		    :inherit 'mode-line-face
+		    :foreground "#4271ae"
+		    :box '(:line-width 2 :color "#4271ae"))
+(set-face-attribute 'mode-line-modified-face nil
+		    :inherit 'mode-line-face
+		    :foreground "#c82829"
+		    :background "#ffffff"
+		    :box '(:line-width 2 :color "#c82829"))
+(set-face-attribute 'mode-line-folder-face nil
+		    :inherit 'mode-line-face
+		    :foreground "gray60")
+(set-face-attribute 'mode-line-filename-face nil
+		    :inherit 'mode-line-face
+		    :foreground "#eab700"
+		    :weight 'bold)
+(set-face-attribute 'mode-line-position-face nil
+		    :inherit 'mode-line-face
+		    :height 100
+		    :foreground "gray80")
+(set-face-attribute 'mode-line-mode-face nil
+		    :inherit 'mode-line-face
+		    :foreground "gray80")
+(set-face-attribute 'mode-line-minor-mode-face nil
+		    :inherit 'mode-line-mode-face
+		    :foreground "gray80"
+		    :height 100)
+(set-face-attribute 'mode-line-process-face nil
+		    :inherit 'mode-line-face
+		    :foreground "#718c00")
+(set-face-attribute 'mode-line-80col-face nil
+		    :inherit 'mode-line-position-face
+		    :foreground "black" :background "#eab700")
+
+(provide 'mode-line-format)

@@ -104,7 +104,7 @@ alias l='ls -CF'
 alias emacs='XLIB_SKIP_ARGB_VISUALS=1 emacs'
 alias sudo='sudo '
 alias pp='rm -rf *~ \#*\#'
-alias catt='pygmentize'
+alias pyg='pygmentize'
 alias norme='/opt/norme.py -nocheat'
 alias xtrace='/home/boehm-s/install/xtrace.sh'
 
@@ -170,6 +170,10 @@ export NVM_DIR="$HOME/.nvm"
 # Custom commands
 
 
+
+function  pless() {
+    pygmentize $@ | less -R
+}
 
 function fpkg() {
     options=`getopt -o n --long names -- "$@"`

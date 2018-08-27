@@ -33,6 +33,8 @@
         markdown-cycle
         markdown-enter-key
         markdown-exdent-or-delete
+        markdown-forward-paragraph
+        nxml-electric-slash
         org-return
         org-self-insert-command
         org-shiftright
