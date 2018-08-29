@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
- man
- ialign
- helm-spotify-plus
- xref-find-definitions
- helm-spotify
- rainbow-delimiters-mode
- mode-line-previous-buffer
+ org-babel-tangle
+ helm-ag
+ package-list-packages
+ helm-projectile
+ projectile-mode
+ package-autoremove
+ mu4e-update-mail-and-index
 )
 
 ;; ----- smex-data -----
@@ -62,7 +62,7 @@
  (indium-interaction-mode . 10)
  (tabulated-list-mode . 2)
  (yaml-mode . 2)
- (package-list-packages . 96)
+ (package-list-packages . 100)
  (ldap-mode . 5)
  (js-mode . 1)
  (json-pretty-print . 5)
@@ -81,7 +81,7 @@
  (web-mode . 87)
  (web-mode-jsx-is-html . 1)
  (rjsx-mode . 63)
- (helm-projectile . 8)
+ (helm-projectile . 10)
  (helm-projectile-switch-project . 1)
  (projectile-switch-to-buffer . 1)
  (projectile-grep . 1)
@@ -124,7 +124,7 @@
  (capitalize-region . 2)
  (eval-expression . 1)
  (java-mode . 2)
- (org-babel-tangle . 297)
+ (org-babel-tangle . 337)
  (org-babel-load-file . 1)
  (org-babel-switch-to-session-with-code . 1)
  (org-babel-expand-src-block . 2)
@@ -195,8 +195,8 @@
  (swiper-toggle-face-matching . 1)
  (ibuffer-or-filter . 1)
  (ibuffer-filter-by-name . 1)
- (package-autoremove . 2)
- (helm-ag . 266)
+ (package-autoremove . 3)
+ (helm-ag . 273)
  (helm-ag-r . 1)
  (package-delete . 1)
  (swiper-helm . 1)
@@ -227,7 +227,7 @@
  (make-directory . 1)
  (hs-minor-mode . 3)
  (helm-ag--run-save-buffer . 2)
- (helm-ag--edit-commit . 31)
+ (helm-ag--edit-commit . 32)
  (rgrep . 1)
  (dired . 4)
  (grep-find . 3)
@@ -390,8 +390,8 @@
  (emmet-mode . 3)
  (emmet-preview-mode . 3)
  (emmet-expand-line . 8)
- (mu4e . 32)
- (mu4e-update-index . 7)
+ (mu4e . 34)
+ (mu4e-update-index . 8)
  (mu4e-info . 3)
  (mu4e~main-menu . 6)
  (mu4e-speedbar-buttons . 1)
@@ -405,7 +405,7 @@
  (omnisharp-start-omnisharp-server . 2)
  (omnisharp-install-server . 1)
  (prog-mode . 1)
- (compile . 270)
+ (compile . 273)
  (omnisharp-solution-errors . 2)
  (omnisharp-run-code-action-refactoring . 1)
  (neotree . 2)
@@ -501,4 +501,6 @@
  (flycheck-list-errors . 1)
  (helm-flycheck . 3)
  (mode-line-previous-buffer . 1)
+ (mu4e-update-mail-and-index . 1)
+ (projectile-mode . 1)
 )

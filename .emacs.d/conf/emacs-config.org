@@ -864,6 +864,11 @@ With negative N, comment out original line and use the absolute value."
 
   (require 'helm-spotify-plus)
 
+  (defvar music-title-max-char 25)
+  (defvar music-title-offset 0)
+  (defvar music-title-to-display "")
+  (defvar music-title-display "")
+
   (defvar bash-get-spotify-current-music "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'); artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2); song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2); echo \"[$artist]   $song\"")
   (defvar bash-get-spotify-play-pause "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | tail -n1 | cut -d\\\" -f2")
   (defvar current-music (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-current-music)))
@@ -873,11 +878,21 @@ With negative N, comment out original line and use the absolute value."
   )
   (defun update-current-spotify-data ()
     (setq current-music (current-spotify-music))
+    (setq music-title-to-display (concat (make-string music-title-max-char ? ) current-music (make-string  music-title-max-char ? )))
     (setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-play-pause))))
+    (setq music-title-display
+      ;; (format (concat "%-" (number-to-string music-title-max-char) "s")
+      (substring music-title-to-display music-title-offset (+ music-title-max-char music-title-offset))
+      ;;)
+    )
+    (if (> music-title-offset (+ (length current-music) (- music-title-max-char 2)))
+      (setq music-title-offset 0)
+      (setq music-title-offset (+ music-title-offset 1))
+    )
     (force-mode-line-update t)
   )
 
-  (run-with-timer 0 1 'update-current-spotify-data)
+  (run-with-timer 0 0.17 'update-current-spotify-data)
 
   (setq-default
    mode-line-format
@@ -932,10 +947,11 @@ With negative N, comment out original line and use the absolute value."
 		(propertize " ⏵ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused t)) ))
      ))
      (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (update-current-spotify-data)) ) ))
-     (:propertize "   " nil nil)
-     (:eval (propertize " 🔍 " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus) (update-current-spotify-data)) ) ))
-     (:propertize "   " nil nil)
-     (:propertize current-music)
+     ;; (:propertize "   " nil nil)
+     ;; (:eval (propertize " 🔍 " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus) (update-current-spotify-data)) ) ))
+     (:propertize "   [" nil nil)
+     (:propertize music-title-display)
+     (:propertize "] " nil nil)
      ))
 
 
