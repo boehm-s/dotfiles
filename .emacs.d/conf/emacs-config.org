@@ -881,21 +881,34 @@ With negative N, comment out original line and use the absolute value."
   ;; automatically start helm spotify plus
 
   (require 'helm-spotify-plus)
+  (require 'lyrics)
 
   (defvar spotify-modeline-title-max-char 25)
   (defvar spotify-modeline-title-offset 0)
   (defvar spotify-modeline-title-to-display "")
   (defvar spotify-modeline-title-display "")
+
+  (defvar spotify-modeline-metadata-bashstring  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata');")
+  (defvar spotify-modeline-artist-bashstring  "artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2);")
+  (defvar spotify-modeline-song-bashstring  "song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2);")
+
+  (defun spotify-modeline-artist ()
+    (replace-regexp-in-string "\n$" "" (shell-command-to-string (concat spotify-modeline-metadata-bashstring spotify-modeline-artist-bashstring "echo \"$artist\"")))
+  )
+  (defun spotify-modeline-song ()
+    (replace-regexp-in-string "\n$" "" (shell-command-to-string (concat spotify-modeline-metadata-bashstring spotify-modeline-song-bashstring "echo \"$song\"")))
+  )
+  (defun spotify-modeline-current ()
+    (format "[%s]   %s" (spotify-modeline-artist) (spotify-modeline-song))
+  )
+
   (defvar spotify-modeline-get-playing-music-bashstring  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'); artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2); song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2); echo \"[$artist]   $song\"")
   (defvar spotify-modeline-get-play-pause-bashstring "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | tail -n1 | cut -d\\\" -f2")
 
-  (defvar current-music (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-playing-music-bashstring)))
+  (defvar current-music (spotify-modeline-current))
   (defvar music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
-  (defun current-spotify-music ()
-    (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-playing-music-bashstring))
-  )
   (defun update-current-spotify-data ()
-    (setq current-music (current-spotify-music))
+    (setq current-music (spotify-modeline-current))
     (setq spotify-modeline-title-to-display (concat (make-string spotify-modeline-title-max-char ? ) current-music (make-string  spotify-modeline-title-max-char ? )))
     (setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
     (setq spotify-modeline-title-display
@@ -971,7 +984,9 @@ With negative N, comment out original line and use the absolute value."
      (:propertize "   |" nil nil)
      (:propertize spotify-modeline-title-display)
      (:propertize "| " nil nil)
+     (:eval (propertize " ♩♩♩" 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (lyrics (spotify-modeline-artist) (spotify-modeline-song))) ) ))
      ))
+
 
 
 

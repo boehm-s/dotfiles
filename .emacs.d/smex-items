@@ -2,12 +2,12 @@
 ;; ----- smex-history -----
 (
  org-babel-tangle
+ lyrics
  rainbow-delimiters-mode
  ialign
  find-file
  replace-string
  compile
- find-alternate-file
 )
 
 ;; ----- smex-data -----
@@ -124,7 +124,7 @@
  (capitalize-region . 6)
  (eval-expression . 1)
  (java-mode . 2)
- (org-babel-tangle . 357)
+ (org-babel-tangle . 362)
  (org-babel-load-file . 1)
  (org-babel-switch-to-session-with-code . 1)
  (org-babel-expand-src-block . 2)
@@ -510,7 +510,7 @@
  (webkit-color-picker-hide . 1)
  (server-start . 4)
  (magit-find-git-config-file . 1)
- (lyrics . 3)
+ (lyrics . 4)
  (nodejs-repl-load-file . 41)
  (webjump . 1)
 )
