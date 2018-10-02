@@ -856,6 +856,24 @@ With negative N, comment out original line and use the absolute value."
 #+END_SRC
 
 
+*** nodejs-repl-restart
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(defun nodejs-repl-restart ()
+  "restart the nodejs REPL"
+  (interactive)
+  (defvar nodejs-repl-code
+    (concat "process.stdout.columns = %d;" "require('repl').start('%s', null, null, true, false)"))
+  (with-current-buffer "*nodejs*"
+    (kill-process nil comint-ptyp)
+    (run-with-timer 0.01 nil (lambda ()
+                  (setq nodejs-repl-prompt-re (format nodejs-repl-prompt-re-format nodejs-repl-prompt nodejs-repl-prompt))
+                  (with-current-buffer "*nodejs*"
+                (apply 'make-comint nodejs-repl-process-name nodejs-repl-command nil `("-e" ,(format nodejs-repl-code (window-width) nodejs-repl-prompt)))
+                (nodejs-repl-mode) (erase-buffer) )))))
+#+END_SRC
+
+
 ** spotify conf
 
 
@@ -864,7 +882,7 @@ With negative N, comment out original line and use the absolute value."
 
   (require 'helm-spotify-plus)
 
-  (defcustom spotify-modeline-title-max-char 25)
+  (defvar spotify-modeline-title-max-char 25)
   (defvar spotify-modeline-title-offset 0)
   (defvar spotify-modeline-title-to-display "")
   (defvar spotify-modeline-title-display "")
@@ -881,9 +899,10 @@ With negative N, comment out original line and use the absolute value."
     (setq spotify-modeline-title-to-display (concat (make-string spotify-modeline-title-max-char ? ) current-music (make-string  spotify-modeline-title-max-char ? )))
     (setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
     (setq spotify-modeline-title-display
-      ;; (format (concat "%-" (number-to-string spotify-modeline-title-max-char) "s")
-      (substring spotify-modeline-title-to-display spotify-modeline-title-offset (+ spotify-modeline-title-max-char spotify-modeline-title-offset))
-      ;;)
+      (condition-case err
+        (substring spotify-modeline-title-to-display spotify-modeline-title-offset (+ spotify-modeline-title-max-char spotify-modeline-title-offset))
+	(args-out-of-range (setq spotify-modeline-title-offset 0))
+      )
     )
     (if (> spotify-modeline-title-offset (+ (length current-music) (- spotify-modeline-title-max-char 2)))
       (setq spotify-modeline-title-offset 0)
@@ -941,12 +960,12 @@ With negative N, comment out original line and use the absolute value."
      ;; (:eval (when nyan-mode (list (nyan-create))))
 
      (:propertize "     " nil nil)
-     (:eval (propertize " ⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-previous) (update-current-spotify-data) ) )))
+     (:eval (propertize " ⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-previous) (setq spotify-modeline-title-offset 0) (update-current-spotify-data) ) )))
      (:eval (if (eq music-paused t)
 		(propertize " ⏸ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused nil)) ))
 		(propertize " ⏵ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused t)) ))
      ))
-     (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (update-current-spotify-data)) ) ))
+     (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (setq spotify-modeline-title-offset 0) (update-current-spotify-data)) ) ))
      ;; (:propertize "   " nil nil)
      ;; (:eval (propertize " 🔍 " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus) (update-current-spotify-data)) ) ))
      (:propertize "   |" nil nil)

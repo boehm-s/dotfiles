@@ -145,7 +145,7 @@
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   '(helm-tramp docker-tramp ialign alchemist elixir-mode flycheck-elixir zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
+   '(zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -666,39 +666,55 @@ With negative N, comment out original line and use the absolute value."
       smtpmail-smtp-service 587
       smtpmail-debug-info t)
 
+(defun nodejs-repl-restart ()
+  "restart the nodejs REPL"
+  (interactive)
+  (defvar nodejs-repl-code
+    (concat "process.stdout.columns = %d;" "require('repl').start('%s', null, null, true, false)"))
+  (with-current-buffer "*nodejs*"
+    (kill-process nil comint-ptyp)
+    (run-with-timer 0.01 nil (lambda ()
+                  (setq nodejs-repl-prompt-re (format nodejs-repl-prompt-re-format nodejs-repl-prompt nodejs-repl-prompt))
+                  (with-current-buffer "*nodejs*"
+                (apply 'make-comint nodejs-repl-process-name nodejs-repl-command nil `("-e" ,(format nodejs-repl-code (window-width) nodejs-repl-prompt)))
+                (nodejs-repl-mode) (erase-buffer) )))))
+
 ;; automatically start helm spotify plus
 
 (require 'helm-spotify-plus)
 
-(defvar music-title-max-char 25)
-(defvar music-title-offset 0)
-(defvar music-title-to-display "")
-(defvar music-title-display "")
+(defvar spotify-modeline-title-max-char 25)
+(defvar spotify-modeline-title-offset 0)
+(defvar spotify-modeline-title-to-display "")
+(defvar spotify-modeline-title-display "")
+(defvar spotify-modeline-get-playing-music-bashstring  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'); artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2); song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2); echo \"[$artist]   $song\"")
+(defvar spotify-modeline-get-play-pause-bashstring "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | tail -n1 | cut -d\\\" -f2")
 
-(defvar bash-get-spotify-current-music "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'); artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2); song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2); echo \"[$artist]   $song\"")
-(defvar bash-get-spotify-play-pause "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | tail -n1 | cut -d\\\" -f2")
-(defvar current-music (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-current-music)))
-(defvar music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-play-pause))))
+(defvar current-music (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-playing-music-bashstring)))
+(defvar music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
 (defun current-spotify-music ()
-  (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-current-music))
+  (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-playing-music-bashstring))
 )
 (defun update-current-spotify-data ()
   (setq current-music (current-spotify-music))
-  (setq music-title-to-display (concat (make-string music-title-max-char ? ) current-music (make-string  music-title-max-char ? )))
-  (setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string bash-get-spotify-play-pause))))
-  (setq music-title-display
-    ;; (format (concat "%-" (number-to-string music-title-max-char) "s")
-    (substring music-title-to-display music-title-offset (+ music-title-max-char music-title-offset))
+  (setq spotify-modeline-title-to-display (concat (make-string spotify-modeline-title-max-char ? ) current-music (make-string  spotify-modeline-title-max-char ? )))
+  (setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
+  (setq spotify-modeline-title-display
+    ;; (format (concat "%-" (number-to-string spotify-modeline-title-max-char) "s")
+    (condition-case err
+      (substring spotify-modeline-title-to-display spotify-modeline-title-offset (+ spotify-modeline-title-max-char spotify-modeline-title-offset))
+      (args-out-of-range (setq spotify-modeline-title-offset 0))
+    )
     ;;)
   )
-  (if (> music-title-offset (+ (length current-music) (- music-title-max-char 2)))
-    (setq music-title-offset 0)
-    (setq music-title-offset (+ music-title-offset 1))
+  (if (> spotify-modeline-title-offset (+ (length current-music) (- spotify-modeline-title-max-char 2)))
+    (setq spotify-modeline-title-offset 0)
+    (setq spotify-modeline-title-offset (+ spotify-modeline-title-offset 1))
   )
   (force-mode-line-update t)
 )
 
-(run-with-timer 0 0.17 'update-current-spotify-data)
+(run-with-timer 0 0.2 'update-current-spotify-data)
 
 (setq-default
  mode-line-format
@@ -747,17 +763,17 @@ With negative N, comment out original line and use the absolute value."
    ;; (:eval (when nyan-mode (list (nyan-create))))
 
    (:propertize "     " nil nil)
-   (:eval (propertize " ⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-previous) (update-current-spotify-data) ) )))
+   (:eval (propertize " ⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-previous) (setq spotify-modeline-title-offset 0) (update-current-spotify-data) ) )))
    (:eval (if (eq music-paused t)
 	      (propertize " ⏸ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused nil)) ))
 	      (propertize " ⏵ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused t)) ))
    ))
-   (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (update-current-spotify-data)) ) ))
+   (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (setq spotify-modeline-title-offset 0) (update-current-spotify-data)) ) ))
    ;; (:propertize "   " nil nil)
    ;; (:eval (propertize " 🔍 " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus) (update-current-spotify-data)) ) ))
-   (:propertize "   [" nil nil)
-   (:propertize music-title-display)
-   (:propertize "] " nil nil)
+   (:propertize "   |" nil nil)
+   (:propertize spotify-modeline-title-display)
+   (:propertize "| " nil nil)
    ))
 
 
