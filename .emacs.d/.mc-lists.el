@@ -18,6 +18,7 @@
 	downcase-region
 	duplicate-line
 	duplicate-line-or-region
+	end-of-buffer
 	find-file
 	helm-M-x
 	helm-smex

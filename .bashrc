@@ -3,10 +3,12 @@
 # for examples
 
 source $HOME/.cargo/env
+source $HOME/.moorerc
 
-export ALTERNATE_EDITOR="gedit"
-export EDITOR="emacs -nw"
+export ALTERNATE_EDITOR=nano
+export EDITOR=emacs
 
+export GOOGLE_APPLICATION_CREDENTIALS=/home/boehm-s/.credentials/Lampe-82df9d7a4765.json
 
 # \emacs --daemon
 
@@ -158,22 +160,15 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export EDITOR="/usr/bin/emacs -nw"
-
-PATH=/home/boehm-s/Public/emacs/src:/home/boehm-s/Public/emacs/src:/home/boehm-s/.cargo/bin:/home/boehm-s/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+PATH=/home/boehm-s/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local:/usr/local/android-studio/bin
+
 
 # Custom commands
 
-
-
-function  pless() {
-    pygmentize $@ | less -R
-}
 
 function fpkg() {
     options=`getopt -o n --long names -- "$@"`
@@ -201,3 +196,19 @@ function fpkg() {
     done
 
 }
+# added by Anaconda3 5.3.1 installer
+# >>> conda init >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/boehm-s/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    \eval "$__conda_setup"
+else
+    if [ -f "/home/boehm-s/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/boehm-s/anaconda3/etc/profile.d/conda.sh"
+        CONDA_CHANGEPS1=false conda activate base
+    else
+        \export PATH="/home/boehm-s/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda init <<<

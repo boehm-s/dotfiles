@@ -984,7 +984,7 @@ With negative N, comment out original line and use the absolute value."
      (:propertize "   |" nil nil)
      (:propertize spotify-modeline-title-display)
      (:propertize "| " nil nil)
-     (:eval (propertize " ♩♩♩" 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (lyrics (spotify-modeline-artist) (spotify-modeline-song))) ) ))
+     (:eval (propertize " ♩♩♩" 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (lyrics (spotify-modeline-artist) (spotify-modeline-song) )) ) ))
      ))
 
 
