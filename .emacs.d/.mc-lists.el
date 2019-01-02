@@ -68,6 +68,7 @@
 	mouse-save-then-kill
 	overwrite-mode
 	split-and-find-file-H
+	suspend-frame
 	view-emacs-FAQ
 	vim-prompt
 	yank-rectangle

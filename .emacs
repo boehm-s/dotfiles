@@ -108,6 +108,9 @@
 (load "~/.emacs.d/font-lock+.el")
 (add-to-list 'load-path "~/.emacs.d/sidebar.el/")
 (add-to-list 'load-path "~/.local/share/icons-in-terminal/")
+
+(require 'sidebar)
+
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -140,12 +143,12 @@
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(custom-enabled-themes '(zerodark))
  '(custom-safe-themes
-   '("08ef1356470a9d3bf363ffab0705d90f8a492796e9db489936de4bde6a4fdb19" "83b1fda71a1cf78a596891c0cc10601e93d5450148f98e9b66dde80349b20195" "cdc2a7ba4ecf0910f13ba207cce7080b58d9ed2234032113b8846a4e44597e41" "d8a7a7d2cffbc55ec5efbeb5d14a5477f588ee18c5cddd7560918f9674032727" "b5cff93c3c6ed12d09ce827231b0f5d4925cfda018c9dcf93a2517ce3739e7f1" "8e7044bfad5a2e70dfc4671337a4f772ee1b41c5677b8318f17f046faa42b16b" "d9e811d5a12dec79289c5bacaecd8ae393d168e9a92a659542c2a9bab6102041" "9dc64d345811d74b5cd0dac92e5717e1016573417b23811b2c37bb985da41da2" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" "6332c9756bde31cf9e34154395868413e45714488507527969f95a61b5f24518" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+   '("e39ff005e524c331b08d613109bff0b55fc21c64914c4a243faa70f330015389" "cdc2a7ba4ecf0910f13ba207cce7080b58d9ed2234032113b8846a4e44597e41" "d8a7a7d2cffbc55ec5efbeb5d14a5477f588ee18c5cddd7560918f9674032727" "b5cff93c3c6ed12d09ce827231b0f5d4925cfda018c9dcf93a2517ce3739e7f1" "8e7044bfad5a2e70dfc4671337a4f772ee1b41c5677b8318f17f046faa42b16b" "d9e811d5a12dec79289c5bacaecd8ae393d168e9a92a659542c2a9bab6102041" "9dc64d345811d74b5cd0dac92e5717e1016573417b23811b2c37bb985da41da2" "a455366c5cdacebd8adaa99d50e37430b0170326e7640a688e9d9ad406e2edfd" "6332c9756bde31cf9e34154395868413e45714488507527969f95a61b5f24518" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(fci-rule-color "#383838")
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   '(company-lsp flycheck-rust discover-my-major rustic mediawiki org-wiki zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
+   '(zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -283,30 +286,6 @@
 (setq fiplr-ignored-globs '((directories (".git" ".svn" "node_modules"))
                             (files ("*.jpg" "*.png" "*.zip" "*~"))))
 
-(require 'lsp-mode)
-(lsp-define-stdio-client
- ;; This can be a symbol of your choosing. It will be used as a the
- ;; prefix for a dynamically generated function "-enable"; in this
- ;; case: lsp-prog-major-mode-enable
- lsp-prog-major-mode
- "language-id"
- ;; This will be used to report a project's root directory to the LSP
- ;; server.
- (lambda () default-directory)
- ;; This is the command to start the LSP server. It may either be a
- ;; string containing the path of the command, or a list wherein the
- ;; car is a string containing the path of the command, and the cdr
- ;; are arguments to that command.
- '("node" "~/.emacs.d/conf/lsp/javascript-typescript-langserver/lib/language-server-stdio.js"))
-
-;; Here we'll add the function that was dynamically generated by the
-;; call to lsp-define-stdio-client to the major-mode hook of the
-;; language we want to run it under.
-;;
-;; This function will turn lsp-mode on and call the command given to
-;; start the LSP server.
-(add-hook 'prog-major-mode #'lsp-prog-major-mode-enable)
-
 ;; eval region js and insert
 (defun node-js-eval-region-or-buffer ()
   "evaluate the region and 'node' it !"
@@ -430,7 +409,7 @@ With negative N, comment out original line and use the absolute value."
 (define-key custom-keys-map (kbd "<f12>")  (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))
 (define-key custom-keys-map (kbd "M-k")  'browse-kill-ring)
 (define-key custom-keys-map (kbd "C-x C-x")  'delete-window)
-(define-key custom-keys-map (kbd "C-x C-m")  'treemacs)
+(define-key custom-keys-map (kbd "C-x C-m")  'sidebar-open)
 
 ;; helm
 (define-key custom-keys-map (kbd "M-x") 'helm-smex)
@@ -681,184 +660,190 @@ With negative N, comment out original line and use the absolute value."
 
 ;; automatically start helm spotify plus
 
-(require 'helm-spotify-plus)
-(require 'lyrics)
+  (require 'helm-spotify-plus)
+  (require 'lyrics)
 
-(defvar spotify-modeline-title-max-char 25)
-(defvar spotify-modeline-title-offset 0)
-(defvar spotify-modeline-title-to-display "")
-(defvar spotify-modeline-title-display "")
+  (defvar spotify-modeline-title-max-char 25)
+  (defvar spotify-modeline-title-offset 0)
+  (defvar spotify-modeline-title-to-display "")
+  (defvar spotify-modeline-title-display "")
 
-(defvar spotify-modeline-metadata-bashstring  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata');")
-(defvar spotify-modeline-artist-bashstring  "artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2);")
-(defvar spotify-modeline-song-bashstring  "song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2);")
+  (defvar spotify-modeline-metadata-bashstring  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata');")
+  (defvar spotify-modeline-artist-bashstring  "artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2);")
+  (defvar spotify-modeline-song-bashstring  "song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2);")
 
-(defun spotify-modeline-artist ()
-  (replace-regexp-in-string "\n$" "" (shell-command-to-string (concat spotify-modeline-metadata-bashstring spotify-modeline-artist-bashstring "echo \"$artist\"")))
-)
-(defun spotify-modeline-song ()
-  (replace-regexp-in-string "\n$" "" (shell-command-to-string (concat spotify-modeline-metadata-bashstring spotify-modeline-song-bashstring "echo \"$song\"")))
-)
-(defun spotify-modeline-current ()
-  (format "[%s]   %s" (spotify-modeline-artist) (spotify-modeline-song))
-)
+  (defun spotify-modeline-artist ()
+    (replace-regexp-in-string "\n$" "" (shell-command-to-string (concat spotify-modeline-metadata-bashstring spotify-modeline-artist-bashstring "echo \"$artist\"")))
+  )
+  (defun spotify-modeline-song ()
+    (replace-regexp-in-string "\n$" "" (shell-command-to-string (concat spotify-modeline-metadata-bashstring spotify-modeline-song-bashstring "echo \"$song\"")))
+  )
+  (defun spotify-modeline-current ()
+    (format "[%s]   %s" (spotify-modeline-artist) (spotify-modeline-song))
+  )
 
-(defvar spotify-modeline-get-playing-music-bashstring  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'); artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2); song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2); echo \"[$artist]   $song\"")
-(defvar spotify-modeline-get-play-pause-bashstring "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | tail -n1 | cut -d\\\" -f2")
+  (defvar spotify-modeline-get-playing-music-bashstring  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'); artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2); song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2); echo \"[$artist]   $song\"")
+  (defvar spotify-modeline-get-play-pause-bashstring "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | tail -n1 | cut -d\\\" -f2")
 
-(defvar current-music (spotify-modeline-current))
-(defvar music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
-(defun update-current-spotify-data ()
-  (setq current-music (spotify-modeline-current))
-  (setq spotify-modeline-title-to-display (concat (make-string spotify-modeline-title-max-char ? ) current-music (make-string  spotify-modeline-title-max-char ? )))
-  (setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
-  (setq spotify-modeline-title-display
-    (condition-case err
-      (substring spotify-modeline-title-to-display spotify-modeline-title-offset (+ spotify-modeline-title-max-char spotify-modeline-title-offset))
-      (args-out-of-range (setq spotify-modeline-title-offset 0))
+  (defvar current-music (spotify-modeline-current))
+  (defvar music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
+  (defun update-current-spotify-data ()
+    (setq current-music (spotify-modeline-current))
+    (setq spotify-modeline-title-to-display (concat (make-string spotify-modeline-title-max-char ? ) current-music (make-string  spotify-modeline-title-max-char ? )))
+    (setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
+    (setq spotify-modeline-title-display
+      (condition-case err
+	(substring spotify-modeline-title-to-display spotify-modeline-title-offset (+ spotify-modeline-title-max-char spotify-modeline-title-offset))
+	(args-out-of-range (setq spotify-modeline-title-offset 0))
+      )
     )
+    (if (> spotify-modeline-title-offset (+ (length current-music) (- spotify-modeline-title-max-char 2)))
+      (setq spotify-modeline-title-offset 0)
+      (setq spotify-modeline-title-offset (+ spotify-modeline-title-offset 1))
+    )
+    (force-mode-line-update t)
   )
-  (if (> spotify-modeline-title-offset (+ (length current-music) (- spotify-modeline-title-max-char 2)))
-    (setq spotify-modeline-title-offset 0)
-    (setq spotify-modeline-title-offset (+ spotify-modeline-title-offset 1))
-  )
-  (force-mode-line-update t)
-)
 
-(run-with-timer 0 0.2 'update-current-spotify-data)
+  (run-with-timer 0 0.2 'update-current-spotify-data)
 
-(setq-default
- mode-line-format
- '(; Position, including warning for 80 columns
-   (:propertize "%5l:" face mode-line-position-face)
-   (:eval (propertize "%3c" 'face
-		      (if (>= (current-column) 80)
-			  'mode-line-80col-face
-			'mode-line-position-face)))
-					; emacsclient [default -- keep?]
-   mode-line-client
-   " "
-					 ; read-only or modified status
-   (:eval
-    (cond (buffer-read-only
-	   (propertize "RO" 'face 'mode-line-read-only-face))
-	  ((buffer-modified-p)
-	   (propertize "**" 'face 'mode-line-modified-face))
-	  (t "  ")))
-   " "
-					; directory and buffer/file name
+  (setq-default
+   mode-line-format
+   '(; Position, including warning for 80 columns
+     (:propertize "%5l:" face mode-line-position-face)
+     (:eval (propertize "%3c" 'face
+			(if (>= (current-column) 80)
+			    'mode-line-80col-face
+			  'mode-line-position-face)))
+					  ; emacsclient [default -- keep?]
+     mode-line-client
+     " "
+					   ; read-only or modified status
+     (:eval
+      (cond (buffer-read-only
+	     (propertize "RO" 'face 'mode-line-read-only-face))
+	    ((buffer-modified-p)
+	     (propertize "**" 'face 'mode-line-modified-face))
+	    (t "  ")))
+     " "
+					  ; directory and buffer/file name
 
-   (:eval (if (string= "*" (substring (buffer-name) 0 1) )
-	      (propertize "" 'face 'mode-line-folder-face)
-	    (propertize (shorten-directory default-directory 5) 'face
-			'mode-line-folder-face)))
-   (:propertize "%b"
-		face mode-line-filename-face)
-					; narrow [default -- keep?]
-   "%n"
-					; mode indicators: vc, recursive edit, major mode, minor modes, process, global
-   (vc-mode vc-mode)
+     (:eval (if (string= "*" (substring (buffer-name) 0 1) )
+		(propertize "" 'face 'mode-line-folder-face)
+	      (propertize (shorten-directory default-directory 5) 'face
+			  'mode-line-folder-face)))
+     (:propertize "%b"
+		  face mode-line-filename-face)
+					  ; narrow [default -- keep?]
+     "%n"
+					  ; mode indicators: vc, recursive edit, major mode, minor modes, process, global
+     (vc-mode vc-mode)
 
-   (:propertize " (" face mode-line-mode-face)
-   (:propertize mode-name
-		face mode-line-mode-face)
-   (:propertize ")" face mode-line-mode-face)
+     (:propertize " (" face mode-line-mode-face)
+     (:propertize mode-name
+		  face mode-line-mode-face)
+     (:propertize ")" face mode-line-mode-face)
 
-   (:eval (propertize (format-mode-line minor-mode-alist)
-		      'face 'mode-line-minor-mode-face))
-   (:propertize mode-line-process
-		face mode-line-process-face)
-   (global-mode-string global-mode-string)
-   " "
-					; nyan-mode uses nyan cat as an alternative to %p
-   ;; (:eval (when nyan-mode (list (nyan-create))))
+     (:eval (propertize (format-mode-line minor-mode-alist)
+			'face 'mode-line-minor-mode-face))
+     (:propertize mode-line-process
+		  face mode-line-process-face)
+     (global-mode-string global-mode-string)
+     " "
+					  ; nyan-mode uses nyan cat as an alternative to %p
+     ;; (:eval (when nyan-mode (list (nyan-create))))
 
-   (:propertize "     " nil nil)
-   (:eval (propertize " ⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-previous) (setq spotify-modeline-title-offset 0) (update-current-spotify-data) ) )))
-   (:eval (if (eq music-paused t)
-	      (propertize " ⏸ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused nil)) ))
-	      (propertize " ⏵ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused t)) ))
-   ))
-   (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (setq spotify-modeline-title-offset 0) (update-current-spotify-data)) ) ))
-   ;; (:propertize "   " nil nil)
-   ;; (:eval (propertize " 🔍 " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus) (update-current-spotify-data)) ) ))
-   (:propertize "   |" nil nil)
-   (:propertize spotify-modeline-title-display)
-   (:propertize "| " nil nil)
-   (:eval (propertize " ♩♩♩" 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (lyrics (spotify-modeline-artist) (spotify-modeline-song))) ) ))
-   ))
-
-
+     (:propertize "     " nil nil)
+     (:eval (propertize " ⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-previous) (setq spotify-modeline-title-offset 0) (update-current-spotify-data) ) )))
+     (:eval (if (eq music-paused t)
+		(propertize " ⏸ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused nil)) ))
+		(propertize " ⏵ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused t)) ))
+     ))
+     (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (setq spotify-modeline-title-offset 0) (update-current-spotify-data)) ) ))
+     ;; (:propertize "   " nil nil)
+     ;; (:eval (propertize " 🔍 " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus) (update-current-spotify-data)) ) ))
+     (:propertize "   |" nil nil)
+     (:propertize spotify-modeline-title-display)
+     (:propertize "| " nil nil)
+     (:eval (propertize " ♩♩♩" 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive)
+     (lyrics (spotify-modeline-artist) (string-trim (car (split-string (spotify-modeline-song) "-"))) )
+     (switch-to-buffer-other-window "*Lyrics*")
+     (split-window-vertically)
+     (other-window 1)
+     (eww-browse-url (concat (spotify-modeline-artist) " Wikipedia"))
+     ) ) ))
+))
 
 
 
 
-;; Helper function
-(defun shorten-directory (dir max-length)
-  "Show up to `max-length' characters of a directory name `dir'."
-  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
-	(output ""))
-    (when (and path (equal "" (car path)))
-      (setq path (cdr path)))
-    (while (and path (< (length output) (- max-length 4)))
-      (setq output (concat (car path) "/" output))
-      (setq path (cdr path)))
-    (when path
-      (setq output (concat ".../" output)))
-    output))
 
-;; Extra mode line faces
-(make-face 'mode-line-read-only-face)
-(make-face 'mode-line-modified-face)
-(make-face 'mode-line-folder-face)
-(make-face 'mode-line-filename-face)
-(make-face 'mode-line-position-face)
-(make-face 'mode-line-mode-face)
-(make-face 'mode-line-minor-mode-face)
-(make-face 'mode-line-process-face)
-(make-face 'mode-line-80col-face)
 
-(set-face-attribute 'mode-line nil
-		    :foreground "gray50" :background "gray30"
-		    :inverse-video nil
-		    :box '(:line-width 6 :color "gray30" :style nil))
-(set-face-attribute 'mode-line-inactive nil
-		    :foreground "gray80" :background "gray10"
-		    :inverse-video nil
-		    :box '(:line-width 6 :color "gray10" :style nil))
+  ;; Helper function
+  (defun shorten-directory (dir max-length)
+    "Show up to `max-length' characters of a directory name `dir'."
+    (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+	  (output ""))
+      (when (and path (equal "" (car path)))
+	(setq path (cdr path)))
+      (while (and path (< (length output) (- max-length 4)))
+	(setq output (concat (car path) "/" output))
+	(setq path (cdr path)))
+      (when path
+	(setq output (concat ".../" output)))
+      output))
 
-(set-face-attribute 'mode-line-read-only-face nil
-		    :inherit 'mode-line-face
-		    :foreground "#4271ae"
-		    :box '(:line-width 2 :color "#4271ae"))
-(set-face-attribute 'mode-line-modified-face nil
-		    :inherit 'mode-line-face
-		    :foreground "#c82829"
-		    :background "#ffffff"
-		    :box '(:line-width 2 :color "#c82829"))
-(set-face-attribute 'mode-line-folder-face nil
-		    :inherit 'mode-line-face
-		    :foreground "gray60")
-(set-face-attribute 'mode-line-filename-face nil
-		    :inherit 'mode-line-face
-		    :foreground "#eab700"
-		    :weight 'bold)
-(set-face-attribute 'mode-line-position-face nil
-		    :inherit 'mode-line-face
-		    :height 100
-		    :foreground "gray80")
-(set-face-attribute 'mode-line-mode-face nil
-		    :inherit 'mode-line-face
-		    :foreground "gray80")
-(set-face-attribute 'mode-line-minor-mode-face nil
-		    :inherit 'mode-line-mode-face
-		    :foreground "gray80"
-		    :height 100)
-(set-face-attribute 'mode-line-process-face nil
-		    :inherit 'mode-line-face
-		    :foreground "#718c00")
-(set-face-attribute 'mode-line-80col-face nil
-		    :inherit 'mode-line-position-face
-		    :foreground "black" :background "#eab700")
+  ;; Extra mode line faces
+  (make-face 'mode-line-read-only-face)
+  (make-face 'mode-line-modified-face)
+  (make-face 'mode-line-folder-face)
+  (make-face 'mode-line-filename-face)
+  (make-face 'mode-line-position-face)
+  (make-face 'mode-line-mode-face)
+  (make-face 'mode-line-minor-mode-face)
+  (make-face 'mode-line-process-face)
+  (make-face 'mode-line-80col-face)
 
-(provide 'mode-line-format)
+  (set-face-attribute 'mode-line nil
+		      :foreground "gray50" :background "gray30"
+		      :inverse-video nil
+		      :box '(:line-width 6 :color "gray30" :style nil))
+  (set-face-attribute 'mode-line-inactive nil
+		      :foreground "gray80" :background "gray10"
+		      :inverse-video nil
+		      :box '(:line-width 6 :color "gray10" :style nil))
+
+  (set-face-attribute 'mode-line-read-only-face nil
+		      :inherit 'mode-line-face
+		      :foreground "#4271ae"
+		      :box '(:line-width 2 :color "#4271ae"))
+  (set-face-attribute 'mode-line-modified-face nil
+		      :inherit 'mode-line-face
+		      :foreground "#c82829"
+		      :background "#ffffff"
+		      :box '(:line-width 2 :color "#c82829"))
+  (set-face-attribute 'mode-line-folder-face nil
+		      :inherit 'mode-line-face
+		      :foreground "gray60")
+  (set-face-attribute 'mode-line-filename-face nil
+		      :inherit 'mode-line-face
+		      :foreground "#eab700"
+		      :weight 'bold)
+  (set-face-attribute 'mode-line-position-face nil
+		      :inherit 'mode-line-face
+		      :height 100
+		      :foreground "gray80")
+  (set-face-attribute 'mode-line-mode-face nil
+		      :inherit 'mode-line-face
+		      :foreground "gray80")
+  (set-face-attribute 'mode-line-minor-mode-face nil
+		      :inherit 'mode-line-mode-face
+		      :foreground "gray80"
+		      :height 100)
+  (set-face-attribute 'mode-line-process-face nil
+		      :inherit 'mode-line-face
+		      :foreground "#718c00")
+  (set-face-attribute 'mode-line-80col-face nil
+		      :inherit 'mode-line-position-face
+		      :foreground "black" :background "#eab700")
+
+  (provide 'mode-line-format)

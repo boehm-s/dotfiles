@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
- web-mode
- neotree
- ialign
+ org-babel-tangle
+ sidebar-open
  mu4e
- js2-jsx-mode
- magit-log
- find-file
+ lyrics
+ sidebar-mu4e-mode
+ package-list-packages
+ neotree
 )
 
 ;; ----- smex-data -----
@@ -21,7 +21,7 @@
  (w3m-search . 2)
  (version . 9)
  (xwidget-webkit-browse-url . 22)
- (replace-string . 144)
+ (replace-string . 145)
  (org-mode . 2)
  (xwidget-cleanup . 4)
  (xwidget-webkit-mode . 6)
@@ -32,11 +32,11 @@
  (symon-mode . 1)
  (symon-display . 1)
  (treemacs . 30)
- (helm-documentation . 3)
+ (helm-documentation . 4)
  (tern-find-definition . 1)
  (company-complete . 4)
  (pwd . 55)
- (rainbow-delimiters-mode . 41)
+ (rainbow-delimiters-mode . 42)
  (magit-find-file . 53)
  (zone . 83)
  (run-lisp . 3)
@@ -48,7 +48,7 @@
  (company-begin-backend . 1)
  (company-tern . 3)
  (global-company-mode . 3)
- (bs-show . 70)
+ (bs-show . 79)
  (term . 6)
  (ebrowse-tags-find-declaration . 1)
  (js2-jump-to-definition . 7)
@@ -62,7 +62,7 @@
  (indium-interaction-mode . 10)
  (tabulated-list-mode . 2)
  (yaml-mode . 2)
- (package-list-packages . 111)
+ (package-list-packages . 115)
  (ldap-mode . 5)
  (js-mode . 1)
  (json-pretty-print . 6)
@@ -92,7 +92,7 @@
  (hackernews . 2)
  (css-mode . 11)
  (read-color . 4)
- (find-file . 476)
+ (find-file . 516)
  (csv-mode . 3)
  (palette . 2)
  (browse-kill-ring . 3)
@@ -124,7 +124,7 @@
  (capitalize-region . 6)
  (eval-expression . 1)
  (java-mode . 2)
- (org-babel-tangle . 362)
+ (org-babel-tangle . 382)
  (org-babel-load-file . 1)
  (org-babel-switch-to-session-with-code . 1)
  (org-babel-expand-src-block . 2)
@@ -145,7 +145,7 @@
  (nxml-web-mode . 1)
  (linum-mode . 3)
  (helm-find-files . 5)
- (load-file . 43)
+ (load-file . 53)
  (ido-find-file . 1)
  (helm-fuzzy-find . 9)
  (html2text . 4)
@@ -196,7 +196,7 @@
  (ibuffer-or-filter . 1)
  (ibuffer-filter-by-name . 1)
  (package-autoremove . 3)
- (helm-ag . 289)
+ (helm-ag . 292)
  (helm-ag-r . 1)
  (package-delete . 1)
  (swiper-helm . 1)
@@ -366,7 +366,7 @@
  (ggtags-find-tag-dwim . 1)
  (ggtags-find-definition . 1)
  (list-tags . 1)
- (xref-find-definitions . 19)
+ (xref-find-definitions . 27)
  (helm-do-ag . 2)
  (js2r-expand-function . 1)
  (gxref-create-db . 2)
@@ -390,7 +390,7 @@
  (emmet-mode . 3)
  (emmet-preview-mode . 3)
  (emmet-expand-line . 8)
- (mu4e . 37)
+ (mu4e . 39)
  (mu4e-update-index . 9)
  (mu4e-info . 3)
  (mu4e~main-menu . 6)
@@ -405,10 +405,10 @@
  (omnisharp-start-omnisharp-server . 2)
  (omnisharp-install-server . 1)
  (prog-mode . 1)
- (compile . 495)
+ (compile . 504)
  (omnisharp-solution-errors . 2)
  (omnisharp-run-code-action-refactoring . 1)
- (neotree . 9)
+ (neotree . 12)
  (company-omnisharp . 1)
  (csharp-move-back-to-beginning-of-namespace . 1)
  (csharp-maybe-insert-codedoc . 1)
@@ -434,7 +434,7 @@
  (treemacs-visit-node-horizontal-split . 1)
  (treemacs-visit-node-ace-horizontal-split . 3)
  (treemacs-visit-node-ace . 1)
- (discover-my-major . 13)
+ (discover-my-major . 14)
  (helm-google . 1)
  (magit-stage . 1)
  (magit-status . 45)
@@ -510,7 +510,7 @@
  (webkit-color-picker-hide . 1)
  (server-start . 4)
  (magit-find-git-config-file . 1)
- (lyrics . 5)
+ (lyrics . 6)
  (nodejs-repl-load-file . 41)
  (webjump . 1)
  (wiki-summary . 1)
@@ -530,7 +530,15 @@
  (helm-info-editorconfig . 1)
  (editorconfig-find-current-editorconfig . 1)
  (open-line . 1)
- (xref-find-references . 1)
- (company-etags . 5)
+ (xref-find-references . 4)
+ (company-etags . 9)
  (js2-jsx-mode . 5)
+ (xref-etags-mode . 1)
+ (todo-show . 1)
+ (global-fixmee-mode . 1)
+ (comment-tags-mode . 2)
+ (comment-tags/list-tags-buffers . 2)
+ (magit-log-all . 1)
+ (sidebar-open . 7)
+ (sidebar-mu4e-mode . 1)
 )
