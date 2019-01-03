@@ -2,12 +2,12 @@
 ;; ----- smex-history -----
 (
  org-babel-tangle
+ kill-buffer-and-window
+ kill-buffer
+ package-list-packages
  sidebar-open
  mu4e
  lyrics
- sidebar-mu4e-mode
- package-list-packages
- neotree
 )
 
 ;; ----- smex-data -----
@@ -62,7 +62,7 @@
  (indium-interaction-mode . 10)
  (tabulated-list-mode . 2)
  (yaml-mode . 2)
- (package-list-packages . 115)
+ (package-list-packages . 116)
  (ldap-mode . 5)
  (js-mode . 1)
  (json-pretty-print . 6)
@@ -124,7 +124,7 @@
  (capitalize-region . 6)
  (eval-expression . 1)
  (java-mode . 2)
- (org-babel-tangle . 382)
+ (org-babel-tangle . 407)
  (org-babel-load-file . 1)
  (org-babel-switch-to-session-with-code . 1)
  (org-babel-expand-src-block . 2)
@@ -304,7 +304,7 @@
  (bs-save . 1)
  (write-file . 1)
  (multi-term-dedicated-close . 2)
- (kill-buffer . 2)
+ (kill-buffer . 3)
  (shell-script-mode . 4)
  (sh-set-shell . 1)
  (compilation-shell-minor-mode . 1)
@@ -541,4 +541,5 @@
  (magit-log-all . 1)
  (sidebar-open . 7)
  (sidebar-mu4e-mode . 1)
+ (kill-buffer-and-window . 1)
 )
