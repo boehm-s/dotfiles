@@ -1,1 +1,0 @@
-(define-package "hacker-typer" "20170128.1507" "Pretend to write code like a pro" '((async "20161103.1036")) :url "http://github.com/therockmandolinist/emacs-hacker-typer" :keywords '("hacker" "typer" "multimedia" "games"))
