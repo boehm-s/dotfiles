@@ -400,13 +400,6 @@ Customizations for the web-mode
 
 #+END_SRC
 
-*** Find files with filpr
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(setq fiplr-root-markers '(".git" ".svn"))
-(setq fiplr-ignored-globs '((directories (".git" ".svn" "node_modules"))
-                            (files ("*.jpg" "*.png" "*.zip" "*~"))))
-#+END_SRC
 
 
 *** Experiments
@@ -555,11 +548,11 @@ With negative N, comment out original line and use the absolute value."
 (define-key custom-keys-map (kbd "M-k")  'browse-kill-ring)
 (define-key custom-keys-map (kbd "C-x C-x")  'delete-window)
 (define-key custom-keys-map (kbd "C-x C-m")  'sidebar-open)
+(define-key custom-keys-map (kbd "C-x m")  'mu4e)
 
 ;; helm
 (define-key custom-keys-map (kbd "M-x") 'helm-smex)
 (define-key custom-keys-map (kbd "C-x C-f") 'helm-projectile)
-(define-key custom-keys-map (kbd "C-x C-e") 'emmet-preview)
 
 (define-key custom-keys-map (kbd "M-z") 'custom-prompt)
 (define-key custom-keys-map (kbd "M-l") 'goto-line)
@@ -801,7 +794,9 @@ With negative N, comment out original line and use the absolute value."
         ("/[Gmail].Corbeille"     . ?t)))
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap")
+(setq
+  mu4e-get-mail-command "offlineimap"   ;; or fetchmail, or ...
+  mu4e-update-interval 300)             ;; update every 5 minutes
 
 ;; something about ourselves
 ;; I don't use a signature...

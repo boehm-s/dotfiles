@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
- org-babel-tangle
- kill-buffer-and-window
- kill-buffer
+ ialign
+ find-file
+ pwd
+ helm-ag
  package-list-packages
- sidebar-open
+ calendar
  mu4e
- lyrics
 )
 
 ;; ----- smex-data -----
@@ -35,7 +35,7 @@
  (helm-documentation . 4)
  (tern-find-definition . 1)
  (company-complete . 4)
- (pwd . 55)
+ (pwd . 56)
  (rainbow-delimiters-mode . 42)
  (magit-find-file . 53)
  (zone . 83)
@@ -52,7 +52,7 @@
  (term . 6)
  (ebrowse-tags-find-declaration . 1)
  (js2-jump-to-definition . 7)
- (calendar . 2)
+ (calendar . 3)
  (eval-last-sexp . 1)
  (js3-mode . 2)
  (apib-mode . 3)
@@ -62,7 +62,7 @@
  (indium-interaction-mode . 10)
  (tabulated-list-mode . 2)
  (yaml-mode . 2)
- (package-list-packages . 116)
+ (package-list-packages . 118)
  (ldap-mode . 5)
  (js-mode . 1)
  (json-pretty-print . 6)
@@ -92,7 +92,7 @@
  (hackernews . 2)
  (css-mode . 11)
  (read-color . 4)
- (find-file . 516)
+ (find-file . 518)
  (csv-mode . 3)
  (palette . 2)
  (browse-kill-ring . 3)
@@ -124,7 +124,7 @@
  (capitalize-region . 6)
  (eval-expression . 1)
  (java-mode . 2)
- (org-babel-tangle . 407)
+ (org-babel-tangle . 409)
  (org-babel-load-file . 1)
  (org-babel-switch-to-session-with-code . 1)
  (org-babel-expand-src-block . 2)
@@ -196,7 +196,7 @@
  (ibuffer-or-filter . 1)
  (ibuffer-filter-by-name . 1)
  (package-autoremove . 3)
- (helm-ag . 292)
+ (helm-ag . 296)
  (helm-ag-r . 1)
  (package-delete . 1)
  (swiper-helm . 1)
@@ -227,19 +227,19 @@
  (make-directory . 1)
  (hs-minor-mode . 3)
  (helm-ag--run-save-buffer . 2)
- (helm-ag--edit-commit . 33)
+ (helm-ag--edit-commit . 34)
  (rgrep . 1)
  (dired . 4)
  (grep-find . 3)
  (find-name-dired . 2)
- (image-dired . 5)
+ (image-dired . 8)
  (image-dired-line-up . 1)
  (look-at-files . 1)
  (look-mode . 1)
  (html-image . 2)
  (auto-image-file-mode . 7)
  (image-dired-show-all-from-dir . 1)
- (iimage-mode . 3)
+ (iimage-mode . 4)
  (find-dired . 3)
  (ag . 3)
  (treemacs-uproot . 3)
@@ -390,7 +390,7 @@
  (emmet-mode . 3)
  (emmet-preview-mode . 3)
  (emmet-expand-line . 8)
- (mu4e . 39)
+ (mu4e . 43)
  (mu4e-update-index . 9)
  (mu4e-info . 3)
  (mu4e~main-menu . 6)
@@ -468,7 +468,7 @@
  (arduino-menu . 1)
  (arduino-verify . 3)
  (arduino-upload . 2)
- (ialign . 132)
+ (ialign . 134)
  (slack-start . 1)
  (slack-im-open . 2)
  (devdocs-search . 1)
@@ -542,4 +542,5 @@
  (sidebar-open . 7)
  (sidebar-mu4e-mode . 1)
  (kill-buffer-and-window . 1)
+ (eimp-mode . 2)
 )
