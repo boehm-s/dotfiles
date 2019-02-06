@@ -37,6 +37,7 @@
 	markdown-exdent-or-delete
 	markdown-forward-paragraph
 	nxml-electric-slash
+	org-end-of-line
 	org-return
 	org-self-insert-command
 	org-shiftright

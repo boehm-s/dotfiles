@@ -5,6 +5,9 @@
 source $HOME/.cargo/env
 source $HOME/.moorerc
 
+export GTAGSLIBPATH=$HOME/.gtags/
+
+
 export ALTERNATE_EDITOR=nano
 export EDITOR=emacs
 

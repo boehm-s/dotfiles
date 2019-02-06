@@ -1,8 +1,8 @@
 (setq load-path
       (append
-       (list
+   (list
         (expand-file-name "~/.emacs.d/elpa"))
-       load-path))
+   load-path))
 
 (require 'package)
 
@@ -18,20 +18,14 @@
 (setq package-list
       (list
 
-       'emmet-mode            ; emmet mode
-       'esqlite               ; sqlite
        'f                     ; Modern API for working with files and directories
        'google-translate      ; translate in emacs
-       'ido                   ; manage buffers
        'json-reformat         ; format JSON
        'js-comint             ; js interpreter
        'magit                 ; git integration
        'magit-popup
        'multiple-cursors      ; ST-like multiple cursors
-       'neotree               ; menu bar
        'nodejs-repl           ; nodeJS REPL
-       'nyan-prompt
-       'pcre2el               ; regexp syntax converter
        'phi-search            ; replace isearch
        'rainbow-delimiters    ; rainbowy parens/braces/...
        'request
@@ -41,7 +35,17 @@
        'zlc                   ; zsh for emacs
        'browse-kill-ring      ; kill-ring history
 
-       ;;'zenburn-theme
+       'use-package
+
+       'zygospore
+       'ws-butler
+       'volatile-highlights
+       'undo-tree
+       'iedit
+       'dtrt-indent
+       'counsel-projectile
+       'clean-aindent-mode
+       'anzu
 
        ;; popup
        'popup
@@ -79,6 +83,7 @@
        'helm-company
        'helm-smex
        'helm-projectile
+       'helm-gtags
 
        ;;'helm-core
        'helm-emmet
@@ -94,8 +99,6 @@
        'company-tern
        'company-web
 
-       ;; 'auto-complete         ; autocompletion
-       ;; 'autocomplete-config   ; autocompletion conf
        ))
 
 (unless package-archive-contents
@@ -148,7 +151,7 @@
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(package-selected-packages
-   '(system-packages eimp zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
+   '(merlin-eldoc reason-mode zerodark-theme arduino-mode atomic-chrome desktop-environment docker editorconfig eslint-fix haskell-mode lsp-haskell lsp-intellij lsp-java lsp-javacomp lsp-javascript-typescript lsp-mode lsp-rust lsp-ui nodemcu-mode wiki-summary lyrics helm-spotify helm-spotify-plus jetbrains jekyll-modes helm-smex rainbow-identifiers zlc ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twittering-mode top-mode toml-mode tern-auto-complete sr-speedbar sos smex skewer-reload-stylesheets skewer-less rust-playground request rainbow-delimiters quelpa projectile popwin popup-switcher popup-kill-ring popup-imenu popup-complete phi-search persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file nyan-prompt nyan-mode nodejs-repl neotree multi-term mpg123 move-text markdown-mode magit macrostep lorem-ipsum livid-mode linum-relative link-hint json-mode js3-mode js2-refactor js-doc js-comint jade-mode isend-mode info+ indent-guide ido-vertical-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-swoop helm-emmet helm-company helm-c-yasnippet helm-c-moccur handlebars-mode hackernews hacker-typer google-translate gh-md gh expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu esqlite eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-did-you-mean eshell-autojump esh-help esh-buf-stack elscreen elisp-slime-nav dumb-jump dockerfile-mode dash-at-point company-web company-tern company-php company-go company-arduino column-enforce-mode coffee-mode clean-aindent-mode cargo browse-kill-ring auto-highlight-symbol auto-complete-c-headers auto-complete-auctex auto-compile angular-mode 2048-game))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -182,6 +185,28 @@
 
 ;; (nyan-mode)
 
+(require 'dashboard)
+(dashboard-setup-startup-hook)
+(require 'dashboard-hackernews)
+(setq dashboard-items '((hackernews . 10)))
+
+(require 'elfeed)
+
+(setq elfeed-feeds '(
+("https://hnrss.org/frontpage" IT code hackernews)
+("https://github.com/boehm-s.private.atom?token=AOYD4nnn-BKhwsVWNcKRhMZbeylZzUAoks66PLq8wA==" github)
+("https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr" news google-news)
+("https://www.lesnumeriques.com/rss.xml" lesnumeriques hide)
+))
+
+(add-hook 'elfeed-new-entry-hook
+          (elfeed-make-tagger :feed-url "lesnumeriques\\.com"
+			      :entry-link "test.html"
+                              :add '(test)
+			      :remove '(hide)))
+
+(setq-default elfeed-search-filter "@1-week-ago +unread -hide")
+
 ;; (rainbow-delimiters-mode)
 ;; (put 'dired-find-alternate-file 'disabled nil)
 
@@ -212,14 +237,6 @@
 (add-to-list 'auto-mode-alist '("\\.racket\\'" . racket-mode))
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode))
 
-(add-hook 'csharp-mode-hook 'omnisharp-mode)
-
-(eval-after-load
- 'company
- '(add-to-list 'company-backends 'company-omnisharp))
-
-(add-hook 'csharp-mode-hook #'company-mode)
-
 (require 'company)
 (require 'company-tern)
 
@@ -234,6 +251,568 @@
 ;; (eval-after-load 'tern
 ;;    '(progn
 ;;       (add-to-list 'company-backends 'company-tern)))
+
+(setq gc-cons-threshold 100000000)
+(setq inhibit-startup-message t)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; show unncessary whitespace that can mess up your diff
+(add-hook 'prog-mode-hook
+          (lambda () (interactive)
+            (setq show-trailing-whitespace 1)))
+
+;; set appearance of a tab that is represented by 4 spaces
+(setq-default tab-width 4)
+
+;; Compilation
+(global-set-key (kbd "<f5>") (lambda ()
+                               (interactive)
+                               (setq-local compilation-read-command nil)
+                               (call-interactively 'compile)))
+
+;; setup GDB
+(setq
+ ;; use gdb-many-windows by default
+ gdb-many-windows t
+
+ ;; Non-nil means display source file containing the main routine at startup
+ gdb-show-main t
+ )
+
+;; company
+(use-package company
+  :init
+  (global-company-mode 1)
+  (delete 'company-semantic company-backends))
+;; (define-key c-mode-map  [(control tab)] 'company-complete)
+;; (define-key c++-mode-map  [(control tab)] 'company-complete)
+
+;; Package: projejctile
+(use-package projectile
+  :init
+  (projectile-global-mode)
+  (setq projectile-enable-caching t))
+
+;; Package zygospore
+(use-package zygospore
+  :bind (("C-x 1" . zygospore-toggle-delete-other-windows)
+         ("RET" .   newline-and-indent)))
+
+  ; automatically indent when press RET
+
+;; activate whitespace-mode to view all whitespace characters
+(global-set-key (kbd "C-c w") 'whitespace-mode)
+
+(require 'cc-mode)
+
+(use-package company-c-headers
+  :init
+  (add-to-list 'company-backends 'company-c-headers))
+
+;; hs-minor-mode for folding source code
+(add-hook 'c-mode-common-hook 'hs-minor-mode)
+
+;; Available C style:
+;; “gnu”: The default style for GNU projects
+;; “k&r”: What Kernighan and Ritchie, the authors of C used in their book
+;; “bsd”: What BSD developers use, aka “Allman style” after Eric Allman.
+;; “whitesmith”: Popularized by the examples that came with Whitesmiths C, an early commercial C compiler.
+;; “stroustrup”: What Stroustrup, the author of C++ used in his book
+;; “ellemtel”: Popular C++ coding standards as defined by “Programming in C++, Rules and Recommendations,” Erik Nyquist and Mats Henricson, Ellemtel
+;; “linux”: What the Linux developers use for kernel development
+;; “python”: What Python developers use for extension modules
+;; “java”: The default style for java-mode (see below)
+;; “user”: When you want to define your own style
+(setq c-default-style "linux")  ;; set style to "linux"
+
+(use-package cc-mode
+  :init
+  (define-key c-mode-map  [(tab)] 'company-complete)
+  (define-key c++-mode-map  [(tab)] 'company-complete))
+
+(use-package ivy
+  :init
+  (progn
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (global-set-key (kbd "C-c s") 'swiper)))
+
+(use-package counsel
+  :bind
+  (("M-x" . counsel-M-x)
+   ("M-y" . counsel-yank-pop)
+   ("C-c r" . counsel-recentf)
+   ("C-x C-f" . counsel-find-file)
+   ("<f1> f" . counsel-describe-function)
+   ("<f1> v" . counsel-describe-variable)
+   ("<f1> l" . counsel-load-library)
+   ("C-h f" . counsel-describe-function)
+   ("C-h v" . counsel-describe-variable)
+   ("C-h l" . counsel-load-library)))
+
+(use-package counsel-projectile
+  :init
+  (counsel-projectile-mode))
+
+(use-package helm
+  :init
+  (progn
+    (require 'helm-config)
+    (require 'helm-grep)
+    ;; To fix error at compile:
+    ;; Error (bytecomp): Forgot to expand macro with-helm-buffer in
+    ;; (with-helm-buffer helm-echo-input-in-header-line)
+    (if (version< "26.0.50" emacs-version)
+        (eval-when-compile (require 'helm-lib)))
+
+    (defun helm-hide-minibuffer-maybe ()
+      (when (with-helm-buffer helm-echo-input-in-header-line)
+        (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
+          (overlay-put ov 'window (selected-window))
+          (overlay-put ov 'face (let ((bg-color (face-background 'default nil)))
+                                  `(:background ,bg-color :foreground ,bg-color)))
+          (setq-local cursor-type nil))))
+
+    (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
+    ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+    ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+    ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+    (global-set-key (kbd "C-c h") 'helm-command-prefix)
+    (global-unset-key (kbd "C-x c"))
+
+    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebihnd tab to do persistent action
+    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+    (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+    (define-key helm-grep-mode-map (kbd "<return>")  'helm-grep-mode-jump-other-window)
+    (define-key helm-grep-mode-map (kbd "n")  'helm-grep-mode-jump-other-window-forward)
+    (define-key helm-grep-mode-map (kbd "p")  'helm-grep-mode-jump-other-window-backward)
+
+    (when (executable-find "curl")
+      (setq helm-google-suggest-use-curl-p t))
+
+    (setq helm-google-suggest-use-curl-p t
+          helm-scroll-amount 4 ; scroll 4 lines other window using M-<next>/M-<prior>
+          ;; helm-quick-update t ; do not display invisible candidates
+          helm-ff-search-library-in-sexp t ; search for library in `require' and `declare-function' sexp.
+
+          ;; you can customize helm-do-grep to execute ack-grep
+          ;; helm-grep-default-command "ack-grep -Hn --smart-case --no-group --no-color %e %p %f"
+          ;; helm-grep-default-recurse-command "ack-grep -H --smart-case --no-group --no-color %e %p %f"
+          helm-split-window-in-side-p t ;; open helm buffer inside current window, not occupy whole other window
+
+          helm-echo-input-in-header-line t
+
+          ;; helm-candidate-number-limit 500 ; limit the number of displayed canidates
+          helm-ff-file-name-history-use-recentf t
+          helm-move-to-line-cycle-in-source t ; move to end or beginning of source when reaching top or bottom of source.
+          helm-buffer-skip-remote-checking t
+
+          helm-mode-fuzzy-match t
+
+          helm-buffers-fuzzy-matching t ; fuzzy matching buffer names when non-nil
+                                        ; useful in helm-mini that lists buffers
+          helm-org-headings-fontify t
+          ;; helm-find-files-sort-directories t
+          ;; ido-use-virtual-buffers t
+          helm-semantic-fuzzy-match t
+          helm-M-x-fuzzy-match t
+          helm-imenu-fuzzy-match t
+          helm-lisp-fuzzy-completion t
+          ;; helm-apropos-fuzzy-match t
+          helm-buffer-skip-remote-checking t
+          helm-locate-fuzzy-match t
+          helm-display-header-line nil)
+
+    (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+    (global-set-key (kbd "C-x b") 'helm-buffers-list)
+    (global-set-key (kbd "C-x C-f") 'helm-find-files)
+    (global-set-key (kbd "C-c r") 'helm-recentf)
+    (global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
+    (global-set-key (kbd "C-c h o") 'helm-occur)
+    (global-set-key (kbd "C-c h o") 'helm-occur)
+
+    (global-set-key (kbd "C-c h w") 'helm-wikipedia-suggest)
+    (global-set-key (kbd "C-c h g") 'helm-google-suggest)
+
+    (global-set-key (kbd "C-c h x") 'helm-register)
+    ;; (global-set-key (kbd "C-x r j") 'jump-to-register)
+
+    (define-key 'help-command (kbd "C-f") 'helm-apropos)
+    (define-key 'help-command (kbd "r") 'helm-info-emacs)
+    (define-key 'help-command (kbd "C-l") 'helm-locate-library)
+
+    ;; use helm to list eshell history
+    (add-hook 'eshell-mode-hook
+              #'(lambda ()
+                  (define-key eshell-mode-map (kbd "M-l")  'helm-eshell-history)))
+
+;;; Save current position to mark ring
+    (add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
+
+    ;; show minibuffer history with Helm
+    (define-key minibuffer-local-map (kbd "M-p") 'helm-minibuffer-history)
+    (define-key minibuffer-local-map (kbd "M-n") 'helm-minibuffer-history)
+
+    (define-key global-map [remap find-tag] 'helm-etags-select)
+
+    (define-key global-map [remap list-buffers] 'helm-buffers-list)
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; PACKAGE: helm-swoop                ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Locate the helm-swoop folder to your path
+    (use-package helm-swoop
+      :bind (("C-c h o" . helm-swoop)
+             ("C-c s" . helm-multi-swoop-all))
+      :config
+      ;; When doing isearch, hand the word over to helm-swoop
+      (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+
+      ;; From helm-swoop to helm-multi-swoop-all
+      (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
+
+      ;; Save buffer when helm-multi-swoop-edit complete
+      (setq helm-multi-swoop-edit-save t)
+
+      ;; If this value is t, split window inside the current window
+      (setq helm-swoop-split-with-multiple-windows t)
+
+      ;; Split direcion. 'split-window-vertically or 'split-window-horizontally
+      (setq helm-swoop-split-direction 'split-window-vertically)
+
+      ;; If nil, you can slightly boost invoke speed in exchange for text color
+      (setq helm-swoop-speed-or-color t))
+
+    (helm-mode 1)
+
+    (use-package helm-projectile
+      :init
+      (helm-projectile-on)
+      (setq projectile-completion-system 'helm)
+      (setq projectile-indexing-method 'alien))))
+
+;; this variables must be set before load helm-gtags
+;; you can change to any prefix key of your choice
+(setq helm-gtags-prefix-key "\C-cg")
+
+(use-package helm-gtags
+  :init
+  (progn
+    (setq helm-gtags-ignore-case t
+          helm-gtags-auto-update t
+          helm-gtags-use-input-at-cursor t
+          helm-gtags-pulse-at-cursor t
+          helm-gtags-prefix-key "\C-cg"
+          helm-gtags-suggested-key-mapping t)
+
+    ;; Enable helm-gtags-mode in Dired so you can jump to any tag
+    ;; when navigate project tree with Dired
+    (add-hook 'dired-mode-hook 'helm-gtags-mode)
+
+    ;; Enable helm-gtags-mode in Eshell for the same reason as above
+    (add-hook 'eshell-mode-hook 'helm-gtags-mode)
+
+    ;; Enable helm-gtags-mode in languages that GNU Global supports
+    (add-hook 'c-mode-hook 'helm-gtags-mode)
+    (add-hook 'c++-mode-hook 'helm-gtags-mode)
+    (add-hook 'java-mode-hook 'helm-gtags-mode)
+    (add-hook 'asm-mode-hook 'helm-gtags-mode)
+
+    ;; key bindings
+    (with-eval-after-load 'helm-gtags
+      (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+      (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+      (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+      (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history))))
+
+(require 'cc-mode)
+(require 'semantic)
+(require 'stickyfunc-enhance)
+
+(global-semanticdb-minor-mode 1)
+(global-semantic-idle-scheduler-mode 1)
+(global-semantic-idle-summary-mode 1)
+(global-semantic-stickyfunc-mode 1)
+
+(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+(setq-local eldoc-documentation-function #'ggtags-eldoc-function)
+
+
+(semantic-mode 1)
+
+(defun alexott/cedet-hook ()
+  (local-set-key "\C-c\C-j" 'semantic-ia-fast-jump)
+  (local-set-key "\C-c\C-s" 'semantic-ia-show-summary))
+
+(add-hook 'c-mode-common-hook 'alexott/cedet-hook)
+(add-hook 'c-mode-hook 'alexott/cedet-hook)
+(add-hook 'c++-mode-hook 'alexott/cedet-hook)
+
+;; Enable EDE only in C/C++
+(require 'ede)
+(global-ede-mode)
+
+;; GROUP: Editing -> Editing Basics
+(setq global-mark-ring-max 5000         ; increase mark ring to contains 5000 entries
+      mark-ring-max 5000                ; increase kill ring to contains 5000 entries
+      mode-require-final-newline t      ; add a newline to end of file
+      tab-width 4                       ; default to 4 visible spaces to display a tab
+      )
+
+(add-hook 'sh-mode-hook (lambda ()
+                          (setq tab-width 4)))
+
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-language-environment "UTF-8")
+(prefer-coding-system 'utf-8)
+
+(setq-default indent-tabs-mode nil)
+(delete-selection-mode)
+(global-set-key (kbd "RET") 'newline-and-indent)
+
+;; GROUP: Editing -> Killing
+(setq kill-ring-max 5000 ; increase kill-ring capacity
+      kill-whole-line t  ; if NIL, kill whole line and move the next line up
+      )
+
+;; show whitespace in diff-mode
+(add-hook 'diff-mode-hook (lambda ()
+                            (setq-local whitespace-style
+                                        '(face
+                                          tabs
+                                          tab-mark
+                                          spaces
+                                          space-mark
+                                          trailing
+                                          indentation::space
+                                          indentation::tab
+                                          newline
+                                          newline-mark))
+                            (whitespace-mode 1)))
+
+;; Package: volatile-highlights
+;; GROUP: Editing -> Volatile Highlights
+(use-package volatile-highlights
+  :init
+  (volatile-highlights-mode t))
+
+;; Package: undo-tree
+;; GROUP: Editing -> Undo -> Undo Tree
+(use-package undo-tree
+  :init
+  (global-undo-tree-mode 1))
+
+
+;; Package: yasnippet
+;; GROUP: Editing -> Yasnippet
+;; Package: yasnippet
+(use-package yasnippet
+  :defer t
+  :init
+  (add-hook 'prog-mode-hook 'yas-minor-mode))
+
+;; Package: clean-aindent-mode
+(use-package clean-aindent-mode
+  :init
+  (add-hook 'prog-mode-hook 'clean-aindent-mode))
+
+;; Package: dtrt-indent
+(use-package dtrt-indent
+  :init
+  (dtrt-indent-mode 1)
+  (setq dtrt-indent-verbosity 0))
+
+;; Package: ws-butler
+(use-package ws-butler
+  :init
+  (add-hook 'prog-mode-hook 'ws-butler-mode)
+  (add-hook 'text-mode 'ws-butler-mode)
+  (add-hook 'fundamental-mode 'ws-butler-mode))
+
+;; PACKAGE: comment-dwim-2
+(use-package comment-dwim-2
+  :bind (("M-;" . comment-dwim-2))
+  )
+
+;; PACKAGE: anzu
+;; GROUP: Editing -> Matching -> Isearch -> Anzu
+(use-package anzu
+  :init
+  (global-anzu-mode)
+  (global-set-key (kbd "M-%") 'anzu-query-replace)
+  (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp))
+
+;; PACKAGE: iedit
+(use-package iedit
+  :bind (("C-;" . iedit-mode))
+  :init
+  (setq iedit-toggle-key-default nil))
+
+;; Customized functions
+(defun prelude-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+If ARG is not nil or 1, move forward ARG - 1 lines first. If
+point reaches the beginning or end of the buffer, stop there."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+(global-set-key (kbd "C-a") 'prelude-move-beginning-of-line)
+
+(defadvice kill-ring-save (before slick-copy activate compile)
+  "When called interactively with no active region, copy a single
+line instead."
+  (interactive
+   (if mark-active (list (region-beginning) (region-end))
+     (message "Copied line")
+     (list (line-beginning-position)
+           (line-beginning-position 2)))))
+
+(defadvice kill-region (before slick-cut activate compile)
+  "When called interactively with no active region, kill a single
+  line instead."
+  (interactive
+   (if mark-active (list (region-beginning) (region-end))
+     (list (line-beginning-position)
+           (line-beginning-position 2)))))
+
+;; kill a line, including whitespace characters until next non-whiepsace character
+;; of next line
+(defadvice kill-line (before check-position activate)
+  (if (member major-mode
+              '(emacs-lisp-mode scheme-mode lisp-mode
+                                c-mode c++-mode objc-mode
+                                latex-mode plain-tex-mode))
+      (if (and (eolp) (not (bolp)))
+          (progn (forward-char 1)
+                 (just-one-space 0)
+                 (backward-char 1)))))
+
+;; taken from prelude-editor.el
+;; automatically indenting yanked text if in programming-modes
+(defvar yank-indent-modes
+  '(LaTeX-mode TeX-mode)
+  "Modes in which to indent regions that are yanked (or yank-popped).
+Only modes that don't derive from `prog-mode' should be listed here.")
+
+(defvar yank-indent-blacklisted-modes
+  '(python-mode slim-mode haml-mode)
+  "Modes for which auto-indenting is suppressed.")
+
+(defvar yank-advised-indent-threshold 1000
+  "Threshold (# chars) over which indentation does not automatically occur.")
+
+(defun yank-advised-indent-function (beg end)
+  "Do indentation, as long as the region isn't too large."
+  (if (<= (- end beg) yank-advised-indent-threshold)
+      (indent-region beg end nil)))
+
+(defadvice yank (after yank-indent activate)
+  "If current mode is one of 'yank-indent-modes,
+indent yanked text (with prefix arg don't indent)."
+  (if (and (not (ad-get-arg 0))
+           (not (member major-mode yank-indent-blacklisted-modes))
+           (or (derived-mode-p 'prog-mode)
+               (member major-mode yank-indent-modes)))
+      (let ((transient-mark-mode nil))
+        (yank-advised-indent-function (region-beginning) (region-end)))))
+
+(defadvice yank-pop (after yank-pop-indent activate)
+  "If current mode is one of `yank-indent-modes',
+indent yanked text (with prefix arg don't indent)."
+  (when (and (not (ad-get-arg 0))
+             (not (member major-mode yank-indent-blacklisted-modes))
+             (or (derived-mode-p 'prog-mode)
+                 (member major-mode yank-indent-modes)))
+    (let ((transient-mark-mode nil))
+      (yank-advised-indent-function (region-beginning) (region-end)))))
+
+;; prelude-core.el
+(defun indent-buffer ()
+  "Indent the currently visited buffer."
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+;; prelude-editing.el
+(defcustom prelude-indent-sensitive-modes
+  '(coffee-mode python-mode slim-mode haml-mode yaml-mode)
+  "Modes for which auto-indenting is suppressed."
+  :type 'list)
+
+(defun indent-region-or-buffer ()
+  "Indent a region if selected, otherwise the whole buffer."
+  (interactive)
+  (unless (member major-mode prelude-indent-sensitive-modes)
+    (save-excursion
+      (if (region-active-p)
+          (progn
+            (indent-region (region-beginning) (region-end))
+            (message "Indented selected region."))
+        (progn
+          (indent-buffer)
+          (message "Indented buffer.")))
+      (whitespace-cleanup))))
+
+(global-set-key (kbd "C-c i") 'indent-region-or-buffer)
+
+;; add duplicate line function from Prelude
+;; taken from prelude-core.el
+(defun prelude-get-positions-of-line-or-region ()
+  "Return positions (beg . end) of the current line
+or region."
+  (let (beg end)
+    (if (and mark-active (> (point) (mark)))
+        (exchange-point-and-mark))
+    (setq beg (line-beginning-position))
+    (if mark-active
+        (exchange-point-and-mark))
+    (setq end (line-end-position))
+    (cons beg end)))
+
+;; smart openline
+(defun prelude-smart-open-line (arg)
+  "Insert an empty line after the current line.
+Position the cursor at its beginning, according to the current mode.
+With a prefix ARG open line above the current line."
+  (interactive "P")
+  (if arg
+      (prelude-smart-open-line-above)
+    (progn
+      (move-end-of-line nil)
+      (newline-and-indent))))
+
+(defun prelude-smart-open-line-above ()
+  "Insert an empty line above the current line.
+Position the cursor at it's beginning, according to the current mode."
+  (interactive)
+  (move-beginning-of-line nil)
+  (newline-and-indent)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(global-set-key (kbd "M-o") 'prelude-smart-open-line)
+(global-set-key (kbd "M-o") 'open-line)
 
 (defun my-web-mode-hook ()
   "Web mode customization."
@@ -281,42 +860,6 @@
           (indent-for-tab-command)))))
 
 (global-set-key [backtab] 'tab-indent-or-complete)
-
-(setq fiplr-root-markers '(".git" ".svn"))
-(setq fiplr-ignored-globs '((directories (".git" ".svn" "node_modules"))
-                            (files ("*.jpg" "*.png" "*.zip" "*~"))))
-
-;; eval region js and insert
-(defun node-js-eval-region-or-buffer ()
-  "evaluate the region and 'node' it !"
-  (interactive)
-    (insert
-     (shell-command-to-string
-      (concat "node -e '"
-	      (buffer-substring (mark) (point))
-	      "';")))
-    (setq deactivate-mark t))
-
-;; eval region python and insert
-(defun python-eval-region-or-buffer ()
-  "evaluate the region and 'python' it !"
-  (interactive)
-    (insert
-     (shell-command-to-string
-      (concat "python -c '"
-	      (buffer-substring (mark) (point))
-	      "';")))
-    (setq deactivate-mark t))
-
-(defun custom-prompt (str)
-  (interactive
-   (list
-    (read-string "my_prompt : ")))
-  (when (string-match "^\:\\(.[[:digit:]]+\\)" str)
-    (goto-line (string-to-number (match-string 1 str))))
-  (when (string-match "^d\\([[:digit:]]+\\)" str)
-    (dotimes (i (string-to-number (match-string 1 str))) (kill-line)))
-  )
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -416,7 +959,6 @@ With negative N, comment out original line and use the absolute value."
 (define-key custom-keys-map (kbd "M-x") 'helm-smex)
 (define-key custom-keys-map (kbd "C-x C-f") 'helm-projectile)
 
-(define-key custom-keys-map (kbd "M-z") 'custom-prompt)
 (define-key custom-keys-map (kbd "M-l") 'goto-line)
 
 (define-key custom-keys-map (kbd "C-c C-c") 'comment-dwim)
@@ -483,115 +1025,10 @@ With negative N, comment out original line and use the absolute value."
 (my-term-minor-mode 1)
 ))
 
-;;     (require 'treemacs)
-;;     (require 'grizzl)
-
-;;     (defvar *_treemacs-search-index*  (grizzl-make-index (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n")  :case-sensitive t))
-;; ;;      (defvar *treemacs-search-index*  (grizzl-make-index '("one" "two" "three" "four"))) ;; :case-sensitive t))
-;;     (defvar *treemacs-current-search* "")
-;;     (defvar res-buffer (get-buffer-create "*treemacs-fuzzy-search-RESULT*"))
-
-
-;;     (defun treemacs-search-change ()  ""
-;;     (setq *treemacs-search-index* *_treemacs-search-index*)
-;;     ;; chamge value when treemacs root change
-;;     ;; find hook for treemacs root change
-;;     (setq *treemacs-current-search* (minibuffer-contents))
-;;     (setq *treemacs-search-result* (grizzl-search *treemacs-current-search* *treemacs-search-index*))
-
-;;     ;; somehow *treemacs-search-index*  becomes nil in grizzl-search function
-
-;;     (grizzl-result-strings *treemacs-search-result* *treemacs-search-index*
-;;     :start 0
-;;     :end   100)
-;;     ;; (switch-to-buffer-other-window res-buffer)
-;;     )
-
-;;   ;;  (let ((inhibit-modification-hooks nil)) (treemacs-search-change))
-
-;;     (defun treemacs-fuzzy-search ()  ""
-;;     (interactive)
-;;     (setq *treemacs-search-index*  (split-string (shell-command-to-string (concat "find " (treemacs--current-root))) "\n"))
-;;     (minibuffer-with-setup-hook
-;;     (lambda ()
-;;     (add-hook 'post-self-insert-hook #'treemacs-search-change nil t))
-;;     (read-string (format "Pattern [%s]: " *treemacs-current-search*) nil nil *treemacs-current-search*))
-;;     )
-
-  ;; (setq *treemacs-current-search*
-
-
-
-    ;; Hi,
-
-    ;; I'm new to elisp programming, I want to implement a feature that I've seen in many emacs packages (helm, ido, fiplr ...) : calling a function (hook) when user types something in the minibuffer (read-string).
-
-    ;; If someone could write the simpliest piece of code that implements this feature and explain it to me, it would be wonderful.
-    ;; Something like writing to the current buffer everything I type on the minibuffer.
-
-    ;; So far, I just know how to use `interactive` and `read-string` to get the user input.
-
-    ;; Best regards,
-
-
-
-
-
-
-    ;;  (fiplr-find-file-in-directory (treemacs--current-root) fiplr-ignored-globs)
-
-
-    (defvar treemacs-mode-keymap (make-keymap) "treemacs-mode keymap.")
-
-    (define-key treemacs-mode-keymap (kbd "<left>")  'treemacs-uproot)
-    (define-key treemacs-mode-keymap (kbd "<right>")  'treemacs-RET-action)
-    (define-key treemacs-mode-keymap (kbd "SPC")  'treemacs-RET-action)
-    (define-key treemacs-mode-keymap (kbd "C-<return>")  'treemacs-change-root)
-    (define-key treemacs-mode-keymap (kbd "C-<right>")  'treemacs-change-root)
-    (define-key treemacs-mode-keymap (kbd "C-f")  'treemacs-fuzzy-search)
-
-    (define-minor-mode my-treemacs-minor-mode
-    "A minor mode for navigating in treemacs"
-    :init-value nil
-    :lighter " my-treemacs"
-    :keymap treemacs-mode-keymap)
-
-;; after-change-major-mode-hook
-(add-hook 'after-change-major-mode-hook (lambda()
-(when (eq major-mode 'treemacs-mode)
-(interactive)
-(linum-relative-global-mode nil)
-(linum-mode -1)
-(my-treemacs-minor-mode)
-)
-))
-
 (setq org-support-shift-select t)
 
 (my-keys-minor-mode 1)
 (my-term-minor-mode -1)
-
-(require 'atomic-chrome)
-(unless (zerop (call-process "lsof" nil nil nil "-i" ":64292"))
-(atomic-chrome-start-server)
-)
-
-(define-derived-mode atomic-edit-mode fundamental-mode "atomic-edit-mode"
-  "major mode for editing textareas on chrome."
-;;  (delete-other-windows)
-  (toggle-frame-maximized)
-  (set-frame-size (selected-frame) 40000 20)
-  (set-frame-position (selected-frame) 0 10000)
-)
-
-(setq atomic-chrome-buffer-open-style 'frame)
-(setq atomic-chrome-default-major-mode 'atomic-edit-mode)
-
-(lambda ()
-  (interactive)
-  (let ((command (concat "-a " (Man-default-man-entry))))
-    (man command)
-    (other-window 1)))
 
 (setenv "GDK_SCALE" "1")
 (setenv "GDK_DPI_SCALE" "1")
@@ -647,19 +1084,6 @@ With negative N, comment out original line and use the absolute value."
       smtpmail-smtp-service 587
       smtpmail-debug-info t)
 
-(defun nodejs-repl-restart ()
-  "restart the nodejs REPL"
-  (interactive)
-  (defvar nodejs-repl-code
-    (concat "process.stdout.columns = %d;" "require('repl').start('%s', null, null, true, false)"))
-  (with-current-buffer "*nodejs*"
-    (kill-process nil comint-ptyp)
-    (run-with-timer 0.01 nil (lambda ()
-                  (setq nodejs-repl-prompt-re (format nodejs-repl-prompt-re-format nodejs-repl-prompt nodejs-repl-prompt))
-                  (with-current-buffer "*nodejs*"
-                (apply 'make-comint nodejs-repl-process-name nodejs-repl-command nil `("-e" ,(format nodejs-repl-code (window-width) nodejs-repl-prompt)))
-                (nodejs-repl-mode) (erase-buffer) )))))
-
 ;; automatically start helm spotify plus
 
   (require 'helm-spotify-plus)
@@ -694,14 +1118,14 @@ With negative N, comment out original line and use the absolute value."
     (setq spotify-modeline-title-to-display (concat (make-string spotify-modeline-title-max-char ? ) current-music (make-string  spotify-modeline-title-max-char ? )))
     (setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
     (setq spotify-modeline-title-display
-      (condition-case err
+  (condition-case err
 	(substring spotify-modeline-title-to-display spotify-modeline-title-offset (+ spotify-modeline-title-max-char spotify-modeline-title-offset))
 	(args-out-of-range (setq spotify-modeline-title-offset 0))
-      )
+  )
     )
     (if (> spotify-modeline-title-offset (+ (length current-music) (- spotify-modeline-title-max-char 2)))
-      (setq spotify-modeline-title-offset 0)
-      (setq spotify-modeline-title-offset (+ spotify-modeline-title-offset 1))
+  (setq spotify-modeline-title-offset 0)
+  (setq spotify-modeline-title-offset (+ spotify-modeline-title-offset 1))
     )
     (force-mode-line-update t)
   )
@@ -721,7 +1145,7 @@ With negative N, comment out original line and use the absolute value."
      " "
 					   ; read-only or modified status
      (:eval
-      (cond (buffer-read-only
+  (cond (buffer-read-only
 	     (propertize "RO" 'face 'mode-line-read-only-face))
 	    ((buffer-modified-p)
 	     (propertize "**" 'face 'mode-line-modified-face))
@@ -731,7 +1155,7 @@ With negative N, comment out original line and use the absolute value."
 
      (:eval (if (string= "*" (substring (buffer-name) 0 1) )
 		(propertize "" 'face 'mode-line-folder-face)
-	      (propertize (shorten-directory default-directory 5) 'face
+	  (propertize (shorten-directory default-directory 5) 'face
 			  'mode-line-folder-face)))
      (:propertize "%b"
 		  face mode-line-filename-face)
@@ -789,14 +1213,14 @@ With negative N, comment out original line and use the absolute value."
     "Show up to `max-length' characters of a directory name `dir'."
     (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
 	  (output ""))
-      (when (and path (equal "" (car path)))
+  (when (and path (equal "" (car path)))
 	(setq path (cdr path)))
-      (while (and path (< (length output) (- max-length 4)))
+  (while (and path (< (length output) (- max-length 4)))
 	(setq output (concat (car path) "/" output))
 	(setq path (cdr path)))
-      (when path
+  (when path
 	(setq output (concat ".../" output)))
-      output))
+  output))
 
   ;; Extra mode line faces
   (make-face 'mode-line-read-only-face)
@@ -810,46 +1234,46 @@ With negative N, comment out original line and use the absolute value."
   (make-face 'mode-line-80col-face)
 
   (set-face-attribute 'mode-line nil
-		      :foreground "gray50" :background "gray30"
-		      :inverse-video nil
-		      :box '(:line-width 6 :color "gray30" :style nil))
+		  :foreground "gray50" :background "gray30"
+		  :inverse-video nil
+		  :box '(:line-width 6 :color "gray30" :style nil))
   (set-face-attribute 'mode-line-inactive nil
-		      :foreground "gray80" :background "gray10"
-		      :inverse-video nil
-		      :box '(:line-width 6 :color "gray10" :style nil))
+		  :foreground "gray80" :background "gray10"
+		  :inverse-video nil
+		  :box '(:line-width 6 :color "gray10" :style nil))
 
   (set-face-attribute 'mode-line-read-only-face nil
-		      :inherit 'mode-line-face
-		      :foreground "#4271ae"
-		      :box '(:line-width 2 :color "#4271ae"))
+		  :inherit 'mode-line-face
+		  :foreground "#4271ae"
+		  :box '(:line-width 2 :color "#4271ae"))
   (set-face-attribute 'mode-line-modified-face nil
-		      :inherit 'mode-line-face
-		      :foreground "#c82829"
-		      :background "#ffffff"
-		      :box '(:line-width 2 :color "#c82829"))
+		  :inherit 'mode-line-face
+		  :foreground "#c82829"
+		  :background "#ffffff"
+		  :box '(:line-width 2 :color "#c82829"))
   (set-face-attribute 'mode-line-folder-face nil
-		      :inherit 'mode-line-face
-		      :foreground "gray60")
+		  :inherit 'mode-line-face
+		  :foreground "gray60")
   (set-face-attribute 'mode-line-filename-face nil
-		      :inherit 'mode-line-face
-		      :foreground "#eab700"
-		      :weight 'bold)
+		  :inherit 'mode-line-face
+		  :foreground "#eab700"
+		  :weight 'bold)
   (set-face-attribute 'mode-line-position-face nil
-		      :inherit 'mode-line-face
-		      :height 100
-		      :foreground "gray80")
+		  :inherit 'mode-line-face
+		  :height 100
+		  :foreground "gray80")
   (set-face-attribute 'mode-line-mode-face nil
-		      :inherit 'mode-line-face
-		      :foreground "gray80")
+		  :inherit 'mode-line-face
+		  :foreground "gray80")
   (set-face-attribute 'mode-line-minor-mode-face nil
-		      :inherit 'mode-line-mode-face
-		      :foreground "gray80"
-		      :height 100)
+		  :inherit 'mode-line-mode-face
+		  :foreground "gray80"
+		  :height 100)
   (set-face-attribute 'mode-line-process-face nil
-		      :inherit 'mode-line-face
-		      :foreground "#718c00")
+		  :inherit 'mode-line-face
+		  :foreground "#718c00")
   (set-face-attribute 'mode-line-80col-face nil
-		      :inherit 'mode-line-position-face
-		      :foreground "black" :background "#eab700")
+		  :inherit 'mode-line-position-face
+		  :foreground "black" :background "#eab700")
 
   (provide 'mode-line-format)
