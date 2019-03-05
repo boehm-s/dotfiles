@@ -2,19 +2,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-source $HOME/.cargo/env
-source $HOME/.moorerc
-
-export GTAGSLIBPATH=$HOME/.gtags/
-
-
-export ALTERNATE_EDITOR=nano
-export EDITOR=emacs
-
-export GOOGLE_APPLICATION_CREDENTIALS=/home/boehm-s/.credentials/Lampe-82df9d7a4765.json
-
-# \emacs --daemon
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -41,7 +28,7 @@ shopt -s checkwinsize
 #shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
-#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
@@ -50,7 +37,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -89,8 +76,8 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
@@ -98,50 +85,11 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-alias ll='ls -l'
-alias la='ls -A'
-alias lla='ls -la'
-alias llA='ls -lA'
-alias l='ls -CF'
-alias emacs='XLIB_SKIP_ARGB_VISUALS=1 emacs'
-alias sudo='sudo '
-alias pp='rm -rf *~ \#*\#'
-alias pyg='pygmentize'
-alias norme='/opt/norme.py -nocheat'
-alias xtrace='/home/boehm-s/install/xtrace.sh'
-
-
-alias gst='git status'
-alias gc='git commit'
-alias gp='git push'
-alias sbrc='source /home/boehm-s/.bashrc'
-alias grep='grep --color=auto'
-
-#source ~/.bash-powerline.sh
-
-function mkcdir() {
-    opt=()
-    dir=()
-    i=0
-    for var in "$@"
-    do
-	if [[ $var =~ ^- ]]
-	then
-	    opt[i]=("$var")
-	else
-	    dir+=("$var")
-	fi
-	i=$((i+1))
-    done
-    mkdir $opt $dir
-    cd ${dir[-1]}
-}
-
-function join_by() { local IFS=$1; shift; echo "$*"; }
-
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -163,55 +111,32 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-PATH=/home/boehm-s/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local:/usr/local/android-studio/bin
-
-
-# Custom commands
-
-
-function fpkg() {
-    options=`getopt -o n --long names -- "$@"`
-
-    [ $? -eq 0 ] || {
-    echo "Incorrect options provided"
-    exit 1
-    }
-
-    pkglist=$(sudo dpkg -l | grep -i $1)
-
-    eval set -- "$options"
-
-    while true; do
-	case "$1" in
-	    -n|--names)
-		echo "$pkglist" | head -n10 | awk '{print $2}'
-		;;
-	    --)
-		shift
-		break
-		;;
-	esac
-	shift
-    done
-
-}
-# added by Anaconda3 5.3.1 installer
+# added by Anaconda3 2018.12 installer
 # >>> conda init >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/boehm-s/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/boehm_s/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
 if [ $? -eq 0 ]; then
     \eval "$__conda_setup"
 else
-    if [ -f "/home/boehm-s/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/boehm-s/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/boehm_s/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/boehm_s/anaconda3/etc/profile.d/conda.sh"
         CONDA_CHANGEPS1=false conda activate base
     else
-        \export PATH="/home/boehm-s/anaconda3/bin:$PATH"
+        \export PATH="/home/boehm_s/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda init <<<
+
+
+
+################################################################
+
+export ANDROID_HOME=/opt/android-sdk
+
+
+# add cargo to path
+export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/usr/local/blender
+export PATH=$PATH:/opt/android-studio/bin
