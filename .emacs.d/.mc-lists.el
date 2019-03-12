@@ -47,6 +47,7 @@
         phi-search
         phi-search-backward
         prelude-move-beginning-of-line
+        pug-electric-backspace
         repeat
         split-and-find-file-V
         tab-to-tab-stop

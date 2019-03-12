@@ -1,0 +1,14 @@
+;; Emacs-W3 HTTP cookies file
+;; Automatically generated file!!! DO NOT EDIT!!!
+
+(setq url-cookie-storage
+ '((".wikia.com"
+  [url-cookie "wikia_beacon_id" "KorEtVsrBM" "Mon, 02 Sep 2019 11:48:58 GMT" "/" ".wikia.com" nil]))
+)
+(setq url-cookie-secure-storage
+ 'nil)
+
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; End:

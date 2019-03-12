@@ -97,6 +97,12 @@
 #+END_SRC
 
 
+*** Region color 
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(set-face-attribute 'region nil :background "SkyBlue3")
+#+END_SRC
+
+
 ** Code Editor / IDE
 
 *** Installing tools / packages
@@ -408,11 +414,138 @@ With negative N, comment out original line and use the absolute value."
 #+END_SRC
 
 
+*** Emacs backup
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setq backup-directory-alist `(("." . "~/.backups-emacs")))
+(setq delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2
+  version-control t)
+#+END_SRC
+
+
+
 ***  emacs 26+ hacks
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setenv "GDK_SCALE" "1")
 (setenv "GDK_DPI_SCALE" "1")
 (modify-all-frames-parameters '((inhibit-double-buffering . t)))
+#+END_SRC
+
+
+
+
+* org-mode 
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setq date '(12 21 2017))
+
+
+(use-package org
+  :ensure org-plus-contrib
+  :config
+    (require 'org-inlinetask)
+    (define-key global-map "\C-cl" 'org-store-link)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (define-key global-map "\C-cc" 'org-capture)
+
+    (custom-set-variables
+      '(org-directory "~/org")
+      '(org-agenda-files (list org-directory)))
+
+
+    (setq org-log-done t)
+    (setq org-confirm-elisp-link-function nil)
+
+    (setq org-todo-keywords
+      '((sequence "MAYBE(m)")
+        (sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
+        (sequence "|" "CANCELED(c)"))) 
+
+    (setq org-todo-keyword-faces
+      '(("MAYBE" . (:foreground "dodger blue" :weight bold))
+        ("TODO" . (:foreground "red" :weight bold))
+        ("WIP" . (:foreground "orange" :weight bold))
+        ("DONE" . (:foreground "LimeGreen" :weight bold))
+        ("CANCELED" . (:foreground "magenta" :weight bold))))
+
+(setq org-capture-templates
+  '(("a" "Appointment" entry (file  "~/org/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+    ("l" "Link" entry (file+headline "~/org/links.org" "Links") "* %? %^L %^g \n%T" :prepend t)
+    ("b" "Blog idea" entry (file+headline "~/org/todo.org" "Blog Topics:") "* %?\n%T" :prepend t)
+    ("t" "To Do Item" entry (file+headline "~/org/todo.org" "To Do") "* TODO %?\n%u" :prepend t)
+    ("n" "Note" entry (file+headline "~/org/todo.org" "Note space") "* %?\n%u" :prepend t)
+    ("j" "Journal" entry (file+datetree "~/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
+    ("c" "Contacts" entry (file "~/org/contacts.org") "* %(org-contacts-template-name)\n\n:PROPERTIES:\n\n:EMAIL: %(org-contacts-template-email)\n\n")
+    ("s" "Screencast" entry (file "~/org/screencastnotes.org") "* %?\n%i\n")))
+)
+
+
+;; Set Up org-projectile
+
+(use-package org-projectile
+  :bind (("C-c n p" . org-projectile-project-todo-completing-read)
+         ("C-c c" . org-capture))
+  :config
+  (progn
+    (setq org-projectile-projects-file
+          "~/org/projects.org")
+;;    (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
+    (push (org-projectile-project-todo-entry) org-capture-templates))
+  :ensure t)
+
+
+;; Set Up org-contacts
+
+(use-package org-contacts
+  :ensure nil
+  :after org
+  :custom (org-contacts-files '("~/org/contacts.org"))
+  :config
+    (custom-set-variables
+      '(org-contacts-birthday-property "BORN")
+      ;; '(org-contacts-address-property "CITY")
+      ;; '(org-contacts-icon-property "PHOTOGRAPH")
+    )
+
+    
+)
+
+;; Set Up Google Calendar
+
+'(org-agenda-include-diary t)
+
+(use-package org-gcal
+  :ensure t
+  :config
+
+  (setq package-check-signature nil)
+
+  (setq org-gcal-client-id "174856972518-te2gkd7e9krp7tic68eeqsngbcihdshd.apps.googleusercontent.com"
+      org-gcal-client-secret "Za7tXAXaybyHDVkdrAC3nrcS"
+      org-gcal-file-alist '(("boehm_s@etna-alternance.net" .  "~/org/gcal.org")))
+
+  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+  (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+)
+
+(use-package calfw-org :ensure t)
+(use-package calfw-ical :ensure t)
+
+(use-package calfw
+  :ensure t
+  :config
+    (require 'calfw)
+    (require 'calfw-org)
+    (setq cfw:org-overwrite-default-keybinding t)
+    (require 'calfw-ical)
+)
+
+(use-package calfw-gcal 
+  :ensure t
+  :config
+    (require 'calfw-gcal)
+)
+
 #+END_SRC
 
 
@@ -837,39 +970,6 @@ Position the cursor at it's beginning, according to the current mode."
       (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
       (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
       (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history))))
-#+END_SRC
-
-
-
-
-* org-mode 
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-
-(setq org-confirm-elisp-link-function nil)
-
-
-(setq org-agenda-files (list "~/Desktop/todo.org"))
-
-
-(setq org-todo-keywords
-      '((sequence "MAYBE(m)")
-        (sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
-        (sequence "|" "CANCELED(c)"))) 
-
-(setq org-todo-keyword-faces
-      '(("MAYBE" . (:foreground "dodger blue" :weight bold))
-        ("TODO" . (:foreground "red" :weight bold))
-        ("WIP" . (:foreground "orange" :weight bold))
-        ("DONE" . (:foreground "LimeGreen" :weight bold))
-        ("CANCELED" . (:foreground "magenta" :weight bold))))
-
-
-
-
 #+END_SRC
 
 

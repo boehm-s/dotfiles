@@ -416,6 +416,94 @@ With negative N, comment out original line and use the absolute value."
 #+END_SRC
 
 
+
+
+* org-mode 
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+(setq org-confirm-elisp-link-function nil)
+
+
+
+(setq org-todo-keywords
+      '((sequence "MAYBE(m)")
+        (sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
+        (sequence "|" "CANCELED(c)"))) 
+
+(setq org-todo-keyword-faces
+      '(("MAYBE" . (:foreground "dodger blue" :weight bold))
+        ("TODO" . (:foreground "red" :weight bold))
+        ("WIP" . (:foreground "orange" :weight bold))
+        ("DONE" . (:foreground "LimeGreen" :weight bold))
+        ("CANCELED" . (:foreground "magenta" :weight bold))))
+
+
+;; Set Up Google Calendar
+
+'(org-agenda-include-diary t)
+
+
+(use-package org-gcal
+:ensure t
+:config
+
+(setq package-check-signature nil)
+
+(setq org-gcal-client-id "174856972518-te2gkd7e9krp7tic68eeqsngbcihdshd.apps.googleusercontent.com"
+      org-gcal-client-secret "Za7tXAXaybyHDVkdrAC3nrcS"
+      org-gcal-file-alist '(("boehm_s@etna-alternance.net" .  "~/org/gcal.org")))
+
+(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+
+(setq org-agenda-files (list "~/org/gcal.org"
+"~/org/todo.org"))
+
+(setq org-capture-templates
+'(("a" "Appointment" entry (file  "~/org/gcal.org" )
+"* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+("l" "Link" entry (file+headline "~/org/links.org" "Links")
+"* %? %^L %^g \n%T" :prepend t)
+("b" "Blog idea" entry (file+headline "~/org/todo.org" "Blog Topics:")
+"* %?\n%T" :prepend t)
+("t" "To Do Item" entry (file+headline "~/org/todo.org" "To Do")
+"* TODO %?\n%u" :prepend t)
+("n" "Note" entry (file+headline "~/org/todo.org" "Note space")
+"* %?\n%u" :prepend t)
+("j" "Journal" entry (file+datetree "~/org/journal.org")
+"* %?\nEntered on %U\n  %i\n  %a")
+("s" "Screencast" entry (file "~/org/screencastnotes.org")
+"* %?\n%i\n")))
+
+)
+
+(use-package calfw-org
+:ensure t)
+
+(use-package calfw-ical
+:ensure t)
+
+(use-package calfw
+:ensure t
+:config
+(require 'calfw)
+(require 'calfw-org)
+(setq cfw:org-overwrite-default-keybinding t)
+(require 'calfw-ical)
+)
+
+(use-package calfw-gcal
+:ensure t
+:config
+(require 'calfw-gcal))
+
+#+END_SRC
+
+
 * For C/C++
 
 ** Setup General
@@ -837,37 +925,6 @@ Position the cursor at it's beginning, according to the current mode."
       (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
       (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
       (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history))))
-#+END_SRC
-
-
-
-
-* org-mode 
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-
-(setq org-confirm-elisp-link-function nil)
-
-
-(setq org-agenda-files (list "~/Desktop/todo.org"))
-
-
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
-        (sequence "MAYBE(m)")
-        (sequence "|" "CANCELED(c)"))) 
-
-(setq org-todo-keyword-faces
-      '(("MAYBE" . (:foreground "dodger blue" :weight bold))
-        ("TODO" . (:foreground "red" :weight bold))
-        ("WIP" . (:foreground "orange" :weight bold))
-        ("DONE" . (:foreground "LimeGreen" :weight bold))
-        ("CANCELED" . (:foreground "magenta" :weight bold))))
-
-
 #+END_SRC
 
 
