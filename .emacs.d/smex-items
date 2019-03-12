@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
- cfw:open-org-calendar
  org-babel-tangle
+ helm-projectile
+ projectile-find-file
  package-list-packages
- bs-show
- diary-insert-anniversary-entry
- global-whitespace-mode
- delete-trailing-whitespace
+ cfw:open-org-calendar
+ org-mode
+ text-mode
 )
 
 ;; ----- smex-data -----
@@ -21,8 +21,8 @@
  (w3m-search . 2)
  (version . 10)
  (xwidget-webkit-browse-url . 23)
- (replace-string . 164)
- (org-mode . 5)
+ (replace-string . 166)
+ (org-mode . 6)
  (xwidget-cleanup . 5)
  (xwidget-webkit-mode . 6)
  (xwidget-webkit-adjust-size . 5)
@@ -62,7 +62,7 @@
  (indium-interaction-mode . 10)
  (tabulated-list-mode . 2)
  (yaml-mode . 2)
- (package-list-packages . 159)
+ (package-list-packages . 161)
  (ldap-mode . 5)
  (js-mode . 1)
  (json-pretty-print . 6)
@@ -81,11 +81,11 @@
  (web-mode . 92)
  (web-mode-jsx-is-html . 1)
  (rjsx-mode . 63)
- (helm-projectile . 45)
+ (helm-projectile . 47)
  (helm-projectile-switch-project . 2)
  (projectile-switch-to-buffer . 1)
  (projectile-grep . 1)
- (projectile-find-file . 5)
+ (projectile-find-file . 6)
  (markdown-mode . 7)
  (helm-projectile-on . 2)
  (twit . 1)
@@ -124,7 +124,7 @@
  (capitalize-region . 10)
  (eval-expression . 1)
  (java-mode . 2)
- (org-babel-tangle . 523)
+ (org-babel-tangle . 537)
  (org-babel-load-file . 1)
  (org-babel-switch-to-session-with-code . 1)
  (org-babel-expand-src-block . 2)
@@ -333,7 +333,7 @@
  (fixup-whitespace . 1)
  (whitespace-cleanup . 2)
  (redraw-display . 3)
- (text-mode . 8)
+ (text-mode . 9)
  (whitespace-cleanup-region . 2)
  (delete-trailing-whitespace . 6)
  (delete-whitespace-rectangle . 2)
@@ -550,7 +550,7 @@
  (lsp-describe-session . 2)
  (lsp-restart-workspace . 2)
  (dashboard-next-section . 1)
- (elfeed . 42)
+ (elfeed . 43)
  (elfeed-db-compact . 1)
  (elfeed-apply-hooks-now . 5)
  (elfeed-update . 8)
@@ -576,10 +576,10 @@
  (run-python . 4)
  (downcase-dwim . 1)
  (dockerfile-mode . 1)
- (helm-rg . 3)
+ (helm-rg . 4)
  (elpy-check . 3)
  (multi-term-next . 2)
- (helm-projectile-rg . 16)
+ (helm-projectile-rg . 18)
  (org-open-at-point . 2)
  (org-open-line . 2)
  (org-sort-entries . 2)
@@ -592,7 +592,7 @@
  (upcase-region . 2)
  (calendar-end-of-week . 3)
  (org-gcal-sync . 4)
- (cfw:open-org-calendar . 15)
+ (cfw:open-org-calendar . 17)
  (customize-face . 4)
  (goto-line . 1)
  (org-capture . 3)
@@ -602,7 +602,7 @@
  (auto-revert-mode . 1)
  (org-contacts-show-map . 2)
  (animate-birthday-present . 1)
- (org-contacts . 1)
+ (org-contacts . 2)
  (mc/mark-all-dwim . 1)
  (mc/mark-next-like-this . 1)
  (diary-insert-anniversary-entry . 1)

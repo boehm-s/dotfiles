@@ -51,6 +51,22 @@
 
 (set-face-attribute 'region nil :background "SkyBlue3")
 
+(use-package quelpa
+ :defer nil
+ :ensure t
+ :config
+ (quelpa
+  '(quelpa-use-package
+    :fetcher git
+    :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
+ (require 'quelpa-use-package))
+
+ (use-package font-lock+
+   :requires (quelpa quelpa-use-package)
+   :quelpa
+   (font-lock+  :repo "emacsmirror/font-lock-plus"   :fetcher github))
+(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
+
 (use-package magit
   :ensure t)
 
@@ -72,6 +88,10 @@
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2))
+
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode))
 
 
 (use-package helm-company
@@ -295,8 +315,10 @@ With negative N, comment out original line and use the absolute value."
 (setenv "GDK_DPI_SCALE" "1")
 (modify-all-frames-parameters '((inhibit-double-buffering . t)))
 
+;; weird trick 
 (setq date '(12 21 2017))
 
+(use-package org-indent :ensure nil :after org :delight)
 
 (use-package org
   :ensure org-plus-contrib
@@ -304,10 +326,11 @@ With negative N, comment out original line and use the absolute value."
     (require 'org-inlinetask)
     (define-key global-map "\C-cl" 'org-store-link)
     (define-key global-map "\C-ca" 'org-agenda)
+    (define-key global-map "\C-c\C-a" 'cfw:open-org-calendar)
     (define-key global-map "\C-cc" 'org-capture)
 
     (custom-set-variables
-      '(org-directory "~/org")
+      '(org-directory "~/Dropbox/org-steven")
       '(org-agenda-files (list org-directory)))
 
 
@@ -315,28 +338,50 @@ With negative N, comment out original line and use the absolute value."
     (setq org-confirm-elisp-link-function nil)
 
     (setq org-todo-keywords
-      '((sequence "MAYBE(m)")
+      '((sequence "TO_READ" "GLIMPSED" "DONE" "RECOMMEND"  "|" "BORED" "TOO_HARD")
         (sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
-        (sequence "|" "CANCELED(c)"))) 
+    ))
 
-    (setq org-todo-keyword-faces
-      '(("MAYBE" . (:foreground "dodger blue" :weight bold))
-        ("TODO" . (:foreground "red" :weight bold))
-        ("WIP" . (:foreground "orange" :weight bold))
-        ("DONE" . (:foreground "LimeGreen" :weight bold))
-        ("CANCELED" . (:foreground "magenta" :weight bold))))
+
+    (setq org-todo-keyword-faces '(
+        ("TO_READ"   . "Magenta") 
+        ("GLIMPSED"  . "DarkGoldenrod") 
+        ("DONE"      . "LimeGreen")
+        ("RECOMMEND" . "MediumOrchid") 
+        ("BORED"     . "red") 
+        ("TOO_HARD"  . "red")
+        
+        ("MAYBE"    . "dodger blue")
+        ("TODO"     . "red")
+        ("WIP"      . "orange")
+        ("DONE"     . "LimeGreen")
+        ("CANCELED" . "magenta" )
+     ))
 
 (setq org-capture-templates
-  '(("a" "Appointment" entry (file  "~/org/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-    ("l" "Link" entry (file+headline "~/org/links.org" "Links") "* %? %^L %^g \n%T" :prepend t)
-    ("b" "Blog idea" entry (file+headline "~/org/todo.org" "Blog Topics:") "* %?\n%T" :prepend t)
-    ("t" "To Do Item" entry (file+headline "~/org/todo.org" "To Do") "* TODO %?\n%u" :prepend t)
-    ("n" "Note" entry (file+headline "~/org/todo.org" "Note space") "* %?\n%u" :prepend t)
-    ("j" "Journal" entry (file+datetree "~/org/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
-    ("c" "Contacts" entry (file "~/org/contacts.org") "* %(org-contacts-template-name)\n\n:PROPERTIES:\n\n:EMAIL: %(org-contacts-template-email)\n\n")
-    ("s" "Screencast" entry (file "~/org/screencastnotes.org") "* %?\n%i\n")))
+  '(("a" "Appointment" entry (file  "~/Dropbox/org-steven/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+    ("l" "Link" entry (file+headline "~/Dropbox/org-steven/links.org" "Links") "* %? %^L %^g \n%T" :prepend t)
+    ("b" "Blog idea" entry (file+headline "~/Dropbox/org-steven/todo.org" "Blog Topics:") "* %?\n%T" :prepend t)
+    ("t" "To Do Item" entry (file+headline "~/Dropbox/org-steven/todo.org" "To Do") "* TODO %?\n%u" :prepend t)
+    ("n" "Note" entry (file+headline "~/Dropbox/org-steven/todo.org" "Note space") "* %?\n%u" :prepend t)
+    ("j" "Journal" entry (file+datetree "~/Dropbox/org-steven/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
+    ("c" "Contacts" entry (file "~/Dropbox/org-steven/contacts.org") "* %(org-contacts-template-name)\n\n:PROPERTIES:\n\n:EMAIL: %(org-contacts-template-email)\n\n")
+    ("s" "Screencast" entry (file "~/Dropbox/org-steven/screencastnotes.org") "* %?\n%i\n")))
 )
 
+(use-package org-super-agenda
+  :ensure t
+  :custom (org-super-agenda-groups '((:auto-group t)) (org-agenda-list)))
+
+(use-package org-bullets
+  :ensure t
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom (org-bullets-bullet-list '("●" "▲" "■" "✶" "◉" "○" "○")))
+
+
+(add-to-list 'org-modules 'org-habit t)
+(add-to-list 'org-modules 'org-checklist t)
 
 ;; Set Up org-projectile
 
@@ -346,7 +391,7 @@ With negative N, comment out original line and use the absolute value."
   :config
   (progn
     (setq org-projectile-projects-file
-          "~/org/projects.org")
+          "~/Dropbox/org-steven/projects.org")
 ;;    (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
     (push (org-projectile-project-todo-entry) org-capture-templates))
   :ensure t)
@@ -357,16 +402,45 @@ With negative N, comment out original line and use the absolute value."
 (use-package org-contacts
   :ensure nil
   :after org
-  :custom (org-contacts-files '("~/org/contacts.org"))
+  :custom (org-contacts-files '("~/Dropbox/org-steven/contacts.org"))
   :config
     (custom-set-variables
       '(org-contacts-birthday-property "BORN")
       ;; '(org-contacts-address-property "CITY")
       ;; '(org-contacts-icon-property "PHOTOGRAPH")
-    )
-
-    
+    )    
 )
+
+
+;; checkbox validate parent
+
+
+(defun my/org-checkbox-todo ()
+  "Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise"
+  (let ((todo-state (org-get-todo-state)) beg end)
+    (unless (not todo-state)
+      (save-excursion
+    (org-back-to-heading t)
+    (setq beg (point))
+    (end-of-line)
+    (setq end (point))
+    (goto-char beg)
+    (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
+                   end t)
+        (if (match-end 1)
+        (if (equal (match-string 1) "100%")
+            (unless (string-equal todo-state "DONE")
+              (org-todo 'done))
+          (unless (string-equal todo-state "TODO")
+            (org-todo 'todo)))
+          (if (and (> (match-end 2) (match-beginning 2))
+               (equal (match-string 2) (match-string 3)))
+          (unless (string-equal todo-state "DONE")
+            (org-todo 'done))
+        (unless (string-equal todo-state "TODO")
+          (org-todo 'todo)))))))))
+
+(add-hook 'org-checkbox-statistics-hook 'my/org-checkbox-todo)
 
 ;; Set Up Google Calendar
 
@@ -380,7 +454,7 @@ With negative N, comment out original line and use the absolute value."
 
   (setq org-gcal-client-id "174856972518-te2gkd7e9krp7tic68eeqsngbcihdshd.apps.googleusercontent.com"
       org-gcal-client-secret "Za7tXAXaybyHDVkdrAC3nrcS"
-      org-gcal-file-alist '(("boehm_s@etna-alternance.net" .  "~/org/gcal.org")))
+      org-gcal-file-alist '(("boehm_s@etna-alternance.net" .  "~/Dropbox/org-steven/gcal.org")))
 
   (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
   (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))

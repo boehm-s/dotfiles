@@ -1,37 +1,15 @@
-#+TITLE: My emacs conf file
+(setq load-path
+      (append
+   (list
+        (expand-file-name "~/.emacs.d/elpa"))
+   load-path))
 
-** Packages init
-
-*** Set up load path
-
- The variable =load-path= lists all the directories where Emacs should look for Elisp files.
-
- #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
- (setq load-path
-       (append
-	(list
-         (expand-file-name "~/.emacs.d/elpa"))
-	load-path))
- #+END_SRC
-
-*** List of repositories containing packages.
-
-1. elpa repo (from gnu)
-2. [[http://melpa.milkbox.net/#/][melpa]] repo - contains packages updated daily.
-3. [[http://melpa-stable.milkbox.net/#/][melpa-stable]] repo - [alternative to [[http://marmalade-repo.org/][Marmalade]]] It offers stable packages built automatically from git tags.
-4. [[http://orgmode.org/elpa/][org]] repo - Org's package repository.
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")
                          ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
                          ("org" . "http://orgmode.org/elpa/"))
 )
-#+END_SRC
 
-*** initialize use-package
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (require 'package)
 (package-initialize)
 (unless (package-installed-p 'use-package)
@@ -44,45 +22,21 @@
 (use-package use-package-ensure-system-package
   :ensure t)
 
-#+END_SRC
-
-
-
-** Visual appearance
-
-*** I turn =off= mouse interface early in startup to avoid momentary display.
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
 (if (fboundp 'use-file-dialog) (setq use-file-dialog nil))
 (if (fboundp 'use-dialog-box) (setq use-dialog-box nil))
-#+END_SRC
 
-*** I prefer to disable Emacs' fringe.
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (fringe-mode '(0 . 0))
-#+END_SRC
 
-*** Remove startup screen
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (when (display-graphic-p)
   (setq inhibit-startup-screen t)
 )
-#+END_SRC
 
-*** Big window on startup
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-#+END_SRC
 
-*** highlight current line and custom window appearance
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
@@ -94,37 +48,7 @@
     (global-hl-line-mode 1)
     (set-face-foreground 'highlight nil)
 )
-#+END_SRC
 
-*** Region color 
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(set-face-attribute 'region nil :background "SkyBlue3")
-#+END_SRC
-
-*** Icons in terminal
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(use-package quelpa
- :defer nil
- :ensure t
- :config
- (quelpa
-  '(quelpa-use-package
-    :fetcher git
-    :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
- (require 'quelpa-use-package))
-
- (use-package font-lock+
-   :requires (quelpa quelpa-use-package)
-   :quelpa
-   (font-lock+  :repo "emacsmirror/font-lock-plus"   :fetcher github))
-(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
-#+END_SRC
-
-** Code Editor / IDE
-
-*** Installing tools / packages
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (use-package magit
   :ensure t)
 
@@ -146,10 +70,6 @@
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2))
-
-(use-package company-box
-  :ensure t
-  :hook (company-mode . company-box-mode))
 
 
 (use-package helm-company
@@ -226,60 +146,6 @@
   :ensure t
   :mode "Dockerfile\\'")
 
-#+END_SRC
-
-
-# *** JS configuration
-
-# Node as JS interpreter for js2-mode
-
-# #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-#   (require 'company)
-#   (require 'company-tern)
-
-#   (add-hook 'after-init-hook 'global-company-mode)
-
-#   (add-to-list 'company-backends 'company-tern)
-#   (add-hook 'js2-mode-hook (lambda ()
-# 			     (tern-mode)
-# 			     (company-mode)))
-
-
-# ;; Javascript, Typescript and Flow support for lsp-mode
-# ;; Install: npm i -g javascript-typescript-langserver
-# (add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
-# (add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable) ;; for typescript support
-# (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
-# (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support
-
-# (defun lsp-company-transformer (candidates)
-#   (let ((completion-ignore-case t))
-#     (all-completions (company-grab-symbol) candidates)))
-
-# (defun lsp-js-hook nil
-#   (make-local-variable 'company-transformers)
-#   (push 'lsp-company-transformer company-transformers))
-
-# (add-hook 'js-mode-hook 'lsp-js-hook)
-
-
-
-#   ;; (eval-after-load 'tern
-#   ;;    '(progn
-#   ;;       (add-to-list 'company-backends 'company-tern)))
-# #+END_SRC
-
-
-
-# (define-key custom-keys-map (kbd "C-x C-m")  'sidebar-open)
-# (define-key custom-keys-map (kbd "C-x m")  'mu4e)
-
-
-
-
-
-**** Copy without killing
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defun xah-copy-to-register-1 ()
   "Copy current line or text selection to register 1.
 See also: `xah-paste-from-register-1', `copy-to-register'.
@@ -306,11 +172,6 @@ Version 2015-12-08"
     (delete-region (region-beginning) (region-end)))
   (insert-register ?1 t))
 
-#+END_SRC
-     
-*** Navigation
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (require 'cl)
 (use-package windmove
   :ensure t
@@ -358,10 +219,6 @@ Version 2015-12-08"
 
 (global-set-key (kbd "C-d")  'duplicate-line-or-region)
 
-#+END_SRC
-*** Duplicate line
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defun duplicate-line-or-region (&optional n)
   "Duplicate current line, or region if active.
 With argument N, make N copies.
@@ -383,11 +240,7 @@ With negative N, comment out original line and use the absolute value."
             (comment-region (line-beginning-position) (line-end-position)))
         (forward-line 1)
         (forward-char pos)))))
-#+END_SRC
 
-*** multi-term keys (minor-mode)
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (defvar term-mode-keymap (make-keymap) "term-mode keymap.")
 
 (define-key term-mode-keymap (kbd "s-<left>")  'windmove-left)
@@ -427,208 +280,13 @@ With negative N, comment out original line and use the absolute value."
 (my-term-minor-mode 1)
 ))
 (my-term-minor-mode -1)
-#+END_SRC
 
-*** org-mode shift select
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setq org-support-shift-select t)
-#+END_SRC
 
-
-*** Emacs backup
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(setq backup-directory-alist `(("." . "~/.backups-emacs")))
-(setq delete-old-versions t
-  kept-new-versions 6
-  kept-old-versions 2
-  version-control t)
-#+END_SRC
-
-
-
-***  emacs 26+ hacks
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setenv "GDK_SCALE" "1")
 (setenv "GDK_DPI_SCALE" "1")
 (modify-all-frames-parameters '((inhibit-double-buffering . t)))
-#+END_SRC
 
-
-
-
-* org-mode 
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-;; weird trick 
-(setq date '(12 21 2017))
-
-(use-package org-indent :ensure nil :after org :delight)
-
-(use-package org
-  :ensure org-plus-contrib
-  :config
-    (require 'org-inlinetask)
-    (define-key global-map "\C-cl" 'org-store-link)
-    (define-key global-map "\C-ca" 'org-agenda)
-    (define-key global-map "\C-c\C-a" 'cfw:open-org-calendar)
-    (define-key global-map "\C-cc" 'org-capture)
-
-    (custom-set-variables
-      '(org-directory "~/Dropbox/org-steven")
-      '(org-agenda-files (list org-directory)))
-
-
-    (setq org-log-done t)
-    (setq org-confirm-elisp-link-function nil)
-
-    (setq org-todo-keywords
-      '((sequence "TO_READ" "GLIMPSED" "DONE" "RECOMMEND"  "|" "BORED" "TOO_HARD")
-        (sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
-    ))
-
-
-    (setq org-todo-keyword-faces '(
-        ("TO_READ"   . "Magenta") 
-        ("GLIMPSED"  . "DarkGoldenrod") 
-        ("DONE"      . "LimeGreen")
-        ("RECOMMEND" . "MediumOrchid") 
-        ("BORED"     . "red") 
-        ("TOO_HARD"  . "red")
-        
-        ("MAYBE"    . "dodger blue")
-        ("TODO"     . "red")
-        ("WIP"      . "orange")
-        ("DONE"     . "LimeGreen")
-        ("CANCELED" . "magenta" )
-     ))
-
-(setq org-capture-templates
-  '(("a" "Appointment" entry (file  "~/Dropbox/org-steven/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-    ("l" "Link" entry (file+headline "~/Dropbox/org-steven/links.org" "Links") "* %? %^L %^g \n%T" :prepend t)
-    ("b" "Blog idea" entry (file+headline "~/Dropbox/org-steven/todo.org" "Blog Topics:") "* %?\n%T" :prepend t)
-    ("t" "To Do Item" entry (file+headline "~/Dropbox/org-steven/todo.org" "To Do") "* TODO %?\n%u" :prepend t)
-    ("n" "Note" entry (file+headline "~/Dropbox/org-steven/todo.org" "Note space") "* %?\n%u" :prepend t)
-    ("j" "Journal" entry (file+datetree "~/Dropbox/org-steven/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
-    ("c" "Contacts" entry (file "~/Dropbox/org-steven/contacts.org") "* %(org-contacts-template-name)\n\n:PROPERTIES:\n\n:EMAIL: %(org-contacts-template-email)\n\n")
-    ("s" "Screencast" entry (file "~/Dropbox/org-steven/screencastnotes.org") "* %?\n%i\n")))
-)
-
-(use-package org-super-agenda
-  :ensure t
-  :custom (org-super-agenda-groups '((:auto-group t)) (org-agenda-list)))
-
-(use-package org-bullets
-  :ensure t
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom (org-bullets-bullet-list '("●" "▲" "■" "✶" "◉" "○" "○")))
-
-
-(add-to-list 'org-modules 'org-habit t)
-(add-to-list 'org-modules 'org-checklist t)
-
-;; Set Up org-projectile
-
-(use-package org-projectile
-  :bind (("C-c n p" . org-projectile-project-todo-completing-read)
-         ("C-c c" . org-capture))
-  :config
-  (progn
-    (setq org-projectile-projects-file
-          "~/Dropbox/org-steven/projects.org")
-;;    (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
-    (push (org-projectile-project-todo-entry) org-capture-templates))
-  :ensure t)
-
-
-;; Set Up org-contacts
-
-(use-package org-contacts
-  :ensure nil
-  :after org
-  :custom (org-contacts-files '("~/Dropbox/org-steven/contacts.org"))
-  :config
-    (custom-set-variables
-      '(org-contacts-birthday-property "BORN")
-      ;; '(org-contacts-address-property "CITY")
-      ;; '(org-contacts-icon-property "PHOTOGRAPH")
-    )    
-)
-
-
-;; checkbox validate parent
-
-
-(defun my/org-checkbox-todo ()
-  "Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise"
-  (let ((todo-state (org-get-todo-state)) beg end)
-    (unless (not todo-state)
-      (save-excursion
-    (org-back-to-heading t)
-    (setq beg (point))
-    (end-of-line)
-    (setq end (point))
-    (goto-char beg)
-    (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
-                   end t)
-        (if (match-end 1)
-        (if (equal (match-string 1) "100%")
-            (unless (string-equal todo-state "DONE")
-              (org-todo 'done))
-          (unless (string-equal todo-state "TODO")
-            (org-todo 'todo)))
-          (if (and (> (match-end 2) (match-beginning 2))
-               (equal (match-string 2) (match-string 3)))
-          (unless (string-equal todo-state "DONE")
-            (org-todo 'done))
-        (unless (string-equal todo-state "TODO")
-          (org-todo 'todo)))))))))
-
-(add-hook 'org-checkbox-statistics-hook 'my/org-checkbox-todo)
-
-;; Set Up Google Calendar
-
-'(org-agenda-include-diary t)
-
-(use-package org-gcal
-  :ensure t
-  :config
-
-  (setq package-check-signature nil)
-
-  (setq org-gcal-client-id "174856972518-te2gkd7e9krp7tic68eeqsngbcihdshd.apps.googleusercontent.com"
-      org-gcal-client-secret "Za7tXAXaybyHDVkdrAC3nrcS"
-      org-gcal-file-alist '(("boehm_s@etna-alternance.net" .  "~/Dropbox/org-steven/gcal.org")))
-
-  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
-  (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
-)
-
-(use-package calfw-org :ensure t)
-(use-package calfw-ical :ensure t)
-
-(use-package calfw
-  :ensure t
-  :config
-    (require 'calfw)
-    (require 'calfw-org)
-    (setq cfw:org-overwrite-default-keybinding t)
-    (require 'calfw-ical)
-)
-
-(use-package calfw-gcal 
-  :ensure t
-  :config
-    (require 'calfw-gcal)
-)
-
-#+END_SRC
-
-
-* For C/C++
-
-** Setup General
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setq gc-cons-threshold 100000000)
 (setq inhibit-startup-message t)
 
@@ -681,13 +339,6 @@ With negative N, comment out original line and use the absolute value."
 ;; activate whitespace-mode to view all whitespace characters
 (global-set-key (kbd "C-c w") 'whitespace-mode)
 
- #+END_SRC
-
-
-
-** Setup C
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (use-package cl
   :ensure t)
 (use-package cc-mode
@@ -707,10 +358,6 @@ With negative N, comment out original line and use the absolute value."
 
 (setq c-default-style "linux") ;; set style to "linux"
 
- #+END_SRC
-** Setup Editing
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 ;; GROUP: Editing -> Editing Basics
 (setq global-mark-ring-max 5000         ; increase mark ring to contains 5000 entries
       mark-ring-max 5000                ; increase kill ring to contains 5000 entries
@@ -979,10 +626,6 @@ Position the cursor at it's beginning, according to the current mode."
 (global-set-key (kbd "M-o") 'prelude-smart-open-line)
 (global-set-key (kbd "M-o") 'open-line)
 
-#+END_SRC
-
-** Setup ggtags
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (use-package ggtags
   :ensure t
   :init 
@@ -1007,10 +650,7 @@ Position the cursor at it's beginning, according to the current mode."
       (define-key map (kbd "C-c <") 'ggtags-prev-mark)
       (define-key map (kbd "C-c >") 'ggtags-next-mark))
 )
-#+END_SRC
 
-** Setup helm-ggtags
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setq helm-gtags-prefix-key "\C-cg")
 
 (use-package helm-gtags
@@ -1045,12 +685,63 @@ Position the cursor at it's beginning, according to the current mode."
       (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
       (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
       (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history))))
-#+END_SRC
+
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+(setq org-confirm-elisp-link-function nil)
 
 
-* Elfeed (RSS feeds)
+(setq org-agenda-files (list "~/Desktop/todo.org"))
 
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+
+(setq org-todo-keywords
+      '((sequence "MAYBE(m)")
+        (sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
+        (sequence "|" "CANCELED(c)"))) 
+
+(setq org-todo-keyword-faces
+      '(("MAYBE" . (:foreground "dodger blue" :weight bold))
+        ("TODO" . (:foreground "red" :weight bold))
+        ("WIP" . (:foreground "orange" :weight bold))
+        ("DONE" . (:foreground "LimeGreen" :weight bold))
+        ("CANCELED" . (:foreground "magenta" :weight bold))))
+
+
+;; Set Up Google Calendar
+
+'(org-agenda-include-diary t)
+
+
+(use-package org-gcal
+:ensure t
+:config
+(setq org-gcal-client-id "oauth 2.0 client ID"
+org-gcal-client-secret "client secret"
+org-gcal-file-alist '(("boehm_s@etna-alternance-net" .  "~/Desktop/todo.org"))))
+
+(use-package calfw-org
+:ensure t)
+
+(use-package calfw-ical
+:ensure t)
+
+(use-package calfw
+:ensure t
+:config
+(require 'calfw)
+(require 'calfw-org)
+(setq cfw:org-overwrite-default-keybinding t)
+(require 'calfw-ical)
+)
+
+(use-package calfw-gcal
+:ensure t
+:config
+(require 'calfw-gcal))
+
 (use-package elfeed
   :ensure t
   :init
@@ -1069,11 +760,7 @@ Position the cursor at it's beginning, according to the current mode."
                           :add '(test)
 			              :remove '(hide)))
 )
-#+END_SRC
 
-* Emails
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (use-package mu4e
   :load-path "/usr/local/share/emacs/site-lisp/mu4e"
   :ensure-system-package offlineimap
@@ -1124,13 +811,6 @@ Position the cursor at it's beginning, according to the current mode."
 )
 (setq message-kill-buffer-on-exit t)
 
-#+END_SRC
-
-* Modeline 
-
-** spotify conf
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (use-package helm-spotify-plus
   :ensure t)
 
@@ -1325,37 +1005,3 @@ Position the cursor at it's beginning, according to the current mode."
 			  :foreground "black" :background "#eab700")
 
       (provide 'mode-line-format)
-
-#+END_SRC
-
-
-* Packages to install manually (with apt or git)
-
-** For mails (mu / mu4e)
-
-sudo apt-get install autoconf automake libtool g++ glibc-* libglib2-* libgmime-3.0-* libxapian-dev guile-2.0-dev html2text xdg-utils libwebkit-dev libgtk-3-* libjsoncpp-dev  json-glib-tools libwebkitgtk-3.0-* textinfo
-git clone git://github.com/djcb/mu.git
-cd mu
-./autogen.sh && ./configure && make
-sudo make install
-
-configure gmail with offlineimap : https://www.djcbsoftware.nl/code/mu/mu4e/Gmail-configuration.html
-
-** For C / C++
-Install GNU GLOBAL : https://www.gnu.org/software/global/download.html
-Install CTAGS : http://ctags.sourceforge.net/
-pip install pygments
-
-sudo apt-get install libxpm* libjpeg9* libgif-dev libgif7 libtiff5* gnutls-*
-sudo apt-get install clang-7* libclang1-7 libclang-7-dev libclang1 
-
-** For JS (nodejs ...)
-
-sudo apt install nodejs npm 
-sudo npm install -g n
-sudo n latest
-
-
-* For full-featured emacs 
-
-sudo apt-get install libxaw3dxft8* libcairo2* librsvg2-* liblcms2-* imagemagick-6-* libgpm2 libgpm-dev libgconf2-* libselinux1* libm17n-* libotf-dev libsystemd* libjansson* libgtk3*
