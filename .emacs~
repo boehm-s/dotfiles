@@ -49,8 +49,26 @@
     (set-face-foreground 'highlight nil)
 )
 
+(set-face-attribute 'region nil :background "SkyBlue3")
+
+(use-package all-the-icons
+  :ensure t)
+
+
+
+(use-package rainbow-delimiters
+  :ensure t
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
+
 (use-package magit
   :ensure t)
+
+(use-package dash
+  :ensure t
+  :config
+  (require 'dash)
+)
 
 (use-package helm
   :ensure t)
@@ -61,16 +79,29 @@
   :config
   (projectile-global-mode))
 
-(use-package company
+(use-package company 
   :ensure t
   :bind (("C-<tab>" . company-complete))
   :config
   (global-company-mode)
+  (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin)
   (setq company-dabbrev-ignore-case t)
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2))
 
+
+(use-package company-quickhelp
+  :ensure t
+  :config
+  (company-quickhelp-mode)
+)
+
+(use-package company-box
+  :ensure t
+  :custom (company-box-icons-alist 'company-box-icons-all-the-icons)
+  :hook (company-mode . company-box-mode)
+)
 
 (use-package helm-company
   :ensure t)
@@ -283,9 +314,180 @@ With negative N, comment out original line and use the absolute value."
 
 (setq org-support-shift-select t)
 
+(setq backup-directory-alist `(("." . "~/.backups-emacs")))
+(setq delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2
+  version-control t)
+
 (setenv "GDK_SCALE" "1")
 (setenv "GDK_DPI_SCALE" "1")
 (modify-all-frames-parameters '((inhibit-double-buffering . t)))
+
+(use-package flymake-diagnostic-at-point
+  :after flymake
+  :custom
+  (flymake-diagnostic-at-point-timer-delay 0.1)
+  (flymake-diagnostic-at-point-error-prefix " ")
+  (flymake-diagnostic-at-point-display-diagnostic-function 'flymake-diagnostic-at-point-display-popup)
+  :hook
+  (flymake-mode . flymake-diagnostic-at-point-mode))
+
+;; weird trick 
+(setq date '(12 21 2017))
+(use-package org-indent :ensure nil :after org :delight)
+
+(use-package org
+  :ensure org-plus-contrib
+  :custom
+    (org-directory "~/Dropbox/org-steven")
+    (org-agenda-files (list org-directory))
+  :config
+    (require 'org-inlinetask)
+    (define-key global-map "\C-cl" 'org-store-link)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (define-key global-map "\C-c\C-a" 'cfw:open-org-calendar)
+    (define-key global-map "\C-cc" 'org-capture)
+
+    (setq org-log-done t)
+    (setq org-confirm-elisp-link-function nil)
+
+    (setq org-todo-keywords
+      '((sequence "TO_READ" "GLIMPSED" "DONE" "RECOMMEND"  "|" "BORED" "TOO_HARD")
+        (sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
+    ))
+
+
+    (setq org-todo-keyword-faces '(
+        ("TO_READ"   . "Magenta") 
+        ("GLIMPSED"  . "DarkGoldenrod") 
+        ("DONE"      . "LimeGreen")
+        ("RECOMMEND" . "MediumOrchid") 
+        ("BORED"     . "red") 
+        ("TOO_HARD"  . "red")
+        
+        ("MAYBE"    . "dodger blue")
+        ("TODO"     . "red")
+        ("WIP"      . "orange")
+        ("DONE"     . "LimeGreen")
+        ("CANCELED" . "magenta" )
+     ))
+
+(setq org-capture-templates
+  '(("a" "Appointment" entry (file  "~/Dropbox/org-steven/gcal.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+    ("l" "Link" entry (file+headline "~/Dropbox/org-steven/links.org" "Links") "* %? %^L %^g \n%T" :prepend t)
+    ("b" "Blog idea" entry (file+headline "~/Dropbox/org-steven/todo.org" "Blog Topics:") "* %?\n%T" :prepend t)
+    ("t" "To Do Item" entry (file+headline "~/Dropbox/org-steven/todo.org" "To Do") "* TODO %?\n%u" :prepend t)
+    ("n" "Note" entry (file+headline "~/Dropbox/org-steven/todo.org" "Note space") "* %?\n%u" :prepend t)
+    ("j" "Journal" entry (file+datetree "~/Dropbox/org-steven/journal.org") "* %?\nEntered on %U\n  %i\n  %a")
+    ("c" "Contacts" entry (file "~/Dropbox/org-steven/contacts.org") "* %(org-contacts-template-name)\n\n:PROPERTIES:\n\n:EMAIL: %(org-contacts-template-email)\n\n")
+    ("s" "Screencast" entry (file "~/Dropbox/org-steven/screencastnotes.org") "* %?\n%i\n")))
+)
+
+(use-package org-super-agenda
+  :ensure t
+  :custom (org-super-agenda-groups '((:auto-group t)) (org-agenda-list)))
+
+(use-package org-bullets
+  :ensure t
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom (org-bullets-bullet-list '("●" "▲" "■" "✶" "◉" "○" "○")))
+
+
+(add-to-list 'org-modules 'org-habit t)
+(add-to-list 'org-modules 'org-checklist t)
+
+;; Set Up org-projectile
+
+(use-package org-projectile
+  :bind (("C-c n p" . org-projectile-project-todo-completing-read)
+         ("C-c c" . org-capture))
+  :config
+  (progn
+    (setq org-projectile-projects-file
+          "~/Dropbox/org-steven/projects.org")
+;;    (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
+    (push (org-projectile-project-todo-entry) org-capture-templates))
+  :ensure t)
+
+
+;; Set Up org-contacts
+
+(use-package org-contacts
+  :ensure nil
+  :after org
+  :custom (org-contacts-files '("~/Dropbox/org-steven/contacts.org"))
+  :custom (org-contacts-birthday-property "BORN")
+  :config
+)
+
+
+;; checkbox validate parent
+
+
+(defun my/org-checkbox-todo ()
+  "Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise"
+  (let ((todo-state (org-get-todo-state)) beg end)
+    (unless (not todo-state)
+      (save-excursion
+    (org-back-to-heading t)
+    (setq beg (point))
+    (end-of-line)
+    (setq end (point))
+    (goto-char beg)
+    (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
+                   end t)
+        (if (match-end 1)
+        (if (equal (match-string 1) "100%")
+            (unless (string-equal todo-state "DONE")
+              (org-todo 'done))
+          (unless (string-equal todo-state "TODO")
+            (org-todo 'todo)))
+          (if (and (> (match-end 2) (match-beginning 2))
+               (equal (match-string 2) (match-string 3)))
+          (unless (string-equal todo-state "DONE")
+            (org-todo 'done))
+        (unless (string-equal todo-state "TODO")
+          (org-todo 'todo)))))))))
+
+(add-hook 'org-checkbox-statistics-hook 'my/org-checkbox-todo)
+
+;; Set Up Google Calendar
+
+'(org-agenda-include-diary t)
+
+(use-package org-gcal
+  :ensure t
+  :config
+
+  (setq package-check-signature nil)
+
+  (setq org-gcal-client-id "174856972518-te2gkd7e9krp7tic68eeqsngbcihdshd.apps.googleusercontent.com"
+      org-gcal-client-secret "Za7tXAXaybyHDVkdrAC3nrcS"
+      org-gcal-file-alist '(("boehm_s@etna-alternance.net" .  "~/Dropbox/org-steven/gcal.org")))
+
+  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+  (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+)
+
+(use-package calfw-org :ensure t)
+(use-package calfw-ical :ensure t)
+
+(use-package calfw
+  :ensure t
+  :config
+    (require 'calfw)
+    (require 'calfw-org)
+    (setq cfw:org-overwrite-default-keybinding t)
+    (require 'calfw-ical)
+)
+
+(use-package calfw-gcal 
+  :ensure t
+  :config
+    (require 'calfw-gcal)
+)
 
 (setq gc-cons-threshold 100000000)
 (setq inhibit-startup-message t)
@@ -686,62 +888,6 @@ Position the cursor at it's beginning, according to the current mode."
       (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
       (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history))))
 
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-
-(setq org-confirm-elisp-link-function nil)
-
-
-(setq org-agenda-files (list "~/Desktop/todo.org"))
-
-
-(setq org-todo-keywords
-      '((sequence "MAYBE(m)")
-        (sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
-        (sequence "|" "CANCELED(c)"))) 
-
-(setq org-todo-keyword-faces
-      '(("MAYBE" . (:foreground "dodger blue" :weight bold))
-        ("TODO" . (:foreground "red" :weight bold))
-        ("WIP" . (:foreground "orange" :weight bold))
-        ("DONE" . (:foreground "LimeGreen" :weight bold))
-        ("CANCELED" . (:foreground "magenta" :weight bold))))
-
-
-;; Set Up Google Calendar
-
-'(org-agenda-include-diary t)
-
-
-(use-package org-gcal
-:ensure t
-:config
-(setq org-gcal-client-id "oauth 2.0 client ID"
-org-gcal-client-secret "client secret"
-org-gcal-file-alist '(("boehm_s@etna-alternance-net" .  "~/Desktop/todo.org"))))
-
-(use-package calfw-org
-:ensure t)
-
-(use-package calfw-ical
-:ensure t)
-
-(use-package calfw
-:ensure t
-:config
-(require 'calfw)
-(require 'calfw-org)
-(setq cfw:org-overwrite-default-keybinding t)
-(require 'calfw-ical)
-)
-
-(use-package calfw-gcal
-:ensure t
-:config
-(require 'calfw-gcal))
-
 (use-package elfeed
   :ensure t
   :init
@@ -785,6 +931,11 @@ org-gcal-file-alist '(("boehm_s@etna-alternance-net" .  "~/Desktop/todo.org"))))
     (setq
       mu4e-get-mail-command "offlineimap"   ;; or fetchmail, or ...
       mu4e-update-interval 300)             ;; update every 5 minutes
+
+      
+    (setq mu4e-alert-email-notification-types '(count))
+    (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
+
 )
 
 (use-package smtpmail
@@ -811,197 +962,234 @@ org-gcal-file-alist '(("boehm_s@etna-alternance-net" .  "~/Desktop/todo.org"))))
 )
 (setq message-kill-buffer-on-exit t)
 
-(use-package helm-spotify-plus
-  :ensure t)
+(defvar sp-metadata-bashstr  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata');")
+(defvar sp-artist-bashstr  "artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2);")
+(defvar sp-song-bashstr  "song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2);")
 
-(use-package lyrics
-  :ensure t)
+(defun sp-bash-metadata-echo (arg1 arg2)
+  (replace-regexp-in-string "\n$" "" (shell-command-to-string (concat sp-metadata-bashstr arg1 arg2))))
 
-(require 'helm-spotify-plus)
-(require 'lyrics)
+(defun spotify-artist ()
+  (sp-bash-metadata-echo sp-artist-bashstr "echo \"$artist\""))
+(defun spotify-song ()
+  (sp-bash-metadata-echo sp-song-bashstr "echo \"$song\""))
+(defun spotify-current ()
+  (format "[%s]   %s" (spotify-artist) (spotify-song)))
 
-(defvar spotify-modeline-title-max-char 25)
-(defvar spotify-modeline-title-offset 0)
-(defvar spotify-modeline-title-to-display "")
-(defvar spotify-modeline-title-display "")
+(defun get-spotify-text (txt offset &optional size)
+  (unless size (setq size 25))
+  (setq blank        (make-string size ? )
+        scroll-txt   (concat blank txt blank)
+        max-offset   (+ size (length txt))
+        offset       (mod offset max-offset))
+        (substring scroll-txt offset (+ offset size)))
 
-      (defvar spotify-modeline-metadata-bashstring  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata');")
-      (defvar spotify-modeline-artist-bashstring  "artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2);")
-      (defvar spotify-modeline-song-bashstring  "song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2);")
+(defvar spotify-modeline-counter 0)
+(defvar spotify-modeline-display "")
 
-      (defun spotify-modeline-artist ()
-	(replace-regexp-in-string "\n$" "" (shell-command-to-string (concat spotify-modeline-metadata-bashstring spotify-modeline-artist-bashstring "echo \"$artist\"")))
-      )
-      (defun spotify-modeline-song ()
-	(replace-regexp-in-string "\n$" "" (shell-command-to-string (concat spotify-modeline-metadata-bashstring spotify-modeline-song-bashstring "echo \"$song\"")))
-      )
-      (defun spotify-modeline-current ()
-	(format "[%s]   %s" (spotify-modeline-artist) (spotify-modeline-song))
-      )
+(defun spotify-modeline-update ()
+  (setq spotify-modeline-display (get-spotify-text (spotify-current) spotify-modeline-counter))
+  (setq spotify-modeline-counter (+ spotify-modeline-counter 1))
+;;  (force-mode-line-update t)
+)
+  
+;; (run-with-timer 0 0.2 'spotify-modeline-update)
 
-      (defvar spotify-modeline-get-playing-music-bashstring  "metadata=$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'); artist=$(echo \"$metadata\" | grep -A2 albumArtist | tail -n1 | cut -d\\\" -f2); song=$(echo \"$metadata\" | grep -A1 title | tail -n1 | cut -d\\\" -f2); echo \"[$artist]   $song\"")
-      (defvar spotify-modeline-get-play-pause-bashstring "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'PlaybackStatus' | tail -n1 | cut -d\\\" -f2")
+(use-package doom-modeline
+  :custom
+  (doom-modeline-buffer-file-name-style 'truncate-to-project)
+  (doom-modeline-icon t)
+  (doom-modeline-major-mode-icon nil)
+  (doom-modeline-minor-modes nil)
+  :hook
+  (after-init . doom-modeline-mode)
+  :config
+  (line-number-mode 0)
+  (column-number-mode 0)
+  (doom-modeline-def-modeline 'main
+'(buffer-info buffer-position selection-info)
+'(misc-info lsp debug minor-modes input-method major-mode process)))
 
-      (defvar current-music (spotify-modeline-current))
-      (defvar music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
-      (defun update-current-spotify-data ()
-	(setq current-music (spotify-modeline-current))
-	(setq spotify-modeline-title-to-display (concat (make-string spotify-modeline-title-max-char ? ) current-music (make-string  spotify-modeline-title-max-char ? )))
-	(setq music-paused (string= "Playing" (replace-regexp-in-string "\n$" "" (shell-command-to-string spotify-modeline-get-play-pause-bashstring))))
-	(setq spotify-modeline-title-display
-	  (condition-case err
-	    (substring spotify-modeline-title-to-display spotify-modeline-title-offset (+ spotify-modeline-title-max-char spotify-modeline-title-offset))
-	    (args-out-of-range (setq spotify-modeline-title-offset 0))
-	  )
-	)
-	(if (> spotify-modeline-title-offset (+ (length current-music) (- spotify-modeline-title-max-char 2)))
-	  (setq spotify-modeline-title-offset 0)
-	  (setq spotify-modeline-title-offset (+ spotify-modeline-title-offset 1))
-	)
-	(force-mode-line-update t)
-      )
-
-      (run-with-timer 0 0.2 'update-current-spotify-data)
-
-      (setq-default
-       mode-line-format
-       '(; Position, including warning for 80 columns
-	 (:propertize "%5l:" face mode-line-position-face)
-	 (:eval (propertize "%3c" 'face
-			    (if (>= (current-column) 80)
-				'mode-line-80col-face
-			      'mode-line-position-face)))
-					      ; emacsclient [default -- keep?]
-	 mode-line-client
-	 " "
-					       ; read-only or modified status
-	 (:eval
-	  (cond (buffer-read-only
-		 (propertize "RO" 'face 'mode-line-read-only-face))
-		((buffer-modified-p)
-		 (propertize "**" 'face 'mode-line-modified-face))
-		(t "  ")))
-	 " "
-					      ; directory and buffer/file name
-
-	 (:eval (if (string= "*" (substring (buffer-name) 0 1) )
-		    (propertize "" 'face 'mode-line-folder-face)
-		  (propertize (shorten-directory default-directory 5) 'face
-			      'mode-line-folder-face)))
-	 (:propertize "%b"
-		      face mode-line-filename-face)
-					      ; narrow [default -- keep?]
-	 "%n"
-					      ; mode indicators: vc, recursive edit, major mode, minor modes, process, global
-	 (vc-mode vc-mode)
-
-	 (:propertize " (" face mode-line-mode-face)
-	 (:propertize mode-name
-		      face mode-line-mode-face)
-	 (:propertize ")" face mode-line-mode-face)
-
-	 (:eval (propertize (format-mode-line minor-mode-alist)
-			    'face 'mode-line-minor-mode-face))
-	 (:propertize mode-line-process
-		      face mode-line-process-face)
-	 (global-mode-string global-mode-string)
-	 " "
-					      ; nyan-mode uses nyan cat as an alternative to %p
-	 ;; (:eval (when nyan-mode (list (nyan-create))))
-  	   (:propertize "     " nil nil)
-	   (:eval (propertize " ⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-previous) (setq spotify-modeline-title-offset 0) (update-current-spotify-data) ) )))
-	   (:eval (if (eq music-paused t)
-		    (propertize " ⏸ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused nil)) ))
-		    (propertize " ⏵ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused t)) ))
-	   ))
-	   (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (setq spotify-modeline-title-offset 0) (update-current-spotify-data)) ) ))
-	   ;; (:propertize "   " nil nil)
-	   ;; (:eval (propertize " 🔍 " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus) (update-current-spotify-data)) ) ))
-	   (:propertize "   |" nil nil)
-	   (:propertize spotify-modeline-title-display)
-	   (:propertize "| " nil nil)
-	   (:eval (propertize " ♩♩♩" 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive)
-	     (setq song-title (string-trim (car (split-string (spotify-modeline-song) "-"))))
-	     (select-frame (make-frame `((name . ,(concat "[Spotify-Modeline] " (spotify-modeline-artist) " - " song-title)))))
-	     (lyrics (spotify-modeline-artist) song-title )
-	     (eww-browse-url (concat (spotify-modeline-artist) " Wikipedia"))
-
-	     ;; Set C-q to delete the frame and the re-map to original behavior
-	     (define-key (current-global-map) (kbd "C-q") '(lambda () (interactive)  (global-set-key (kbd "C-q") 'quoted-insert) (delete-frame)))
-	   ) ) ))
-    ))
+(setq doom-modeline-height 25)
+(setq doom-modeline-bar-width 3)
 
 
+;; (setq doom-modeline-buffer-file-name-style 'relative-to-project)
+;; (setq doom-modeline-icon t)
+;; (setq doom-modeline-major-mode-icon t)
+;; (setq doom-modeline-major-mode-color-icon nil)
+;; (setq doom-modeline-minor-modes nil)
+;; (setq doom-modeline-enable-word-count nil)
+;; (setq doom-modeline-checker-simple-format t)
+;; (setq doom-modeline-persp-name t)
+;; (setq doom-modeline-lsp t)
+
+(use-package helm-spotify-plus :ensure t)
+(use-package lyrics :ensure t)
 
 
+    ;;   (setq-default
+    ;;    mode-line-format
+    ;;    '(; Position, including warning for 80 columns
+    ;;  (:propertize "%5l:" face mode-line-position-face)
+    ;;  (:eval (propertize "%3c" 'face
+    ;;             (if (>= (current-column) 80)
+    ;;             'mode-line-80col-face
+    ;;               'mode-line-position-face)))
+    ;;                       ; emacsclient [default -- keep?]
+    ;;  mode-line-client
+    ;;  " "
+    ;;                        ; read-only or modified status
+    ;;  (:eval
+    ;;   (cond (buffer-read-only
+    ;;      (propertize "RO" 'face 'mode-line-read-only-face))
+    ;;     ((buffer-modified-p)
+    ;;      (propertize "**" 'face 'mode-line-modified-face))
+    ;;     (t "  ")))
+    ;;  " "
+    ;;                       ; directory and buffer/file name
+
+    ;;  (:eval (if (string= "*" (substring (buffer-name) 0 1) )
+    ;;         (propertize "" 'face 'mode-line-folder-face)
+    ;;       (propertize (shorten-directory default-directory 5) 'face
+    ;;               'mode-line-folder-face)))
+    ;;  (:propertize "%b"
+    ;;           face mode-line-filename-face)
+    ;;                       ; narrow [default -- keep?]
+    ;;  "%n"
+    ;;                       ; mode indicators: vc, recursive edit, major mode, minor modes, process, global
+    ;;  (vc-mode vc-mode)
+
+    ;;  (:propertize " (" face mode-line-mode-face)
+    ;;  (:propertize mode-name
+    ;;           face mode-line-mode-face)
+    ;;  (:propertize ")" face mode-line-mode-face)
+
+    ;;  (:eval (propertize (format-mode-line minor-mode-alist)
+    ;;             'face 'mode-line-minor-mode-face))
+    ;;  (:propertize mode-line-process
+    ;;           face mode-line-process-face)
+    ;;  (global-mode-string global-mode-string)
+    ;;  " "
+    ;;                       ; nyan-mode uses nyan cat as an alternative to %p
+    ;;  ;; (:eval (when nyan-mode (list (nyan-create))))
+    ;;    (:propertize "     " nil nil)
+    ;;    (:eval (propertize " ⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-previous) (setq spotify-modeline-title-offset 0) (update-current-spotify-data) ) )))
+    ;;    (:eval (if (eq music-paused t)
+    ;;         (propertize " ⏸ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused nil)) ))
+    ;;         (propertize " ⏵ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq music-paused t)) ))
+    ;;    ))
+    ;;    (:eval (propertize " ⏩ " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus-next) (setq spotify-modeline-title-offset 0) (update-current-spotify-data)) ) ))
+    ;;    ;; (:propertize "   " nil nil)
+    ;;    ;; (:eval (propertize " 🔍 " 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive) (helm-spotify-plus) (update-current-spotify-data)) ) ))
+    ;;    (:propertize "   |" nil nil)
+    ;;    (:propertize spotify-modeline-title-display)
+    ;;    (:propertize "| " nil nil)
+    ;;    (:eval (propertize " ♩♩♩" 'local-map (make-mode-line-mouse-map 'mouse-1 '(lambda () (interactive)
+    ;;      (setq song-title (string-trim (car (split-string (spotify-modeline-song) "-"))))
+    ;;      (select-frame (make-frame `((name . ,(concat "[Spotify-Modeline] " (spotify-modeline-artist) " - " song-title)))))
+    ;;      (lyrics (spotify-modeline-artist) song-title )
+    ;;      (eww-browse-url (concat (spotify-modeline-artist) " Wikipedia"))
+
+    ;;      ;; Set C-q to delete the frame and the re-map to original behavior
+    ;;      (define-key (current-global-map) (kbd "C-q") '(lambda () (interactive)  (global-set-key (kbd "C-q") 'quoted-insert) (delete-frame)))
+    ;;    ) ) ))
+    ;; ))
 
 
-      ;; Helper function
-      (defun shorten-directory (dir max-length)
-	"Show up to `max-length' characters of a directory name `dir'."
-	(let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
-	      (output ""))
-	  (when (and path (equal "" (car path)))
-	    (setq path (cdr path)))
-	  (while (and path (< (length output) (- max-length 4)))
-	    (setq output (concat (car path) "/" output))
-	    (setq path (cdr path)))
-	  (when path
-	    (setq output (concat ".../" output)))
-	  output))
+;;        (defun shorten-directory (dir max-length)
+;;      "Show up to `max-length' characters of a dir
+;; ectory name `dir'."
+;;     (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+;;           (output ""))
+;;       (when (and path (equal "" (car path)))
+;;         (setq path (cdr path)))
+;;       (while (and path (< (length output) (- max-length 4)))
+;;         (setq output (concat (car path) "/" output))
+;;         (setq path (cdr path)))
+;;       (when path
+;;         (setq output (concat ".../" output)))
+;;       output))
 
-      ;; Extra mode line faces
-      (make-face 'mode-line-read-only-face)
-      (make-face 'mode-line-modified-face)
-      (make-face 'mode-line-folder-face)
-      (make-face 'mode-line-filename-face)
-      (make-face 'mode-line-position-face)
-      (make-face 'mode-line-mode-face)
-      (make-face 'mode-line-minor-mode-face)
-      (make-face 'mode-line-process-face)
-      (make-face 'mode-line-80col-face)
+;;       ;; Extra mode line faces
+;;       (make-face 'mode-line-read-only-face)
+;;       (make-face 'mode-line-modified-face)
+;;       (make-face 'mode-line-folder-face)
+;;       (make-face 'mode-line-filename-face)
+;;       (make-face 'mode-line-position-face)
+;;       (make-face 'mode-line-mode-face)
+;;       (make-face 'mode-line-minor-mode-face)
+;;       (make-face 'mode-line-process-face)
+;;       (make-face 'mode-line-80col-face)
 
-      (set-face-attribute 'mode-line nil
-			  :foreground "gray50" :background "gray30"
-			  :inverse-video nil
-			  :box '(:line-width 6 :color "gray30" :style nil))
-      (set-face-attribute 'mode-line-inactive nil
-			  :foreground "gray80" :background "gray10"
-			  :inverse-video nil
-			  :box '(:line-width 6 :color "gray10" :style nil))
+;;       (set-face-attribute 'mode-line nil
+;;               :foreground "gray50" :background "gray30"
+;;               :inverse-video nil
+;;               :box '(:line-width 6 :color "gray30" :style nil))
+;;       (set-face-attribute 'mode-line-inactive nil
+;;               :foreground "gray80" :background "gray10"
+;;               :inverse-video nil
+;;               :box '(:line-width 6 :color "gray10" :style nil))
 
-      (set-face-attribute 'mode-line-read-only-face nil
-			  :inherit 'mode-line-face
-			  :foreground "#4271ae"
-			  :box '(:line-width 2 :color "#4271ae"))
-      (set-face-attribute 'mode-line-modified-face nil
-			  :inherit 'mode-line-face
-			  :foreground "#c82829"
-			  :background "#ffffff"
-			  :box '(:line-width 2 :color "#c82829"))
-      (set-face-attribute 'mode-line-folder-face nil
-			  :inherit 'mode-line-face
-			  :foreground "gray60")
-      (set-face-attribute 'mode-line-filename-face nil
-			  :inherit 'mode-line-face
-			  :foreground "#eab700"
-			  :weight 'bold)
-      (set-face-attribute 'mode-line-position-face nil
-			  :inherit 'mode-line-face
-			  :height 100
-			  :foreground "gray80")
-      (set-face-attribute 'mode-line-mode-face nil
-			  :inherit 'mode-line-face
-			  :foreground "gray80")
-      (set-face-attribute 'mode-line-minor-mode-face nil
-			  :inherit 'mode-line-mode-face
-			  :foreground "gray80"
-			  :height 100)
-      (set-face-attribute 'mode-line-process-face nil
-			  :inherit 'mode-line-face
-			  :foreground "#718c00")
-      (set-face-attribute 'mode-line-80col-face nil
-			  :inherit 'mode-line-position-face
-			  :foreground "black" :background "#eab700")
+;;       (set-face-attribute 'mode-line-read-only-face nil
+;;               :inherit 'mode-line-face
+;;               :foreground "#4271ae"
+;;               :box '(:line-width 2 :color "#4271ae"))
+;;       (set-face-attribute 'mode-line-modified-face nil
+;;               :inherit 'mode-line-face
+;;               :foreground "#c82829"
+;;               :background "#ffffff"
+;;               :box '(:line-width 2 :color "#c82829"))
+;;       (set-face-attribute 'mode-line-folder-face nil
+;;               :inherit 'mode-line-face
+;;               :foreground "gray60")
+;;       (set-face-attribute 'mode-line-filename-face nil
+;;               :inherit 'mode-line-face
+;;               :foreground "#eab700"
+;;               :weight 'bold)
+;;       (set-face-attribute 'mode-line-position-face nil
+;;               :inherit 'mode-line-face
+;;               :height 100
+;;               :foreground "gray80")
+;;       (set-face-attribute 'mode-line-mode-face nil
+;;               :inherit 'mode-line-face
+;;               :foreground "gray80")
+;;       (set-face-attribute 'mode-line-minor-mode-face nil
+;;               :inherit 'mode-line-mode-face
+;;               :foreground "gray80"
+;;               :height 100)
+;;       (set-face-attribute 'mode-line-process-face nil
+;;               :inherit 'mode-line-face
+;;               :foreground "#718c00")
+;;       (set-face-attribute 'mode-line-80col-face nil
+;;               :inherit 'mode-line-position-face
+;;               :foreground "black" :background "#eab700")
 
-      (provide 'mode-line-format)
+;;       (provide 'mode-line-format)
+
+ 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-box-icons-alist 'company-box-icons-all-the-icons)
+ '(custom-enabled-themes '(zerodark))
+ '(custom-safe-themes
+   '("e39ff005e524c331b08d613109bff0b55fc21c64914c4a243faa70f330015389" "51ba4e2db6df909499cd1d85b6be2e543a315b004c67d6f72e0b35b4eb1ef3de" default))
+ '(doom-modeline-buffer-file-name-style 'truncate-to-project t)
+ '(doom-modeline-icon t t)
+ '(doom-modeline-major-mode-icon nil t)
+ '(doom-modeline-minor-modes nil t)
+ '(org-agenda-files '("~/Dropbox/org-steven"))
+ '(org-bullets-bullet-list '("●" "▲" "■" "✶" "◉" "○" "○") t)
+ '(org-contacts-birthday-property "BORN")
+ '(org-contacts-files '("~/Dropbox/org-steven/contacts.org"))
+ '(org-directory "~/Dropbox/org-steven")
+ '(org-super-agenda-groups '((:auto-group t))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

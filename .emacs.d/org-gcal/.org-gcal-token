@@ -1,5 +1,5 @@
 (:token
- (:access_token "ya29.GlvJBj2f0llpFLz9MP-jMJ3BV_d5JNWJhU8BJ6AM5I1iIrUyNehY9VEN8JanEzKiJoadQ-tecTWIPvtiRyGO1FY2ZHb3i-rc_IOJkx7UwDiYNu8f7Mdzdl8ahtxl" :expires_in 3600 :refresh_token "1/O7JZ87IgW00_BaOWhWPXS24EIxLiSWBfRD_w2u5a2PQ" :scope "https://www.googleapis.com/auth/calendar" :token_type "Bearer")
+ (:access_token "ya29.GlzLBt9AvZ86dAOuUulRcDgjGSxfQnnfKzQGDJqB4jdlDXJmZ9Rxx9cgCajB0lEHzYBr3xdroewgbNJmM0D5tNT2C1ScDNepQujVMCYasobKVk6HAkCfyJP9dIuVyw" :expires_in 3600 :refresh_token "1/O7JZ87IgW00_BaOWhWPXS24EIxLiSWBfRD_w2u5a2PQ" :scope "https://www.googleapis.com/auth/calendar" :token_type "Bearer")
  :elem nil :boehm_s@etna-alternance\.net
  (("rjrlnnnm8s45e66q1bragons94" . "* La lampe + SI Seedup\n  :PROPERTIES:\n  :LINK: [[https://www.google.com/calendar/event?eid=cmpybG5ubm04czQ1ZTY2cTFicmFnb25zOTQgYm9laG1fc0BldG5hLWFsdGVybmFuY2UubmV0][Go to gcal web page]]\n  :ID: rjrlnnnm8s45e66q1bragons94\n  :END:\n\n  <2019-02-19 Tue 11:00-12:30>\n")
   ("cuf0dpstvcfbkfbgh1plc3fc88" . "* Répétition Disney technique et présentation\n  :PROPERTIES:\n  :LINK: [[https://www.google.com/calendar/event?eid=Y3VmMGRwc3R2Y2Zia2ZiZ2gxcGxjM2ZjODggYm9laG1fc0BldG5hLWFsdGVybmFuY2UubmV0][Go to gcal web page]]\n  :ID: cuf0dpstvcfbkfbgh1plc3fc88\n  :END:\n\n  <2019-02-20 Wed 17:30-18:30>\n")
