@@ -109,10 +109,48 @@
 
 *** Theme
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes '(zeno))
+ '(custom-safe-themes
+   '("0eccc893d77f889322d6299bec0f2263bffb6d3ecc79ccef76f1a2988859419e" default))
+ '(flymake-diagnostic-at-point-display-diagnostic-function 'flymake-diagnostic-at-point-display-popup t)
+ '(flymake-diagnostic-at-point-error-prefix "! " t)
+ '(flymake-diagnostic-at-point-timer-delay 0.1 t)
+ '(org-agenda-files '("~/Dropbox/org-steven"))
+ '(org-bullets-bullet-list '("●" "▲" "■" "✶" "◉" "○" "○"))
+ '(org-contacts-birthday-property "BORN")
+ '(org-contacts-files '("~/Dropbox/org-steven/contacts.org"))
+ '(org-directory "~/Dropbox/org-steven")
+ '(org-super-agenda-groups '((:auto-group t))))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(use-package dashboard
+  :ensure t
+  :config
+  (setq dashboard-items '(
+    (recents  . 5)
+    (bookmarks . 5)
+    (projects . 5)
+    (agenda . 5)
+    (registers . 5)))
+
+    (dashboard-setup-startup-hook))
 #+END_SRC
 
 ** Code Editor / IDE
+
+*** Some code
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(setq-default indent-tabs-mode nil)
+(setq tab-width 2)
+
+(setq gc-cons-threshold 50000000)
+#+END_SRC
 
 *** Rainbow delimiers
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
@@ -120,6 +158,9 @@
     :ensure t
     :hook
     (prog-mode . rainbow-delimiters-mode))
+
+(show-paren-mode t)
+
 #+END_SRC
     
 *** Installing tools / packages
@@ -141,24 +182,40 @@
   )
 
   (use-package helm
-    :ensure t)
+    :ensure t
+    :config 
+      (setq helm-mode-fuzzy-match t
+            helm-completion-in-region-fuzzy-match t))
 
   (use-package projectile
     :ensure t
     :defer 5
-    :config
-    (projectile-global-mode))
+    :init
+    (projectile-global-mode)
+    (setq projectile-enable-caching t))
 
   (use-package company 
     :ensure t
-    :bind (("C-<tab>" . company-complete))
     :config
     (global-company-mode)
     (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin)
-    (setq company-dabbrev-ignore-case t)
+;;    (setq company-dabbrev-ignore-case t)
+    (setq company-dabbrev-downcase nil)
     (setq company-dabbrev-downcase 0)
     (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 2))
+    (setq company-minimum-prefix-length 2)
+    (setq company-show-numbers t)
+
+    (defun tab-indent-or-complete ()
+      (interactive)
+      (if (minibufferp)
+          (minibuffer-complete)
+        (if (or (not yas-minor-mode)
+                (null (do-yas-expand)))
+            (if (check-expansion)
+                (company-complete-common)
+               (indent-for-tab-command)))))
+     (global-set-key [backtab] 'tab-indent-or-complete))
 
 
   (use-package company-quickhelp
@@ -167,13 +224,7 @@
     (company-quickhelp-mode)
   )
 
-  (use-package company-box
-    :ensure t
-    :custom (company-box-icons-alist 'company-box-icons-all-the-icons)
-    :hook (company-mode . company-box-mode)
-  )
-
-  (use-package helm-company
+  (use-package helm-company 
     :ensure t)
 
   (use-package helm-swoop
@@ -189,11 +240,21 @@
     :ensure-system-package rg
   )
 
+  (use-package deadgrep
+    :ensure t
+    :bind (("C-x d" . deadgrep))
+  )
+
   (use-package helm-projectile
     :ensure t
-    :bind (("C-x C-f" . helm-projectile)
-            ("C-x r g" . helm-projectile-rg)
-            ("C-x C-p" . helm-projectile-switch-project))
+    :init 
+      (setq helm-projectile-fuzzy-match t)
+      (defun smart-ff () (interactive) (if (projectile-project-p) (helm-projectile-find-file-dwim) (call-interactively 'helm-find-files)))
+      (defun smart-rg () (interactive) (if (projectile-project-p) (helm-projectile-rg) (helm-rg)))
+    :bind (("C-x C-f" . smart-ff)
+           ("C-x f"   . helm-find-files)
+           ("C-x r g" . smart-rg)
+           ("C-x C-p" . helm-projectile-switch-project))
     )
 
 
@@ -305,9 +366,6 @@ Version 2015-12-08"
          ("M-<down>" . windmove-down)
    ))
 
-(use-package multi-term
-  :ensure t
-  :bind (("<f12>" . (lambda() (interactive) (multi-term-dedicated-open) (other-window 1)))))
 
 (global-set-key (kbd "C-x C-x")  'delete-window)
 
@@ -339,12 +397,97 @@ Version 2015-12-08"
          ("C-. C-r" .  'mc/mark-previous-like-this-word)
 ))
 
+(use-package phi-search
+  :ensure t
+  :bind (("C-s" . 'phi-search)
+         ("C-r" . 'phi-search-backward))
+)
+
 (global-set-key (kbd "C-S-c") 'xah-copy-to-register-1)
 (global-set-key (kbd "C-S-v") 'xah-paste-from-register-1)
 
 (global-set-key (kbd "C-d")  'duplicate-line-or-region)
 
+
 #+END_SRC
+*** Treemacs
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirs                 (if (executable-find "python") 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 t
+          treemacs-file-event-delay              5000
+          treemacs-file-follow-delay             0.2
+          treemacs-follow-after-init             t
+          treemacs-git-command-pipe              ""
+          treemacs-goto-tag-strategy             'refetch-index
+          treemacs-indentation                   2
+          treemacs-indentation-string            " "
+          treemacs-is-never-other-window         nil
+          treemacs-max-git-entries               5000
+          treemacs-no-png-images                 nil
+          treemacs-no-delete-other-windows       t
+          treemacs-project-follow-cleanup        nil
+          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-recenter-distance             0.1
+          treemacs-recenter-after-file-follow    nil
+          treemacs-recenter-after-tag-follow     nil
+          treemacs-recenter-after-project-jump   'always
+          treemacs-recenter-after-project-expand 'on-distance
+          treemacs-show-cursor                   nil
+          treemacs-show-hidden-files             t
+          treemacs-silent-filewatch              nil
+          treemacs-silent-refresh                nil
+          treemacs-sorting                       'alphabetic-desc
+          treemacs-space-between-root-nodes      t
+          treemacs-tag-follow-cleanup            t
+          treemacs-tag-follow-delay              1.5
+          treemacs-width                         35)
+
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode t)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null (executable-find "python3"))))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-projectile
+  :after treemacs projectile
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+
+(use-package treemacs-magit
+  :after treemacs magit
+  :ensure t)
+#+END_SRC
+
 *** Duplicate line
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
@@ -372,47 +515,45 @@ With negative N, comment out original line and use the absolute value."
 #+END_SRC
 
 *** multi-term keys (minor-mode)
-
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(defvar term-mode-keymap (make-keymap) "term-mode keymap.")
+(use-package multi-term
+  :ensure t
+  :bind (("<f12>" . (lambda() (interactive) (multi-term-dedicated-open) (other-window 1))))
+  :config
+    (defvar term-mode-keymap (make-keymap) "term-mode keymap.")
+    
+    (define-key term-mode-keymap (kbd "s-<left>")  'windmove-left)
+    (define-key term-mode-keymap (kbd "s-<right>") 'windmove-right)
+    (define-key term-mode-keymap (kbd "s-<up>")    'windmove-up)
+    (define-key term-mode-keymap (kbd "s-<down>")  'windmove-down)
+    
+    (define-key term-mode-keymap (kbd "M-<left>")  'windmove-left)
+    (define-key term-mode-keymap (kbd "M-<right>") 'windmove-right)
+    (define-key term-mode-keymap (kbd "M-<up>")    'windmove-up)
+    (define-key term-mode-keymap (kbd "M-<down>")  'windmove-down)
+    (define-key term-mode-keymap (kbd "M-x") 'helm-smex)
+    
+    (define-key term-mode-keymap (kbd "C-c C-c")  'term-interrupt-subjob)
+    (define-key term-mode-keymap (kbd "M-DEL") 'term-send-backward-kill-word)
+    (define-key term-mode-keymap (kbd "C-<right>") (lambda() (interactive) (term-send-raw-string "\e[1;5C")))
+    (define-key term-mode-keymap (kbd "C-<left>") (lambda() (interactive) (term-send-raw-string "\e[1;5D")))
+    (define-key term-mode-keymap (kbd "C-r") (lambda()(interactive) (term-send-raw-string "\C-r")))
+    (define-key term-mode-keymap (kbd "C-d") (lambda()(interactive) (term-send-raw-string "\C-d")))
 
-(define-key term-mode-keymap (kbd "s-<left>")  'windmove-left)
-(define-key term-mode-keymap (kbd "s-<right>") 'windmove-right)
-(define-key term-mode-keymap (kbd "s-<up>")    'windmove-up)
-(define-key term-mode-keymap (kbd "s-<down>")  'windmove-down)
-
-(define-key term-mode-keymap (kbd "M-<left>")  'windmove-left)
-(define-key term-mode-keymap (kbd "M-<right>") 'windmove-right)
-(define-key term-mode-keymap (kbd "M-<up>")    'windmove-up)
-(define-key term-mode-keymap (kbd "M-<down>")  'windmove-down)
-(define-key term-mode-keymap (kbd "M-x") 'helm-smex)
-
-(define-key term-mode-keymap (kbd "C-c")  'term-interrupt-subjob)
-(define-key term-mode-keymap (kbd "M-DEL") 'term-send-backward-kill-word)
-(define-key term-mode-keymap (kbd "C-<right>") (lambda() (interactive) (term-send-raw-string "\e[1;5C")))
-(define-key term-mode-keymap (kbd "C-<left>") (lambda() (interactive) (term-send-raw-string "\e[1;5D")))
-(define-key term-mode-keymap (kbd "C-r") (lambda()(interactive) (term-send-raw-string "\C-r")))
-(define-key term-mode-keymap (kbd "C-d") (lambda()(interactive) (term-send-raw-string "\C-d")))
-
-(define-minor-mode my-term-minor-mode
-"A minor mode so that I got a normal terminal."
-:init-value nil
-:lighter " my-term"
-:keymap term-mode-keymap)
-
-(add-hook 'term-mode-hook
-(lambda()
-
-(message "%s" "This is in term mode and hook enabled.")
-
-(dolist (key '("\C-a" "\C-b" "\C-c" "\C-d" "\C-e" "\C-f" "\C-g"
-"\C-h" "\C-k" "\C-l" "\C-n" "\C-o" "\C-p" "\C-q"
-"\C-t" "\C-u" "\C-v" "\C-x" "\C-z" "\C-r" "\M-DEL" "\e"))
-(local-unset-key key))
-
-(my-term-minor-mode 1)
-))
-(my-term-minor-mode -1)
+    (define-minor-mode my-term-minor-mode
+      "A minor mode so that I got a normal terminal."
+        :init-value nil
+        :lighter "my-term"
+        :keymap term-mode-keymap)
+    
+    (add-hook 'term-mode-hook (lambda()
+      (message "%s" "This is in term mode and hook enabled.")
+      (dolist (key '("\C-a" "\C-b" "\C-c" "\C-c \C-c" "\C-d" "\C-e" "\C-f" "\C-g"
+        "\C-h" "\C-k" "\C-l" "\C-n" "\C-o" "\C-p" "\C-q"
+        "\C-t" "\C-u" "\C-v" "\C-x" "\C-z" "\C-r" "\M-DEL" "\e"))
+        (local-unset-key key))    
+      (my-term-minor-mode 1)))
+  (my-term-minor-mode -1))
 #+END_SRC
 
 *** org-mode shift select
@@ -429,6 +570,11 @@ With negative N, comment out original line and use the absolute value."
   version-control t)
 #+END_SRC
 
+*** ialign
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(modify-all-frames-parameters '((inhibit-double-buffering . t)))
+(global-set-key (kbd "C-x C-i") #'ialign)
+#+END_SRC
 *** emacs 26+ hacks
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
 (setenv "GDK_SCALE" "1")
@@ -441,7 +587,7 @@ With negative N, comment out original line and use the absolute value."
   :after flymake
   :custom
   (flymake-diagnostic-at-point-timer-delay 0.1)
-  (flymake-diagnostic-at-point-error-prefix " ")
+  (flymake-diagnostic-at-point-error-prefix "! ")
   (flymake-diagnostic-at-point-display-diagnostic-function 'flymake-diagnostic-at-point-display-popup)
   :hook
   (flymake-mode . flymake-diagnostic-at-point-mode))
@@ -449,30 +595,19 @@ With negative N, comment out original line and use the absolute value."
 
 *** Python
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+
 (use-package elpy
   :ensure t
   :config
     (setq elpy-rpc-python-command "python3")
+    (setq python-shell-interpreter "ipython3"
+      python-shell-interpreter-args "-i")
+
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (define-key python-mode-map (kbd "M-.") 'jedi:goto-definition)
+    (setq jedi:complete-on-dot t)
     (elpy-enable))
 
-
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t) 
-
-(use-package conda
-  :ensure t
-  :init
-  (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
-  :config
-    (conda-env-initialize-interactive-shells)
-    (conda-env-autoactivate-mode t))
-
-
-(use-package pyvenv
-  :ensure t
-  :config
-    (setenv "WORKON_HOME" "/home/boehm_s/anaconda3")
-    (pyvenv-mode 1))
 #+END_SRC
 
 * org-mode 
@@ -497,8 +632,7 @@ With negative N, comment out original line and use the absolute value."
     (setq org-confirm-elisp-link-function nil)
 
     (setq org-todo-keywords
-      '((sequence "TO_READ" "GLIMPSED" "DONE" "RECOMMEND"  "|" "BORED" "TOO_HARD")
-        (sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
+      '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)")
     ))
 
 
@@ -655,7 +789,7 @@ With negative N, comment out original line and use the absolute value."
 (setq-default indent-tabs-mode nil)
 
 ;; set appearance of a tab that is represented by 4 spaces
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 
 ;; Compilation
 (global-set-key (kbd "<f5>") (lambda ()
@@ -671,17 +805,6 @@ With negative N, comment out original line and use the absolute value."
  gdb-show-main t
  )
 
-;; company
-(use-package company
-  :init
-  (global-company-mode 1)
-  (delete 'company-semantic company-backends))
-
-;; Package: projejctile
-(use-package projectile
-  :init
-  (projectile-global-mode)
-  (setq projectile-enable-caching t))
 
 ;; Package zygospore
 (use-package zygospore
@@ -1289,7 +1412,13 @@ Position the cursor at it's beginning, according to the current mode."
            (buffer-position :priority 99)
            (hud :priority 99)))
 
-        (setq-default mode-line-format '("%e" (:eval (spaceline-ml-main))))
+
+        ;; Only render the modeline on the current window !
+
+        (setq-default mode-line-format '("%e" (:eval (when (powerline-selected-window-active) (spaceline-ml-main))  )))
+        (set-face-attribute 'mode-line-inactive nil
+          :underline t
+          :background (face-background 'default))
   )
 
 #+END_SRC

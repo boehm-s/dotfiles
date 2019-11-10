@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         atomic-chrome-send-buffer-text
+        beginning-of-buffer
         c-electric-brace
         c-electric-colon
         c-electric-lt-gt
@@ -15,10 +16,16 @@
         c-toggle-electric-state
         clean-aindent--bsunindent
         comment-dwim
+        comment-dwim-2
         dabbrev-expand
+        deadgrep-visit-result-other-window
         downcase-region
         duplicate-line
         duplicate-line-or-region
+        elpy-nav-backward-block
+        elpy-nav-backward-indent
+        elpy-nav-forward-block
+        elpy-nav-forward-indent
         end-of-buffer
         find-file
         helm-M-x
@@ -49,6 +56,9 @@
         prelude-move-beginning-of-line
         pug-electric-backspace
         repeat
+        rjsx-electric-gt
+        rjsx-electric-lt
+        smart-ff
         split-and-find-file-V
         tab-to-tab-stop
         tern-ac-dot-complete
@@ -71,9 +81,11 @@
         markdown-outdent-or-delete
         mouse-buffer-menu
         mouse-save-then-kill
+        mouse-set-region
         overwrite-mode
         split-and-find-file-H
         suspend-frame
+        undefined
         view-emacs-FAQ
         vim-prompt
         yank-rectangle
