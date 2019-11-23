@@ -245,6 +245,11 @@
     :bind (("C-x d" . deadgrep))
   )
 
+  (use-package dumb-jump
+    :ensure t
+    :bind (("C-j" . dumb-jump-go))
+  )
+
   (use-package helm-projectile
     :ensure t
     :init 
@@ -283,6 +288,12 @@
   (defun lsp-js-hook nil
     (make-local-variable 'company-transformers)
     (push 'lsp-company-transformer company-transformers))
+
+  (use-package typescript-mode
+    :ensure t
+    :init
+    (add-to-list 'semantic-symref-filepattern-alist  '(typescript-mode "*.ts"))
+    )
 
   (use-package js2-mode
     :ensure t
@@ -822,7 +833,7 @@ With negative N, comment out original line and use the absolute value."
 ** Setup C
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(use-package cl
+(use-package cl-lib
   :ensure t)
 (use-package cc-mode
   :ensure t
@@ -842,6 +853,22 @@ With negative N, comment out original line and use the absolute value."
 (setq c-default-style "linux") ;; set style to "linux"
 
  #+END_SRC
+
+** Setup PHP
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+  (require 'semantic/symref/grep)
+
+  (use-package company-php  :ensure t)
+
+  (use-package php-mode
+    :ensure t
+    :init
+    (add-to-list 'semantic-symref-filepattern-alist  '(php-mode "*.php" "*.tpl"))
+    )
+ #+END_SRC
+
+
 ** Setup Editing
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
