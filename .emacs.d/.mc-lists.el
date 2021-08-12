@@ -33,6 +33,7 @@
         helm-smex
         hs-hide-block
         hs-show-block
+        ignore
         indent-for-tab-command
         jade-comment-dwim
         jade-indent
@@ -41,10 +42,12 @@
         js2r-kill
         kill-region
         list-directory
+        lsp-ui-doc--handle-mouse-movement
         markdown-cycle
         markdown-enter-key
         markdown-exdent-or-delete
         markdown-forward-paragraph
+        move-text-up
         nxml-electric-slash
         org-end-of-line
         org-return
@@ -56,13 +59,19 @@
         prelude-move-beginning-of-line
         pug-electric-backspace
         repeat
+        replace-string
         rjsx-electric-gt
         rjsx-electric-lt
+        sgml-maybe-name-self
+        sgml-slash
         smart-ff
         split-and-find-file-V
         tab-to-tab-stop
         tern-ac-dot-complete
         tern-rename-variable
+        toggle-input-method
+        typescript-insert-and-autoconvert-to-template
+        typescript-insert-and-indent
         upcase-region
         yaml-electric-backspace
         yaml-electric-dash-and-dot
@@ -75,12 +84,16 @@
         comment-region
         delete-window
         enlarge-window-horizontally
+        handle-switch-frame
         helm-swoop
+        iedit-switch-to-mc-mode
         js2-down-mouse-3
         keyboard-escape-quit
         markdown-outdent-or-delete
         mouse-buffer-menu
+        mouse-drag-mode-line
         mouse-save-then-kill
+        mouse-select-window
         mouse-set-region
         overwrite-mode
         split-and-find-file-H

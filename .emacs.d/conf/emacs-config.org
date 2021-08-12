@@ -22,11 +22,11 @@
 4. [[http://orgmode.org/elpa/][org]] repo - Org's package repository.
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
-                         ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
-                         ("org" . "http://orgmode.org/elpa/"))
-)
+  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                           ("melpa" . "http://melpa.org/packages/")
+                           ;; ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+                           ("org" . "http://orgmode.org/elpa/"))
+  )
 #+END_SRC
 
 *** initialize use-package
@@ -60,10 +60,18 @@
 (if (fboundp 'use-dialog-box) (setq use-dialog-box nil))
 #+END_SRC
 
-*** I prefer to disable Emacs' fringe.
+*** linum / fringe
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(fringe-mode '(0 . 0))
+  ;; (fringe-mode '(0 . 0))
+  ;; (use-package linum-relative
+  ;;   :ensure t
+  ;;   :init 
+  ;;     (require 'linum-relative)
+  ;;     (setq linum-relative-backend 'display-line-numbers-mode)
+  ;;     (linum-relative-on)
+  ;; )
+
 #+END_SRC
 
 *** Remove startup screen
@@ -128,27 +136,14 @@
  '(org-super-agenda-groups '((:auto-group t))))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(use-package dashboard
-  :ensure t
-  :config
-  (setq dashboard-items '(
-    (recents  . 5)
-    (bookmarks . 5)
-    (projects . 5)
-    (agenda . 5)
-    (registers . 5)))
-
-    (dashboard-setup-startup-hook))
-#+END_SRC
-
 ** Code Editor / IDE
 
 *** Some code
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+(require 'semantic/symref/grep)
 (setq-default indent-tabs-mode nil)
 (setq tab-width 2)
-
+(setq tramp-default-method "ssh")
 (setq gc-cons-threshold 50000000)
 #+END_SRC
 
@@ -168,44 +163,48 @@
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
   (use-package magit
     :ensure t)
-
-
+  
+  (use-package editorconfig
+    :ensure t
+    :config
+    (editorconfig-mode 1))
+  
   (use-package flycheck
     :ensure t
     :init
-      (global-flycheck-mode t))
-
+    (global-flycheck-mode t))
+  
   (use-package dash
     :ensure t
     :config
     (require 'dash)
-  )
-
+    )
+  
   (use-package helm
     :ensure t
     :config 
-      (setq helm-mode-fuzzy-match t
-            helm-completion-in-region-fuzzy-match t))
-
+    (setq helm-mode-fuzzy-match t
+          helm-completion-in-region-fuzzy-match t))
+  
   (use-package projectile
     :ensure t
     :defer 5
     :init
     (projectile-global-mode)
     (setq projectile-enable-caching t))
-
+  
   (use-package company 
     :ensure t
     :config
     (global-company-mode)
     (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin)
-;;    (setq company-dabbrev-ignore-case t)
+    ;;    (setq company-dabbrev-ignore-case t)
     (setq company-dabbrev-downcase nil)
     (setq company-dabbrev-downcase 0)
     (setq company-idle-delay 0)
     (setq company-minimum-prefix-length 2)
     (setq company-show-numbers t)
-
+  
     (defun tab-indent-or-complete ()
       (interactive)
       (if (minibufferp)
@@ -214,123 +213,149 @@
                 (null (do-yas-expand)))
             (if (check-expansion)
                 (company-complete-common)
-               (indent-for-tab-command)))))
-     (global-set-key [backtab] 'tab-indent-or-complete))
-
-
+              (indent-for-tab-command)))))
+    (global-set-key [backtab] 'tab-indent-or-complete))
+  
+  
   (use-package company-quickhelp
     :ensure t
     :config
     (company-quickhelp-mode)
-  )
-
+    )
+  
   (use-package helm-company 
     :ensure t)
-
+  
   (use-package helm-swoop
     :ensure t
     :bind (("C-f" . helm-swoop)))
-
+  
   (use-package helm-smex
     :ensure t
     :bind (("M-x" . helm-smex)))
-
+  
   (use-package helm-rg
     :ensure t
     :ensure-system-package rg
-  )
-
+    )
+  
   (use-package deadgrep
     :ensure t
     :bind (("C-x d" . deadgrep))
-  )
-
-  (use-package dumb-jump
-    :ensure t
-    :bind (("C-j" . dumb-jump-go))
-  )
-
+    )
+  
   (use-package helm-projectile
     :ensure t
     :init 
-      (setq helm-projectile-fuzzy-match t)
-      (defun smart-ff () (interactive) (if (projectile-project-p) (helm-projectile-find-file-dwim) (call-interactively 'helm-find-files)))
-      (defun smart-rg () (interactive) (if (projectile-project-p) (helm-projectile-rg) (helm-rg)))
+    (setq helm-projectile-fuzzy-match t)
+    (defun smart-ff () (interactive) (if (projectile-project-p) (helm-projectile-find-file-dwim) (call-interactively 'helm-find-files)))
+    (defun smart-rg () (interactive) (if (projectile-project-p) (helm-projectile-rg) (helm-rg)))
     :bind (("C-x C-f" . smart-ff)
            ("C-x f"   . helm-find-files)
            ("C-x r g" . smart-rg)
            ("C-x C-p" . helm-projectile-switch-project))
     )
-
-
-
+  
+  (use-package dumb-jump
+    :ensure t
+    :bind (
+           ("C-j" . dumb-jump-go)
+           ("C-b" . dumb-jump-back)
+           )
+    :config
+    (setq dumb-jump-selector 'helm)
+    (setq dumb-jump-prefer-searcher 'rg)
+    )
+  
   (use-package lsp-mode
     :ensure t
-    :commands lsp)
-
+    :commands lsp
+    :init
+    (add-hook 'prog-mode-hook #'lsp)
+    )
+  
   (use-package lsp-ui
     :ensure t
     :commands lsp-ui-mode)
-
+  
   (use-package company-lsp
     :ensure t
     :commands company-lsp)
-
+  
   (use-package raml-mode
     :load-path "~/.emacs.d/raml-mode"
     :mode "\\.raml\\'")
-
+  
   ;; helper funcftions
   (defun lsp-company-transformer (candidates)
     (let ((completion-ignore-case t))
       (all-completions (company-grab-symbol) candidates)))
-
+  
   (defun lsp-js-hook nil
     (make-local-variable 'company-transformers)
     (push 'lsp-company-transformer company-transformers))
-
+  
   (use-package typescript-mode
     :ensure t
     :init
+    (require 'semantic/symref/grep)
     (add-to-list 'semantic-symref-filepattern-alist  '(typescript-mode "*.ts"))
     )
-
+  
+  (use-package prettier-js
+    :ensure t )
+  
+  (use-package graphql-mode
+    :ensure t
+    :mode "\\.graphql\\'"
+    )
+  
+  
   (use-package js2-mode
     :ensure t
     :defer t
-    :mode "\\.js\\'"
+    :mode "\\.js\\|.mjs\\'"
     :ensure-system-package (javascript-typescript-langserver . "sudo npm i -g javascript-typescript-langserver")
-    :hook (lsp lsp-javascript-typescript-enable lsp-js-hook))
-
+    :hook (lsp lsp-javascript-typescript-enable lsp-js-hook prettier-js-mode js2-refactor-mode)
+    :init 
+    (js2r-add-keybindings-with-prefix "C-c C-j")
+    (setq lsp-clients-typescript-server "typescript-language-server"
+          lsp-clients-typescript-server-args '("--stdio"))
+    )
+  
   (use-package json-mode
     :ensure t
     :defer t
     :mode "\\.json\\'")
-
+  
   (use-package web-mode
     :ensure t
+    :custom ((web-mode-markup-indent-offset 2)
+             (web-mode-css-indent-offset 2)
+             (web-mode-code-indent-offset 2))
     :mode (("\\.html\\'" . web-mode)
-          ("\\.twig\\'" . web-mode)))
-
+           ("\\.twig\\'" . web-mode)
+           ("\\.js\\'" . web-mode)
+           ("\\.jsx\\'" . web-mode)
+           ("\\.ts\\'" . web-mode)
+           ("\\.tsx\\'" . web-mode)
+           ("\\.html\\'" . web-mode)
+           ("\\.vue\\'" . web-mode)
+           ("\\.json\\'" . web-mode)))
+  
   (use-package pug-mode
     :ensure t
     :mode (("\\.pug\\'" . pug-mode)))
-
+  
   (use-package yaml-mode
     :ensure t
     :mode "\\.ya?ml\\'")
-
+  
   (use-package dockerfile-mode
     :ensure t
     :mode "Dockerfile\\'")
-
+  
 #+END_SRC
-
-
-
-# (define-key custom-keys-map (kbd "C-x C-m")  'sidebar-open)
-# (define-key custom-keys-map (kbd "C-x m")  'mu4e)
-
 
 
 
@@ -394,11 +419,10 @@ Version 2015-12-08"
            (call-interactively (key-binding (kbd "C-x C-f")))
 )))
 
-(global-set-key (kbd "C-x C-<right>")  (split-and-find-file "H"))
+(global-set-key (kbd "C-x C-<right>") (split-and-find-file "H"))
 (global-set-key (kbd "C-x C-<left>")  (split-and-find-file "H"))
-(global-set-key (kbd "C-x C-<up>")  (split-and-find-file "V"))
+(global-set-key (kbd "C-x C-<up>")    (split-and-find-file "V"))
 (global-set-key (kbd "C-x C-<down>")  (split-and-find-file "V"))
-
 
 
 (use-package multiple-cursors
@@ -411,8 +435,26 @@ Version 2015-12-08"
 (use-package phi-search
   :ensure t
   :bind (("C-s" . 'phi-search)
-         ("C-r" . 'phi-search-backward))
+         ("C-r" . 'phi-search-backward)
+         ("C-S-r" .  'replace-string))
 )
+
+(use-package move-text 
+  :ensure t
+  :bind (("M-S-<up>" . 'move-text-up)
+         ("M-S-<down>" . 'move-text-down))
+)
+
+(use-package ace-jump-mode 
+  :ensure t
+  :bind (("C-S-s" . 'ace-jump-mode))
+)
+
+(use-package ace-window 
+  :ensure t
+  :bind (("C-S-w" . 'ace-window))
+)
+
 
 (global-set-key (kbd "C-S-c") 'xah-copy-to-register-1)
 (global-set-key (kbd "C-S-v") 'xah-paste-from-register-1)
@@ -527,44 +569,46 @@ With negative N, comment out original line and use the absolute value."
 
 *** multi-term keys (minor-mode)
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-(use-package multi-term
-  :ensure t
-  :bind (("<f12>" . (lambda() (interactive) (multi-term-dedicated-open) (other-window 1))))
-  :config
-    (defvar term-mode-keymap (make-keymap) "term-mode keymap.")
-    
-    (define-key term-mode-keymap (kbd "s-<left>")  'windmove-left)
-    (define-key term-mode-keymap (kbd "s-<right>") 'windmove-right)
-    (define-key term-mode-keymap (kbd "s-<up>")    'windmove-up)
-    (define-key term-mode-keymap (kbd "s-<down>")  'windmove-down)
-    
-    (define-key term-mode-keymap (kbd "M-<left>")  'windmove-left)
-    (define-key term-mode-keymap (kbd "M-<right>") 'windmove-right)
-    (define-key term-mode-keymap (kbd "M-<up>")    'windmove-up)
-    (define-key term-mode-keymap (kbd "M-<down>")  'windmove-down)
-    (define-key term-mode-keymap (kbd "M-x") 'helm-smex)
-    
-    (define-key term-mode-keymap (kbd "C-c C-c")  'term-interrupt-subjob)
-    (define-key term-mode-keymap (kbd "M-DEL") 'term-send-backward-kill-word)
-    (define-key term-mode-keymap (kbd "C-<right>") (lambda() (interactive) (term-send-raw-string "\e[1;5C")))
-    (define-key term-mode-keymap (kbd "C-<left>") (lambda() (interactive) (term-send-raw-string "\e[1;5D")))
-    (define-key term-mode-keymap (kbd "C-r") (lambda()(interactive) (term-send-raw-string "\C-r")))
-    (define-key term-mode-keymap (kbd "C-d") (lambda()(interactive) (term-send-raw-string "\C-d")))
-
-    (define-minor-mode my-term-minor-mode
-      "A minor mode so that I got a normal terminal."
-        :init-value nil
-        :lighter "my-term"
-        :keymap term-mode-keymap)
-    
-    (add-hook 'term-mode-hook (lambda()
-      (message "%s" "This is in term mode and hook enabled.")
-      (dolist (key '("\C-a" "\C-b" "\C-c" "\C-c \C-c" "\C-d" "\C-e" "\C-f" "\C-g"
-        "\C-h" "\C-k" "\C-l" "\C-n" "\C-o" "\C-p" "\C-q"
-        "\C-t" "\C-u" "\C-v" "\C-x" "\C-z" "\C-r" "\M-DEL" "\e"))
-        (local-unset-key key))    
-      (my-term-minor-mode 1)))
-  (my-term-minor-mode -1))
+  (use-package multi-term
+    :ensure t
+    :bind (("<f12>" . (lambda() (interactive) (multi-term-dedicated-open) (other-window 1))))
+    :config
+      (defvar term-mode-keymap (make-keymap) "term-mode keymap.")
+  
+      (define-key term-mode-keymap (kbd "s-<left>")  'windmove-left)
+      (define-key term-mode-keymap (kbd "s-<right>") 'windmove-right)
+      (define-key term-mode-keymap (kbd "s-<up>")    'windmove-up)
+      (define-key term-mode-keymap (kbd "s-<down>")  'windmove-down)
+  
+      (define-key term-mode-keymap (kbd "M-<left>")  'windmove-left)
+      (define-key term-mode-keymap (kbd "M-<right>") 'windmove-right)
+      (define-key term-mode-keymap (kbd "M-<up>")    'windmove-up)
+      (define-key term-mode-keymap (kbd "M-<down>")  'windmove-down)
+      (define-key term-mode-keymap (kbd "M-x") 'helm-smex)
+  
+      (define-key term-mode-keymap (kbd "C-c C-c")  'term-interrupt-subjob)
+      (define-key term-mode-keymap (kbd "M-DEL") 'term-send-backward-kill-word)
+      (define-key term-mode-keymap (kbd "C-<right>") (lambda() (interactive) (term-send-raw-string "\e[1;5C")))
+      (define-key term-mode-keymap (kbd "C-<left>") (lambda() (interactive) (term-send-raw-string "\e[1;5D")))
+      (define-key term-mode-keymap (kbd "C-r") (lambda()(interactive) (term-send-raw-string "\C-r")))
+      (define-key term-mode-keymap (kbd "C-d") (lambda()(interactive) (term-send-raw-string "\C-d")))
+      (define-key term-mode-keymap (kbd "C-q") (lambda()(interactive) (term-send-raw-string "exit\n")))
+  
+      (define-minor-mode my-term-minor-mode
+        "A minor mode so that I got a normal terminal."
+          :init-value nil
+          :lighter "my-term"
+          :keymap term-mode-keymap)
+  
+      (add-hook 'term-mode-hook (lambda()
+        (message "%s" "This is in term mode and hook enabled.")
+        (read-only-mode -1)
+        (dolist (key '("\C-a" "\C-b" "\C-c" "\C-c \C-c" "\C-d" "\C-e" "\C-f" "\C-g"
+          "\C-h" "\C-k" "\C-l" "\C-n" "\C-o" "\C-p" "\C-q"
+          "\C-t" "\C-u" "\C-v" "\C-x" "\C-z" "\C-r" "\M-DEL" "\e"))
+          (local-unset-key key))    
+        (my-term-minor-mode 1)))
+    (my-term-minor-mode -1))
 #+END_SRC
 
 *** org-mode shift select
@@ -619,6 +663,39 @@ With negative N, comment out original line and use the absolute value."
     (setq jedi:complete-on-dot t)
     (elpy-enable))
 
+#+END_SRC
+
+*** Rust
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs
+  (use-package rustic
+    :ensure
+    :bind (:map rustic-mode-map
+                ("M-j" . lsp-ui-imenu)
+                ("M-?" . lsp-find-references)
+                ("C-c C-c l" . flycheck-list-errors)
+                ("C-c C-c a" . lsp-execute-code-action)
+                ("C-c C-c r" . lsp-rename)
+                ("C-c C-c q" . lsp-workspace-restart)
+                ("C-c C-c Q" . lsp-workspace-shutdown)
+                ("C-c C-c s" . lsp-rust-analyzer-status))
+    :config
+    ;; uncomment for less flashiness
+    ;; (setq lsp-eldoc-hook nil)
+    ;; (setq lsp-enable-symbol-highlighting nil)
+    ;; (setq lsp-signature-auto-activate nil)
+  
+    ;; comment to disable rustfmt on save
+    (setq rustic-format-on-save t)
+    (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+  
+  (defun rk/rustic-mode-hook ()
+    ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+    ;; save rust buffers that are not file visiting. Once
+    ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+    ;; no longer be necessary.
+    (when buffer-file-name
+      (setq-local buffer-save-without-query t)))
+  
 #+END_SRC
 
 * org-mode 
@@ -857,15 +934,41 @@ With negative N, comment out original line and use the absolute value."
 ** Setup PHP
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs
-  (require 'semantic/symref/grep)
-
   (use-package company-php  :ensure t)
 
   (use-package php-mode
     :ensure t
     :init
+
+    (bind-keys* ("C-d" . duplicate-line-or-region)
+           ("C-. RET" . mc/edit-lines)
+           ("C-. C-s" . mc/mark-next-like-this-word)
+           ("C-. C-r" . mc/mark-previous-like-this-word))
+
     (add-to-list 'semantic-symref-filepattern-alist  '(php-mode "*.php" "*.tpl"))
+    
+    (add-hook 'php-mode-hook
+      '(lambda ()
+        (company-mode t)
+        (require 'company-php)
+        
+        ;; Enable ElDoc support (optional)
+        (ac-php-core-eldoc-setup)
+
+        (set (make-local-variable 'company-backends)
+          '((company-ac-php-backend company-dabbrev-code)
+             company-capf company-files))
+
+         ;; Jump to definition (optional)
+         (define-key php-mode-map (kbd "M-]")
+          'ac-php-find-symbol-at-point)
+
+         ;; Return back (optional)
+         (define-key php-mode-map (kbd "M-[")
+          'ac-php-location-stack-back)
+        )
     )
+   )
  #+END_SRC
 
 
@@ -917,13 +1020,6 @@ With negative N, comment out original line and use the absolute value."
   :ensure t
   :init
   (volatile-highlights-mode t))
-
-;; Package: undo-tree
-;; GROUP: Editing -> Undo -> Undo Tree
-(use-package undo-tree
-  :ensure t
-  :init
-  (global-undo-tree-mode 1))
 
 ;; Package: yasnippet
 ;; GROUP: Editing -> Yasnippet
@@ -1232,62 +1328,6 @@ Position the cursor at it's beginning, according to the current mode."
 )
 #+END_SRC
 
-* Emails
-
-# :tangle ~/.emacs
-#+BEGIN_SRC emacs-lisp 
-(use-package mu4e
-  :load-path "/usr/local/share/emacs/site-lisp/mu4e"
-  :ensure-system-package offlineimap
-  :ensure-system-package mu
-  :init
-    (setq mail-user-agent 'mu4e-user-agent)
-    (setq mu4e-sent-messages-behavior 'delete)
-
-    ;; default
-    (setq mu4e-maildir "~/Maildir")
-    (setq mu4e-drafts-folder "/[Gmail].Brouillons")
-    (setq mu4e-sent-folder   "/[Gmail].Messages envoy&AOk-s")
-    (setq mu4e-trash-folder  "/[Gmail].Corbeille")
-
-    ;; setup some handy shortcuts
-    (setq mu4e-maildir-shortcuts
-          '(("/INBOX"             . ?i)
-            ("/[Gmail].Messages envoy&AOk-s" . ?s)
-            ("/[Gmail].Corbeille"     . ?t)))
-
-    ;; allow for updating mail using 'U' in the main view:
-    (setq
-      mu4e-get-mail-command "offlineimap"   ;; or fetchmail, or ...
-      mu4e-update-interval 300)             ;; update every 5 minutes
-
-)
-
-(use-package smtpmail
-  :ensure t
-  :init 
-    (setq message-send-mail-function 'smtpmail-send-it
-      starttls-use-gnutls t
-      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-      smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587
-      smtpmail-debug-info t ))
-
-;; something about ourselves
-;; I don't use a signature...
-(setq
-  user-mail-address "boehm_s@etna-alternance.net"
-  user-full-name  "Steven BOEHM"
- ;; message-signature
- ;;  (concat
- ;;    "Foo X. Bar\n"
- ;;    "http://www.example.com\n")
-)
-(setq message-kill-buffer-on-exit t)
-
-#+END_SRC
 
 * Modeline
 ** Spotify utils
@@ -1355,8 +1395,9 @@ Position the cursor at it's beginning, according to the current mode."
          (delete-frame))
      ))
 
-
-   (run-with-timer 0 0.2 'spotify-update-data)
+     (condition-case nil
+       (run-with-timer 0 0.2 'spotify-update-data)
+       (error nil))
 
 #+END_SRC
 
@@ -1377,27 +1418,28 @@ Position the cursor at it's beginning, according to the current mode."
           powerline-height 24
           powerline-default-separator 'slant) 
 
-        (spaceline-define-segment my/spotify-song
-          "spotify-current music playing"
-          (get-spotify-text (spotify-current) spotify-text-counter))
+       ;;  (spaceline-define-segment my/spotify-song
+       ;;    "spotify-current music playing"
+       ;;    (get-spotify-text (spotify-current) spotify-text-counter))
 
-        (spaceline-define-segment my/spotify-controls
-          (list 
-            (propertize "⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 
-              '(lambda () (interactive) (helm-spotify-plus-previous))))
+       ;;  (spaceline-define-segment my/spotify-controls
+       ;;    (list 
+       ;;      (propertize "⏪ " 'local-map (make-mode-line-mouse-map 'mouse-1 
+       ;;        '(lambda () (interactive) (helm-spotify-plus-previous))))
 
-            (propertize (if spotify-playing "⏸" "⏵") 'local-map (make-mode-line-mouse-map 'mouse-1 
-              '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq spotify-playing (not spotify-playing)))))
+       ;;      (propertize (if spotify-playing "⏸" "⏵") 'local-map (make-mode-line-mouse-map 'mouse-1 
+       ;;        '(lambda () (interactive) (helm-spotify-plus-toggle-play-pause) (setq spotify-playing (not spotify-playing)))))
 
-            (propertize " ⏩" 'local-map (make-mode-line-mouse-map 'mouse-1 
-              '(lambda () (interactive) (helm-spotify-plus-next))))
-         ))
+       ;;      (propertize " ⏩" 'local-map (make-mode-line-mouse-map 'mouse-1 
+       ;;        '(lambda () (interactive) (helm-spotify-plus-next))))
+       ;;   ))
 
-        (spaceline-define-segment my/spotify-details
-          (propertize "♩♩♩" 'local-map (make-mode-line-mouse-map 'mouse-1 'spotify-music-details)))
+       ;;  (spaceline-define-segment my/spotify-details
+       ;;    (propertize "♩♩♩" 'local-map (make-mode-line-mouse-map 'mouse-1 'spotify-music-details)))
 
 
-       (spaceline-compile 'main 
+       (spaceline-compile '
+         main 
          '(((persp-name
            workspace-number
            window-number)
@@ -1422,9 +1464,9 @@ Position the cursor at it's beginning, according to the current mode."
 
          ; right side
          '(which-function
-           (my/spotify-details :priority 99)
-           (my/spotify-song :priority 99)
-           (my/spotify-controls :priority 99)
+           ;; (my/spotify-details :priority 99)
+           ;; (my/spotify-song :priority 99)
+           ;; (my/spotify-controls :priority 99)
            (python-pyvenv :fallback python-pyenv)
            (purpose :priority 94)
            (battery :when active)
